@@ -1,0 +1,89 @@
+.menu-body{
+    width: 60%;
+    position: fixed;
+    height: 100%;
+    text-align: center;
+    font-weight: 400;
+    transition: height .3s ease;
+    background-color: #04343c;
+    overflow-y: auto;
+    align-self: flex-end;
+}
+.menu-body .sb-login-form-close{
+    color: #fff;
+    font-size: 25px;
+}
+.menu-body>div{
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    
+}
+.menu-body .liquid-container{
+    margin: 20% auto;
+    overflow-y: auto;
+    height: 100%;
+}
+.menu-body .language-container{
+    padding: 0 30px;
+}
+.menu-body .brand{
+    display: flex;
+    width: 50%;
+    padding: 10px;
+}
+.menu-body .brand .brand-logo{
+    display: flex;
+    width: 100%;
+    padding: 0 0 0 10px;
+}
+.menu-body .brand .brand-logo img{
+    display: flex;
+    width: 100%;
+}
+.menu-body .drawer-links-container{
+    display: flex;
+    width: 100%;
+    padding: 10px;
+}
+.menu-body .drawer-links-container .links{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+}
+.menu-body .drawer-links-container .links .link{
+    display: flex;
+    width: 100%;
+    padding: 15px;
+    font-size: 17px;
+    font-weight: 700;
+    text-transform: uppercase;
+    animation: menuItemFadeInRight .5s;
+}
+.menu-body .drawer-links-container .links .links:nth-child(1){
+    animation-delay: 0.1s;
+}
+.menu-body .drawer-links-container .links .links:nth-child(2){
+    animation-delay: 0.5s;
+}
+.menu-body .drawer-links-container .links .links:nth-child(3){
+    animation-delay: 0.10s;
+}
+.menu-body .drawer-links-container .links .links:nth-child(4){
+    animation-delay: 0.15s;
+}
+.menu-body .drawer-links-container .links .links:nth-child(5){
+    animation-delay: 0.20s;
+}
+.menu-body .drawer-links-container .links .links:nth-child(6){
+    animation-delay: 0.25s;
+}
+.menu-body .drawer-links-container .links .links:nth-child(7){
+    animation-delay: 0.30s;
+}
+.menu-body .drawer-links-container .links .link a{
+    text-decoration: none;
+    color: #fff;
+}

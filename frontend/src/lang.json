@@ -1,0 +1,26 @@
+{
+    "en": {
+        "NAV_MENU": {
+            "INDEX":"HOME",
+            "SPORT":"SPORT",
+            "LIVEBETTING":"LIVE BETTING",
+            "VIRTUAL":"VIRTUAL SPORTS",
+            "ROULETTE":"ROULETTE",
+            "CASINO":"CASINO",
+            "NEWS":"NEWS"
+        },
+        "SPORTSBOOK_NAV":{
+            "EVENTVIEW":"EVENTVIEW",
+            "LIVEOVERVIEW":"LIVEOVERVIEW",
+            "LIVEMULTIVIEW":"LIVE MULTIVIEW",
+            "CALANDER":"CALANDER",
+            "RESULTs":"RESULTs"
+        }
+    },
+    "fr": {
+        "NAV_MENU": 851
+    },
+    "cn": {
+        "NAV_MENU": 851
+    }
+}
