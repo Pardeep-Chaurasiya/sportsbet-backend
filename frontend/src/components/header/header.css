@@ -160,6 +160,7 @@
    text-transform: uppercase;
    color:#fff;
    position: relative;
+   cursor: pointer;
 }
 .header-container .header-body .header-inner .header-row .header-col .nav-controls .login,
 .header-container .header-body .header-inner .header-row .header-col .nav-controls .register{

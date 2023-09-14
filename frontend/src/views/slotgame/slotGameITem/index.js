@@ -104,7 +104,7 @@ export default class GamePlayMode extends React.Component {
                                  frame-control="" has-bottom-bar="false" has-sidebar="true" allow="autoplay; fullscreen" number-of-window="1" initial-width="" initial-height="" element-id="" 
                                  aspect-ratio="4:3" all-ratio="4:3" 
                                  src={`https://games.africabetsgh.com/authorization.php?partnerId=${851}${userPart}&gameId=${game.extearnal_game_id}&language=en&openType=${game.playtype}&tech=H5&devicetypeid=1&platformType=1&exitURL=${encodeURIComponent('https://www.africabetsgh.com/slot-games')}&devicetypeid=2&isMobile=true`} allowFullScreen={fullscreenMode}  
-                                 style={{display:loading && 'none',width:(window.screen.width)+"px",height:isFullScreen? window.screen.height-90+'px' : window.screen.height-175+'px'}} className="iframe-tournament-sidebar-padding"></iframe>
+                                 style={{display:loading && 'none',width:(window.screen.width)+"px",height:isFullScreen? window.screen.height-90+'px' : window.screen.height-175+'px'}} ></iframe>
                                  <div style={{display:!loading && 'none',width:window.screen.width+"px",height:isFullScreen? window.screen.height-90+'px' : window.screen.height-175+'px',transition: 'height 200ms',padding: '200ms',position: 'relative',zIndex: 5,background: 'rgba(29,29,29,.7)'}} className="iframe-tournament-sidebar-padding">
                                  <div  className="no-results-container sb-spinner" >
                                 <span className="btn-preloader sb-preloader"style={{width:'100px',height:'100px'}}></span>

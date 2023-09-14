@@ -346,6 +346,7 @@ class Header extends React.Component {
                   {!appState.isLoggedIn ? (
                     <React.Fragment>
                       <div
+
                         className="login"
                         onClick={() => this.openFormModal("login")}
                       >
@@ -467,7 +468,7 @@ class Header extends React.Component {
                   }`}
                 >
                   <div className="link">
-                    <NavLink exact to="">
+                    <NavLink exact to="/">
                       <span>Home</span>
                     </NavLink>
                   </div>

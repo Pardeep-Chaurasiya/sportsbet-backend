@@ -183,7 +183,7 @@ export default class Home extends React.Component {
         return (
             <div className={`sportsbook-container ${appTheme+'-theme'}`}>
                 <Helmet>
-                    <title>CORISTBET - Sports Betting</title>
+                    <title>Drives - Sports Betting</title>
                 </Helmet>
                 <div className="sportsbook-inner">
                     <div className="sportsbook-view">

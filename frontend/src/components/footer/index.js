@@ -183,7 +183,7 @@ export default class Footer extends React.Component {
               <div className="footer-col" style={{ flex: "1 1 100%" }}>
                 <div
                   className="footer-col-content"
-                  style={{ alignItems: "center" }}
+                 
                 >
                   <div className="age-strict">
                     <strong>18+</strong>
