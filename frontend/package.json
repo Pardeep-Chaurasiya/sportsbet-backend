@@ -1,6 +1,6 @@
 {
   "name": "Drives",
-  "author": "Augustine Addey (TekSpyda)",
+  "author": "NA",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -34,7 +34,7 @@
     "swiper": "^5.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --host",
     "build": "react-scripts build",
     "test": "jest --watchAll",
     "eject": "react-scripts eject"

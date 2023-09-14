@@ -14,7 +14,7 @@ import { getCookie } from './common';
      sportsbook:sportsBookReducer,
      profile:profileReducer,
      sb_modal:modalReducer,
-     homeData:homeDataReducer,
+     homeData:homeDataReducer, 
      casinoMode:casinoReducer
  }),store = createStore(reducers,applyMiddleware(thunk))
  const AppView = ()=>{
