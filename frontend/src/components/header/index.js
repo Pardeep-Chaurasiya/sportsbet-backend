@@ -481,11 +481,7 @@ class Header extends React.Component {
                       <span>Live</span>
                     </NavLink>
                   </div>
-                  <div className="link">
-                    <NavLink to="/skypebetting">
-                      <span>Skype Betting</span>
-                    </NavLink>
-                  </div>
+
                   {/* <div className="link"><NavLink to="/virtual"><span>Virtual Sports</span></NavLink></div> */}
                   {/* <div className="link new"><NavLink to="/roulette"><span className="text-warning" style={{fontWeight:"900"}}>Roulette</span></NavLink></div>
                                     <div className="link"><NavLink to="/slot-games"><span>Slot Games</span></NavLink></div>
