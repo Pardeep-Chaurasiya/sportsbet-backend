@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import "./header.css";
 import logo from "../../images/logo.png";
 import moment from "moment-timezone";
+import favicon from "../../images/favicon.jpg"
 import { allActionDucer } from "../../actionCreator";
 import ReCAPTCHA from "react-google-recaptcha";
 import {
@@ -336,7 +337,10 @@ class Header extends React.Component {
                   {/* <div className="brand-name"></div> */}
                   <div className="brand-logo">
                     <NavLink to="/">
+                    <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"5px"}}>
+                      <img src={favicon} style={{height:"28px",width:"28px"}}/>
                       <h1 style={{ color: "white" }}>Drives</h1>
+                      </div>
                     </NavLink>
                   </div>
                 </div>
@@ -492,7 +496,7 @@ class Header extends React.Component {
                 <div
                   className={`search ${showFullInput ? "input-active" : ""} ${
                     activeView === "Live" || activeView === "Prematch"
-                      ? "show"
+                      ? "hidden"
                       : "hidden"
                   }`}
                 >

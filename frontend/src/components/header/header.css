@@ -345,10 +345,11 @@
 }
 .header-container .header-body .header-inner .header-row .header-col .nav-links .link a.active{
    background-color:#fff;
-   color: #f54b2c;
+   color: #2196f3;
+   border-radius: 10px;
 }
 .header-container .header-body .header-inner .header-row .header-col .nav-links .link:hover a, .header-container .header-body .header-inner .header-row .header-col .nav-links .link:hover a span{
-   color: #f54b2c !important;
+   color: #2196f3 !important;
 }
 .header-container.show-fix{
    position:sticky;

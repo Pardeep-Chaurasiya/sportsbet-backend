@@ -3798,6 +3798,12 @@ body.modal-open {
   > div.sport {
   flex: 1 1 4%;
 }
+.sport:hover{
+  color:  #4086bb;
+ cursor: pointer;
+}
+ 
+
 
 .main-container
   .sb-modal

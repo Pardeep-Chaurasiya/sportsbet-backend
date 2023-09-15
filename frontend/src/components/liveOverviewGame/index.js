@@ -48,7 +48,7 @@ export  default class LiveOverviewGame extends React.Component {
             }
             if (!found) {
               marketGroups.push({ id: game.market[data].type, name: game.market[data].name_template })
-              marketDataGrouping[name] = game.market[data]
+              marketDataGrou[name] = game.market[data]
             }
           }
         }

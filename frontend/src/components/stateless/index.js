@@ -66,6 +66,7 @@ export  class PreviousSlide extends React.PureComponent{
   render(){
     return(
       <button className="carousel-arrow left icon-icon-left" onClick={this.props.previousSlide}></button>
+      
     )
   }
 }
@@ -111,7 +112,7 @@ export const SportItem = ({onClick,activeID,s,i,is_live})=>{
 }
 export const SportsbookSportItem = ({onClick,activeID,s,i,is_live,type})=>{
   return(
-    <div id={`sport-list-item-${s.id}`} onClick={(e)=>{onClick(s)}} className={`sport ${stringReplacer(s.alias, [/\s/g, /\d.+?\d/g, /\(.+?\)/g], ['', '', '']).toLowerCase()} ${activeID === s.id || (null === activeID && i === 0) ? 'active' : ''}`}>
+    <div id={`sport-list-item-${s.id}`} onClick={(e)=>{onClick(s)}} className={`sport ${stringReplacer(s.alias, [/\s/g, /\d.+?\d/g, /\(.+?\)/g], ['', '', '']).toLowerCase()} ${activeID === s.id || (null === activeID && i === 0) ? 'active' : ''} sportListItem`}>
       {void 0 !==type && type==='home' && <div className="count">{s.game}</div> }
       <div className={`sport-avatar ${stringReplacer(s.alias, [/\s/g, /\d.+?\d/g, /\(.+?\)/g], ['', '', ''])}`}></div>
       <span className="sport-name">{s.name}</span>

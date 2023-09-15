@@ -400,7 +400,7 @@ export default class RegisterFrom extends React.Component {
       this.setState({ canResend: false, attemptingSignup: true });
       $api
         .checkExistance({
-          mobilenumber: phoneNumber.substr(dialing_code.length),
+          mobilenumber: phoneNumber.substring(dialing_code.length),
           password: password,
           lastName: lastname,
           firstName: firstname,
@@ -485,7 +485,7 @@ export default class RegisterFrom extends React.Component {
     } = this.state;
     this.props.register({
       sms: sms,
-      mobilenumber: phoneNumber.substr(dialing_code.length),
+      mobilenumber: phoneNumber.substring(dialing_code.length),
       dialing_code: dialing_code,
       password: password,
       CPassword: CPassword,
@@ -1232,7 +1232,6 @@ export default class RegisterFrom extends React.Component {
                                   value={sms}
                                   className={`ember-text-field `}
                                   type={showPass ? "text" : "password"}
-                                  type="text"
                                   onChange={(e) => this.onInputChange(e)}
                                   onFocus={(e) => onFormInputFocus(e)}
                                   onBlur={(e) => onFormInputFocusLost(e)}

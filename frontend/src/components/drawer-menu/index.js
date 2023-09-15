@@ -4,6 +4,7 @@ import "./styles.css";
 import { MODAL, LANG } from "../../actionReducers";
 import { allActionDucer } from "../../actionCreator";
 import { setCookie } from "../../common";
+import favicon from "../../images/favicon.jpg"
 const DrawerMenu = (props) => {
   const setLang = (langData) => {
       if (props.appState.lang !== langData.sysValue) {
@@ -37,7 +38,11 @@ const DrawerMenu = (props) => {
                 <div className="brand">
                   <div className="brand-logo">
                     <Link to="/" onClick={closeModal}>
+                      <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"5px"}}>
+                      <img src={favicon} style={{height:"25px",width:"25px"}}/>
                       <h1 style={{ color: "white" }}>Drives</h1>
+                      </div>
+                      
                     </Link>
                   </div>
                 </div>
