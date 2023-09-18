@@ -9,12 +9,19 @@ const register = async (req, res) => {
     lastName,
     email,
     password,
+    CPassword,
     source,
     dialing_code,
     mobilenumber,
   } = req.body;
 
   try {
+    if (password !== CPassword) {
+      return res
+        .status(400)
+        .json({ message: "Password and Confirm password does not match" });
+    }
+
     const existingUserEmail = await User.findOne({
       where: { email },
     });
