@@ -300,7 +300,7 @@ export default class Main extends React.PureComponent {
     const userId = getCookie("id"),
       authToken = getCookie("AuthToken"),
       odd_format = dataStorage("odds_format", {}, 3);
-    if (userId !== undefined && authToken !== undefined) {
+    if (userId !== undefined && authToken !== undefined) { 
       this.getUserBalanceMain();
       this.props.dispatch(appStateActionDucer(LOGIN, { isLoggedIn: true }));
     }
@@ -386,7 +386,7 @@ export default class Main extends React.PureComponent {
           .then(() => {
             this.setState({ isInternetAvail: true }, () => {
               return clearInterval(this.webPing);
-            });
+            }); 
           })
           .catch(() => this.setState({ isInternetAvail: true }));
       }, 2000);

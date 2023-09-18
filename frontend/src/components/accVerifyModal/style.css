@@ -1193,6 +1193,7 @@ html .sb-login-form-container .field-message-wrapper {
   font-size: 16px;
   font-weight: 400;
 }
+ 
 .sb-login-form-container .sb-login-step[data-step="sign-in"] .footer {
   margin-top: 33px;
   font-size: 12px;
@@ -1206,6 +1207,9 @@ html .sb-login-form-container .field-message-wrapper {
   -webkit-justify-content: space-between;
   -moz-justify-content: space-between;
   justify-content: space-between;
+  
+
+ 
 }
 .sb-login-form-container
   .sb-login-step[data-step="sign-in"]
