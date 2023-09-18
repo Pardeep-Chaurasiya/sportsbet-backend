@@ -290,7 +290,7 @@ export default class Main extends React.PureComponent {
     this.props.dispatch(appStateActionDucer(RIDS_PUSH, { ...this.rids }));
   }
   componentDidMount() {
-    this.handleConnectionChange();
+    // this.handleConnectionChange();
     window.addEventListener(
       "visibilitychange",
       this.handlePageVisibilityChange.bind(this)

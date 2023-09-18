@@ -22,6 +22,8 @@ import {onFormInputFocus,onFormInputFocusLost} from '../../common'
   attemptLogin(){
     const {password,email}=this.state
     this.props.onSubmit({email:email,password:password})
+    alert("You are logged In .")
+    this.props.onClose()
   }
 toggleShow(){
   !this.props.attemptingLogin &&this.setState(prevState=>({showPass: !prevState.showPass}));

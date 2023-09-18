@@ -36,14 +36,16 @@ export default class AccVerifyModal extends React.Component{
       this.props.dispatch(allActionDucer(MODAL,{attemptingLogin:true,loginHasError:false,loginErrorMSG:''}))
       const pass = data.password,email = data.email,$time = moment().format('YYYY-MM-DD H:mm:ss'),
       $hash =calcMD5(`email${email}password${pass}time${$time}${this.props.appState.$publicKey}`)
-      $api.login({email:email,password:pass,time:$time,hash:$hash},this.onLoginSuccess.bind(this))
+      $api.login({email:email,password:pass},this.onLoginSuccess.bind(this))
     }
+    // time:$time,hash:$hash
     createAccount(data){
       this.props.dispatch(allActionDucer(MODAL,{attemptingSignup:true,signupHasError:false,signupErrorMSG:'',resetHasError:false,resetErrorMSG:'',smsHasError:false,smsErrorMSG:''}))
       const pass = data.password,email = data.email,$time = moment().format('YYYY-MM-DD H:mm:ss'),
       $hash =calcMD5(`email${email}password${pass}CPassword${data.CPassword}sms${data.sms}dialing_code${data.dialing_code}time${$time}${this.props.appState.$publicKey}`)
-      $api.createAccount({...data,time:$time,hash:$hash},this.onAccountCreated.bind(this))
+      $api.createAccount({...data},this.onAccountCreated.bind(this))
     }
+    //   ---- time:$time,hash:$hash
     sendSMS(mobile,dialing_code, success){
       this.props.dispatch(allActionDucer(MODAL,{sendingSMS:true,smsHasError:false,smsErrorMSG:'',signupHasError:false,signupErrorMSG:'',}))
       let $time = moment().format('YYYY-MM-DD H:mm:ss'),

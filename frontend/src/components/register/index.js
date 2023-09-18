@@ -391,37 +391,40 @@ export default class RegisterFrom extends React.Component {
       validateFullname(lastname) &&
       firstname !== "" &&
       validateFullname(firstname) &&
-      password !== "" &&
-      validatePassword(password) &&
-      CPassword !== "" &&
-      password === CPassword &&
-      terms
+      password !== ""  
+      // validatePassword(password) &&
+      // CPassword !== "" &&
+      // password === CPassword &&
+      // terms
     ) {
       this.setState({ canResend: false, attemptingSignup: true });
-      $api
-        .checkExistance({
-          mobilenumber: phoneNumber.substring(dialing_code.length),
-          password: password,
-          lastName: lastname,
-          firstName: firstname,
-          email: email,
-          source: 42,
-          dialing_code: dialing_code,
-        })
-        .then(({ data }) => {
-          if (data.status === 200) {
+      // $api
+      //   .checkExistance({
+      //     mobilenumber: phoneNumber.substring(dialing_code.length),
+      //     password: password,
+      //     lastName: lastname,
+      //     firstName: firstname,
+      //     email: email,
+      //     source: 42,
+      //     dialing_code: dialing_code,
+      //   })
+      //   .then(({ data }) => {
+      //     if (data.status === 200) {
             this.attemptSignup();
-          } else {
-            this.setState({
-              accountExist: true,
-              accExistMSG:
-                typeof data.msg == String
-                  ? data.msg
-                  : data.msg[Object.keys(data.msg)[0]][0],
-              sendingSMS: false,
-            });
-          }
-        });
+            alert("Registration is successfully .")
+            this.props.onClose()
+             
+          // } else {
+          //   this.setState({
+          //     accountExist: true,
+          //     accExistMSG:
+          //       typeof data.msg == String
+          //         ? data.msg
+          //         : data.msg[Object.keys(data.msg)[0]][0],
+          //     sendingSMS: false,
+          //   });
+          // }
+        // });
     } else {
       let dirty = {};
       if (!terms) dirty.termsEmpty = true;
@@ -484,7 +487,7 @@ export default class RegisterFrom extends React.Component {
       dialing_code,
     } = this.state;
     this.props.register({
-      sms: sms,
+      // sms: sms,
       mobilenumber: phoneNumber.substring(dialing_code.length),
       dialing_code: dialing_code,
       password: password,
