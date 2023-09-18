@@ -10,7 +10,6 @@ User.init(
     lastName: { type: DataTypes.STRING },
     email: { type: DataTypes.STRING, allowNull: false, unique: true },
     password: { type: DataTypes.STRING, allowNull: false },
-    CPassword: { type: DataTypes.STRING, allowNull: false },
     source: { type: DataTypes.INTEGER },
     dialing_code: { type: DataTypes.INTEGER, allowNull: false },
     mobilenumber: { type: DataTypes.STRING, allowNull: false, unique: true },
