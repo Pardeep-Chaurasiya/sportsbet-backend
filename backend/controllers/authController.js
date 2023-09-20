@@ -1,7 +1,11 @@
 const moment = require("moment");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../model/userTable");
+const client = require("twilio")(
+  process.env.ACCOUNT_SID,
+  process.env.AUTH_TOKEN
+);
+const { User, SMS } = require("../models");
 
 const register = async (req, res) => {
   const {
@@ -90,4 +94,74 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const sendSMS = async (req, res) => {
+  const { mobile, dialing_code } = req.body;
+
+  const user = await User.findOne({ where: { mobilenumber: mobile } });
+
+  console.log(user);
+  //   if (!user) {
+  //     // return res.status(404);
+  //   }
+
+  if (!user) {
+    return res.json({
+      message:
+        "If you are register user then please check for OTP on register mobile number",
+    });
+  }
+
+  let newmobile = dialing_code + mobile;
+  let digits = "123456789";
+  let OTP = "";
+
+  for (let i = 0; i < 4; i++) {
+    OTP += digits[Math.floor(Math.random(4) * 10)];
+  }
+  try {
+    client.messages
+      .create({
+        body: `Your OTP verification code is ${OTP}`,
+        to: newmobile, // Text your number
+        from: process.env.TWILIO_NUMBER, // From a valid Twilio number
+      })
+      .then(async (message) => {
+        const sms = new SMS({ otp: OTP, userId: user.id });
+        await sms.save();
+        return res.status(200).json({
+          message:
+            "If you are register user then please check for OTP on register mobile number",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500);
+      });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error.message);
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { mobilenumber, sms, password, CPassword, dialing_code } = req.body;
+
+  if (password !== CPassword) {
+    return res
+      .status(400)
+      .json({ message: "Password and confirm password does not matched" });
+  }
+
+  try {
+    const user = await User.findOne({
+      where: { mobilenumber },
+    });
+
+    console.log(user + "jfkjn");
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error.message);
+  }
+};
+
+module.exports = { register, login, sendSMS, resetPassword };
