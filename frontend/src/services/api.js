@@ -188,7 +188,7 @@ export class NewAPI {
 
     }
     sendSMS(data, success, error) {
-        this.http.post('sendSMS', data).then(success, error)
+        this.http.post('forgetPassword', data).then(success, error)
     }
 
     logout() {

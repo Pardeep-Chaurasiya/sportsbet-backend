@@ -457,7 +457,7 @@ export default class RegisterFrom extends React.Component {
   resendSMS() {
     this.setState({ canResend: false, sendingSMS: true, countdown: 60 });
     this.props.sendTextMSG(
-      this.state.phoneNumber.substr(this.state.dialing_code.length),
+      this.state.phoneNumber.substring(this.state.dialing_code.length),
       this.onSMSSend
     );
   }

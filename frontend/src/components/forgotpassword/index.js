@@ -1,5 +1,6 @@
 import React from 'react'
 import { onFormInputFocus, onFormInputFocusLost } from '../../common'
+import PhoneInput from 'react-phone-input-2'
 import { validateSMSCode, validatePhone, validatePassword } from '../../utils/index'
 export default class ForgotPassword extends React.Component {
   constructor(props) {
@@ -11,16 +12,20 @@ export default class ForgotPassword extends React.Component {
       howPass: false,
       c_password: '',
       password: '',
-      formStep: 1
+      formStep: 1,
+      dialing_code: ""
     }
-
+    console.log(this.state.dialing_code, "diadfacode");
   }
   sendSMS() {
     this.setState({ formStep: 2 })
-    const number = this.state.mobilenumber
+    const dialing_code = this.state.dialing_code
+    const number = this.state.mobilenumber.split(dialing_code)[1]
+
     if (number !== '') {
+      console.log(number, dialing_code, "gopiiiiiii");
       this.setState({ canResend: false })
-      this.props.sendTextMSG(number, this.onSMSSend.bind(this))
+      this.props.sendTextMSG(number, dialing_code, this.onSMSSend.bind(this))
     }
   }
   resetPass() {
@@ -93,8 +98,25 @@ export default class ForgotPassword extends React.Component {
 
 
                                 </div>
-                                <input autoFocus={true} value={mobilenumber} onChange={this.onInputChange.bind(this)} name="mobilenumber" className={`${mobilenumber !== '' && !validatePhone(mobilenumber) && 'error'} ember-text-field ember-view`} type="text" onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off" />
-                                <span className="placeholder placeholder-inactive">Mobile Number</span>
+                                <PhoneInput
+                                  country={"al"}
+                                  inputProps={{
+                                    name: "phoneNumber",
+                                    required: true,
+
+                                  }}
+                                  value={mobilenumber}
+                                  onChange={(mobilenumber, country) => {
+
+                                    this.setState({
+                                      mobilenumber,
+                                      dialing_code: country.dialCode,
+                                    })
+                                  }
+                                  }
+                                />
+                                {/* <input autoFocus={true} value={mobilenumber} onChange={this.onInputChange.bind(this)} name="mobilenumber" className={`${mobilenumber !== '' && !validatePhone(mobilenumber) && 'error'} ember-text-field ember-view`} type="text" onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off" /> */}
+                                {/* <span className="placeholder placeholder-inactive">Mobile Number</span> */}
 
                               </div>
                             </div>

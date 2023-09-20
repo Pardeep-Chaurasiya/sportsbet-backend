@@ -64,7 +64,7 @@ export default class AccVerifyModal extends React.Component {
     this.props.dispatch(allActionDucer(MODAL, { sendingSMS: true, smsHasError: false, smsErrorMSG: '', signupHasError: false, signupErrorMSG: '', }))
     let $time = moment().format('YYYY-MM-DD H:mm:ss'),
       $hash = calcMD5(`dialing${dialing_code}mobile${mobile}time${$time}${this.props.appState.$publicKey}`)
-    $api.sendSMS({ mobile: mobile, dialing: dialing_code }, ({ data }) => (this.smsSent(data, success)))
+    $api.sendSMS({ mobile: mobile, dialing_code: `+${dialing_code}` }, ({ data }) => (this.smsSent(data, success)))
   }
   // , time: $time, hash: $hash
   resetPassword(data, success) {

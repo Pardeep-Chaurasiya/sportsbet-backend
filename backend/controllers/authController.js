@@ -95,10 +95,11 @@ const login = async (req, res) => {
 };
 
 const sendSMS = async (req, res) => {
+  console.log("log");
   const { mobile, dialing_code } = req.body;
 
   const user = await User.findOne({ where: { mobilenumber: mobile } });
-
+  console.log(req.body, "bosy======");
   console.log(user);
   //   if (!user) {
   //     // return res.status(404);
@@ -112,12 +113,8 @@ const sendSMS = async (req, res) => {
   }
 
   let newmobile = dialing_code + mobile;
-  let digits = "123456789";
-  let OTP = "";
-
-  for (let i = 0; i < 4; i++) {
-    OTP += digits[Math.floor(Math.random(4) * 10)];
-  }
+  console.log(newmobile, "number");
+  let OTP = Math.floor(1000 + Math.random() * 9000);
   try {
     client.messages
       .create({
