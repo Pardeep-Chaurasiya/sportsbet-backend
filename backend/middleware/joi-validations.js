@@ -67,7 +67,7 @@ const validateResetPassword = (req, res, next) => {
     password: Joi.string()
       .pattern(/^[a-zA-Z0-9]{5,30}$/)
       .required(),
-    dialing_code: Joi.string().required(),
+    dialing_code: Joi.string(),
     sms: Joi.string().required(),
     CPassword: Joi.string()
       .pattern(/^[a-zA-Z0-9]{5,30}$/)
