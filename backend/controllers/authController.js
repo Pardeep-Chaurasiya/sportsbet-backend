@@ -95,6 +95,7 @@ const login = async (req, res) => {
 };
 
 const sendSMS = async (req, res) => {
+  console.log("log");
   const { mobile, dialing_code } = req.body;
 
   const user = await User.findOne({ where: { mobilenumber: mobile } });

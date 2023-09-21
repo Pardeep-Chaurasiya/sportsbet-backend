@@ -391,7 +391,7 @@ export default class RegisterFrom extends React.Component {
       validateFullname(lastname) &&
       firstname !== "" &&
       validateFullname(firstname) &&
-      password !== ""  
+      password !== ""
       // validatePassword(password) &&
       // CPassword !== "" &&
       // password === CPassword &&
@@ -410,21 +410,21 @@ export default class RegisterFrom extends React.Component {
       //   })
       //   .then(({ data }) => {
       //     if (data.status === 200) {
-            this.attemptSignup();
-            alert("Registration is successfully .")
-            this.props.onClose()
-             
-          // } else {
-          //   this.setState({
-          //     accountExist: true,
-          //     accExistMSG:
-          //       typeof data.msg == String
-          //         ? data.msg
-          //         : data.msg[Object.keys(data.msg)[0]][0],
-          //     sendingSMS: false,
-          //   });
-          // }
-        // });
+      this.attemptSignup();
+      // this.props.onClose()
+      alert("User register successfully ..")
+      this.props.changeForm({ formType: "login" })
+      // } else {
+      //   this.setState({
+      //     accountExist: true,
+      //     accExistMSG:
+      //       typeof data.msg == String
+      //         ? data.msg
+      //         : data.msg[Object.keys(data.msg)[0]][0],
+      //     sendingSMS: false,
+      //   });
+      // }
+      // });
     } else {
       let dirty = {};
       if (!terms) dirty.termsEmpty = true;
@@ -457,7 +457,7 @@ export default class RegisterFrom extends React.Component {
   resendSMS() {
     this.setState({ canResend: false, sendingSMS: true, countdown: 60 });
     this.props.sendTextMSG(
-      this.state.phoneNumber.substr(this.state.dialing_code.length),
+      this.state.phoneNumber.substring(this.state.dialing_code.length),
       this.onSMSSend
     );
   }
@@ -504,28 +504,28 @@ export default class RegisterFrom extends React.Component {
   }
   render() {
     const {
-        showPass,
-        password,
-        phoneNumber,
-        email,
-        emailEmpty,
-        sms,
-        lastname,
-        firstname,
-        formStep,
-        countdown,
-        canResend,
-        terms,
-        phoneNumberEmpty,
-        lastnameEmpty,
-        firstnameEmpty,
-        termsEmpty,
-        passwordEmpty,
-        accountExist,
-        CPassword,
-        CPasswordEmpty,
-        accExistMSG,
-      } = this.state,
+      showPass,
+      password,
+      phoneNumber,
+      email,
+      emailEmpty,
+      sms,
+      lastname,
+      firstname,
+      formStep,
+      countdown,
+      canResend,
+      terms,
+      phoneNumberEmpty,
+      lastnameEmpty,
+      firstnameEmpty,
+      termsEmpty,
+      passwordEmpty,
+      accountExist,
+      CPassword,
+      CPasswordEmpty,
+      accExistMSG,
+    } = this.state,
       {
         attemptingSignup,
         signupHasError,
@@ -554,11 +554,10 @@ export default class RegisterFrom extends React.Component {
                     <div className="social-icons"></div>
                     {created ? (
                       <div
-                        className={` ${
-                          formStep !== 2
-                            ? "animated fadeOut"
-                            : "animated fadeIn"
-                        }`}
+                        className={` ${formStep !== 2
+                          ? "animated fadeOut"
+                          : "animated fadeIn"
+                          }`}
                         di="second-form"
                       >
                         <p
@@ -575,11 +574,10 @@ export default class RegisterFrom extends React.Component {
                       </div>
                     ) : formStep === 1 && !created ? (
                       <div
-                        className={`form ${
-                          formStep !== 1
-                            ? "animated fadeOut"
-                            : "fadeIn animated"
-                        }`}
+                        className={`form ${formStep !== 1
+                          ? "animated fadeOut"
+                          : "fadeIn animated"
+                          }`}
                         id="first-form"
                       >
                         <div className=" ember-view col-sm-12">
@@ -590,39 +588,38 @@ export default class RegisterFrom extends React.Component {
                                   {((firstname !== "" &&
                                     !validateFullname(firstname)) ||
                                     firstnameEmpty) && (
-                                    <React.Fragment>
-                                      <div className="warning-block">
-                                        <span
-                                          className={`warning icon-sb-warning icon`}
-                                        ></span>
-                                      </div>{" "}
-                                      <div
-                                        className="field-message-container "
-                                        style={{ right: 0, top: "-44px" }}
-                                      >
-                                        <div className="field-message-wrapper">
-                                          <span>
-                                            {firstname !== "" &&
-                                            !validateFullname(firstname)
-                                              ? "First name must be minimum of 2 characters"
-                                              : "First name cannot be empty"}
-                                          </span>
+                                      <React.Fragment>
+                                        <div className="warning-block">
+                                          <span
+                                            className={`warning icon-sb-warning icon`}
+                                          ></span>
+                                        </div>{" "}
+                                        <div
+                                          className="field-message-container "
+                                          style={{ right: 0, top: "-44px" }}
+                                        >
+                                          <div className="field-message-wrapper">
+                                            <span>
+                                              {firstname !== "" &&
+                                                !validateFullname(firstname)
+                                                ? "First name must be minimum of 2 characters"
+                                                : "First name cannot be empty"}
+                                            </span>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </React.Fragment>
-                                  )}
+                                      </React.Fragment>
+                                    )}
                                 </div>
                                 <input
                                   autoFocus={true}
                                   name="firstname"
                                   value={firstname}
-                                  className={`${
-                                    (firstname !== "" &&
-                                      !validateFullname(firstname)) ||
+                                  className={`${(firstname !== "" &&
+                                    !validateFullname(firstname)) ||
                                     firstnameEmpty
-                                      ? "error animated pulse"
-                                      : ""
-                                  } ember-text-field `}
+                                    ? "error animated pulse"
+                                    : ""
+                                    } ember-text-field `}
                                   type="text"
                                   onChange={(e) => this.onInputChange(e)}
                                   onFocus={(e) => onFormInputFocus(e)}
@@ -630,9 +627,8 @@ export default class RegisterFrom extends React.Component {
                                   autoComplete="off"
                                 />
                                 <span
-                                  className={`placeholder ${
-                                    firstname === "" && "placeholder-inactive"
-                                  }`}
+                                  className={`placeholder ${firstname === "" && "placeholder-inactive"
+                                    }`}
                                 >
                                   First Name
                                 </span>
@@ -648,38 +644,37 @@ export default class RegisterFrom extends React.Component {
                                   {((lastname !== "" &&
                                     !validateFullname(lastname)) ||
                                     lastnameEmpty) && (
-                                    <React.Fragment>
-                                      <div className="warning-block">
-                                        <span
-                                          className={`warning icon-sb-warning icon`}
-                                        ></span>
-                                      </div>
-                                      <div
-                                        className="field-message-container "
-                                        style={{ right: 0, top: "-44px" }}
-                                      >
-                                        <div className="field-message-wrapper">
-                                          <span>
-                                            {lastname !== "" &&
-                                            !validateFullname(lastname)
-                                              ? "Last name must be minimum of 2 characters"
-                                              : "Last name cannot be empty"}
-                                          </span>
+                                      <React.Fragment>
+                                        <div className="warning-block">
+                                          <span
+                                            className={`warning icon-sb-warning icon`}
+                                          ></span>
                                         </div>
-                                      </div>
-                                    </React.Fragment>
-                                  )}
+                                        <div
+                                          className="field-message-container "
+                                          style={{ right: 0, top: "-44px" }}
+                                        >
+                                          <div className="field-message-wrapper">
+                                            <span>
+                                              {lastname !== "" &&
+                                                !validateFullname(lastname)
+                                                ? "Last name must be minimum of 2 characters"
+                                                : "Last name cannot be empty"}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </React.Fragment>
+                                    )}
                                 </div>
                                 <input
                                   name="lastname"
                                   value={lastname}
-                                  className={`${
-                                    (lastname !== "" &&
-                                      !validateFullname(lastname)) ||
+                                  className={`${(lastname !== "" &&
+                                    !validateFullname(lastname)) ||
                                     lastnameEmpty
-                                      ? "error animated pulse"
-                                      : ""
-                                  } ember-text-field `}
+                                    ? "error animated pulse"
+                                    : ""
+                                    } ember-text-field `}
                                   type="text"
                                   onChange={(e) => this.onInputChange(e)}
                                   onFocus={(e) => onFormInputFocus(e)}
@@ -687,9 +682,8 @@ export default class RegisterFrom extends React.Component {
                                   autoComplete="off"
                                 />
                                 <span
-                                  className={`placeholder ${
-                                    lastname === "" && "placeholder-inactive"
-                                  }`}
+                                  className={`placeholder ${lastname === "" && "placeholder-inactive"
+                                    }`}
                                 >
                                   Last Name
                                 </span>
@@ -725,37 +719,36 @@ export default class RegisterFrom extends React.Component {
                                 <div className="field-icons-container ">
                                   {((email !== "" && !validateEmail(email)) ||
                                     emailEmpty) && (
-                                    <React.Fragment>
-                                      <div className="warning-block">
-                                        <span
-                                          className={`warning icon-sb-warning icon`}
-                                        ></span>
-                                      </div>{" "}
-                                      <div
-                                        className="field-message-container "
-                                        style={{ right: 0, top: "-44px" }}
-                                      >
-                                        <div className="field-message-wrapper">
-                                          <span>
-                                            {email !== "" &&
-                                            !validateEmail(email)
-                                              ? "Invalid email format"
-                                              : "Email cannot be empty"}
-                                          </span>
+                                      <React.Fragment>
+                                        <div className="warning-block">
+                                          <span
+                                            className={`warning icon-sb-warning icon`}
+                                          ></span>
+                                        </div>{" "}
+                                        <div
+                                          className="field-message-container "
+                                          style={{ right: 0, top: "-44px" }}
+                                        >
+                                          <div className="field-message-wrapper">
+                                            <span>
+                                              {email !== "" &&
+                                                !validateEmail(email)
+                                                ? "Invalid email format"
+                                                : "Email cannot be empty"}
+                                            </span>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </React.Fragment>
-                                  )}
+                                      </React.Fragment>
+                                    )}
                                 </div>
                                 <input
                                   name="email"
                                   value={email}
-                                  className={`${
-                                    (email !== "" && !validateEmail(email)) ||
+                                  className={`${(email !== "" && !validateEmail(email)) ||
                                     emailEmpty
-                                      ? "error animated pulse"
-                                      : ""
-                                  } ember-text-field `}
+                                    ? "error animated pulse"
+                                    : ""
+                                    } ember-text-field `}
                                   type="email"
                                   onChange={(e) => this.onInputChange(e)}
                                   onFocus={(e) => onFormInputFocus(e)}
@@ -763,9 +756,8 @@ export default class RegisterFrom extends React.Component {
                                   autoComplete="off"
                                 />
                                 <span
-                                  className={`placeholder ${
-                                    email === "" && "placeholder-inactive"
-                                  }`}
+                                  className={`placeholder ${email === "" && "placeholder-inactive"
+                                    }`}
                                 >
                                   Email
                                 </span>
@@ -781,27 +773,27 @@ export default class RegisterFrom extends React.Component {
                                   {((phoneNumber !== "" &&
                                     !validatePhone(phoneNumber)) ||
                                     phoneNumberEmpty) && (
-                                    <React.Fragment>
-                                      <div className="warning-block">
-                                        <span
-                                          className={`warning icon-sb-warning icon`}
-                                        ></span>
-                                      </div>{" "}
-                                      <div
-                                        className="field-message-container "
-                                        style={{ right: 0, top: "-44px" }}
-                                      >
-                                        <div className="field-message-wrapper">
-                                          <span>
-                                            {phoneNumber !== "" &&
-                                            !validatePhone(phoneNumber)
-                                              ? "Phone number must be valid"
-                                              : "Phone number cannot be empty"}
-                                          </span>
+                                      <React.Fragment>
+                                        <div className="warning-block">
+                                          <span
+                                            className={`warning icon-sb-warning icon`}
+                                          ></span>
+                                        </div>{" "}
+                                        <div
+                                          className="field-message-container "
+                                          style={{ right: 0, top: "-44px" }}
+                                        >
+                                          <div className="field-message-wrapper">
+                                            <span>
+                                              {phoneNumber !== "" &&
+                                                !validatePhone(phoneNumber)
+                                                ? "Phone number must be valid"
+                                                : "Phone number cannot be empty"}
+                                            </span>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </React.Fragment>
-                                  )}
+                                      </React.Fragment>
+                                    )}
                                 </div>
                                 <PhoneInput
                                   country={"al"}
@@ -929,49 +921,47 @@ export default class RegisterFrom extends React.Component {
                                       onClick={this.toggleShow}
                                     >
                                       <span
-                                        className={`password-visibility icon ${
-                                          showPass
-                                            ? "icon-sb-hide"
-                                            : "icon-sb-show"
-                                        }`}
+                                        className={`password-visibility icon ${showPass
+                                          ? "icon-sb-hide"
+                                          : "icon-sb-show"
+                                          }`}
                                       ></span>
                                     </div>
                                   )}
                                   {((password !== "" &&
                                     !validatePassword(password)) ||
                                     passwordEmpty) && (
-                                    <React.Fragment>
-                                      <div className="warning-block">
-                                        <span
-                                          className={`warning icon-sb-warning icon`}
-                                        ></span>
-                                      </div>{" "}
-                                      <div
-                                        className="field-message-container "
-                                        style={{ right: 0, top: "-44px" }}
-                                      >
-                                        <div className="field-message-wrapper">
-                                          <span>
-                                            {password !== "" &&
-                                            !validatePassword(password)
-                                              ? "Password must be minimum of 8 characters"
-                                              : "Password cannot be empty"}
-                                          </span>
+                                      <React.Fragment>
+                                        <div className="warning-block">
+                                          <span
+                                            className={`warning icon-sb-warning icon`}
+                                          ></span>
+                                        </div>{" "}
+                                        <div
+                                          className="field-message-container "
+                                          style={{ right: 0, top: "-44px" }}
+                                        >
+                                          <div className="field-message-wrapper">
+                                            <span>
+                                              {password !== "" &&
+                                                !validatePassword(password)
+                                                ? "Password must be minimum of 8 characters"
+                                                : "Password cannot be empty"}
+                                            </span>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </React.Fragment>
-                                  )}
+                                      </React.Fragment>
+                                    )}
                                 </div>
                                 <input
                                   name="password"
                                   value={password}
-                                  className={`${
-                                    (password !== "" &&
-                                      !validatePassword(password)) ||
+                                  className={`${(password !== "" &&
+                                    !validatePassword(password)) ||
                                     passwordEmpty
-                                      ? "error animated pulse"
-                                      : ""
-                                  } ember-text-field `}
+                                    ? "error animated pulse"
+                                    : ""
+                                    } ember-text-field `}
                                   type={showPass ? "text" : "password"}
                                   onChange={(e) => this.onInputChange(e)}
                                   onFocus={(e) => onFormInputFocus(e)}
@@ -979,9 +969,8 @@ export default class RegisterFrom extends React.Component {
                                   autoComplete="off"
                                 />
                                 <span
-                                  className={`placeholder ${
-                                    password === "" && "placeholder-inactive"
-                                  }`}
+                                  className={`placeholder ${password === "" && "placeholder-inactive"
+                                    }`}
                                 >
                                   Password
                                 </span>
@@ -1000,49 +989,47 @@ export default class RegisterFrom extends React.Component {
                                       onClick={this.toggleShow}
                                     >
                                       <span
-                                        className={`password-visibility icon ${
-                                          showPass
-                                            ? "icon-sb-hide"
-                                            : "icon-sb-show"
-                                        }`}
+                                        className={`password-visibility icon ${showPass
+                                          ? "icon-sb-hide"
+                                          : "icon-sb-show"
+                                          }`}
                                       ></span>
                                     </div>
                                   )}
                                   {((CPassword !== "" &&
                                     !validatePassword(CPassword)) ||
                                     CPasswordEmpty) && (
-                                    <React.Fragment>
-                                      <div className="warning-block">
-                                        <span
-                                          className={`warning icon-sb-warning icon`}
-                                        ></span>
-                                      </div>{" "}
-                                      <div
-                                        className="field-message-container "
-                                        style={{ right: 0, top: "-44px" }}
-                                      >
-                                        <div className="field-message-wrapper">
-                                          <span>
-                                            {CPassword !== "" &&
-                                            password !== CPassword
-                                              ? "Password mismatch"
-                                              : "Retype password"}
-                                          </span>
+                                      <React.Fragment>
+                                        <div className="warning-block">
+                                          <span
+                                            className={`warning icon-sb-warning icon`}
+                                          ></span>
+                                        </div>{" "}
+                                        <div
+                                          className="field-message-container "
+                                          style={{ right: 0, top: "-44px" }}
+                                        >
+                                          <div className="field-message-wrapper">
+                                            <span>
+                                              {CPassword !== "" &&
+                                                password !== CPassword
+                                                ? "Password mismatch"
+                                                : "Retype password"}
+                                            </span>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </React.Fragment>
-                                  )}
+                                      </React.Fragment>
+                                    )}
                                 </div>
                                 <input
                                   name="CPassword"
                                   value={CPassword}
-                                  className={`${
-                                    (CPassword !== "" &&
-                                      password !== CPassword) ||
+                                  className={`${(CPassword !== "" &&
+                                    password !== CPassword) ||
                                     CPasswordEmpty
-                                      ? "error animated pulse"
-                                      : ""
-                                  } ember-text-field `}
+                                    ? "error animated pulse"
+                                    : ""
+                                    } ember-text-field `}
                                   type={showPass ? "text" : "password"}
                                   onChange={(e) => this.onInputChange(e)}
                                   onFocus={(e) => onFormInputFocus(e)}
@@ -1050,9 +1037,8 @@ export default class RegisterFrom extends React.Component {
                                   autoComplete="off"
                                 />
                                 <span
-                                  className={`placeholder ${
-                                    CPassword === "" && "placeholder-inactive"
-                                  }`}
+                                  className={`placeholder ${CPassword === "" && "placeholder-inactive"
+                                    }`}
                                 >
                                   Re-type Password
                                 </span>
@@ -1129,9 +1115,8 @@ export default class RegisterFrom extends React.Component {
                               type="checkbox"
                             />
                             <span
-                              className={`${
-                                termsEmpty && "error animated pulse"
-                              }`}
+                              className={`${termsEmpty && "error animated pulse"
+                                }`}
                             ></span>
                           </label>
 
@@ -1153,8 +1138,8 @@ export default class RegisterFrom extends React.Component {
                             {smsHasError
                               ? smsErrorMSG
                               : accountExist
-                              ? accExistMSG
-                              : ""}
+                                ? accExistMSG
+                                : ""}
                           </span>
                         </div>
                         {/* <button disabled={sendingSMS} className="sb-account-btn btn-primary submit-join-now " type="submit" onClick={this.verifyPhone}>
@@ -1181,11 +1166,10 @@ export default class RegisterFrom extends React.Component {
                       </div>
                     ) : (
                       <div
-                        className={` ${
-                          formStep !== 2
-                            ? "animated fadeOut"
-                            : "animated fadeIn"
-                        }`}
+                        className={` ${formStep !== 2
+                          ? "animated fadeOut"
+                          : "animated fadeIn"
+                          }`}
                         di="second-form"
                       >
                         <p
@@ -1241,9 +1225,8 @@ export default class RegisterFrom extends React.Component {
                                   autoComplete="off"
                                 />
                                 <span
-                                  className={`placeholder ${
-                                    sms === "" && "placeholder-inactive"
-                                  }`}
+                                  className={`placeholder ${sms === "" && "placeholder-inactive"
+                                    }`}
                                 >
                                   SMS CODE
                                 </span>
@@ -1282,7 +1265,7 @@ export default class RegisterFrom extends React.Component {
                         data-side="left"
                       >
                         <a
-                          href=" "
+
                           onClick={() => {
                             this.props.changeForm({ formType: "login" });
                           }}

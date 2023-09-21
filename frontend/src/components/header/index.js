@@ -47,9 +47,9 @@ class Header extends React.Component {
     for (var i in this.supportedTZ) {
       this.offsetTmz.push(
         this.supportedTZ[i] +
-          " (GMT " +
-          moment.tz(this.supportedTZ[i]).format("Z") +
-          ")"
+        " (GMT " +
+        moment.tz(this.supportedTZ[i]).format("Z") +
+        ")"
       );
     }
     this.setTime();
@@ -126,8 +126,7 @@ class Header extends React.Component {
     null !== game && (historyState.game = game);
     if (activeView === "Live" || activeView === "Prematch") {
       this.props.history.push(
-        `/sports/${activeView.toLowerCase()}/${sport.alias}/${region.name}/${
-          competition.id
+        `/sports/${activeView.toLowerCase()}/${sport.alias}/${region.name}/${competition.id
         }${null !== game ? "/" + game.id : ""}`,
         historyState
       );
@@ -210,21 +209,23 @@ class Header extends React.Component {
   }
   render() {
     const {
-        appState,
-        profile,
-        searchDataC,
-        searchData,
-        searching,
-        activeView,
-        Prematch,
-        Live,
-        checkResult,
-        searchingTicket,
-        site_recaptch_key,
-        config,
-        oddType,
-      } = this.props,
+      appState,
+      profile,
+      searchDataC,
+      searchData,
+      searching,
+      activeView,
+      Prematch,
+      Live,
+      checkResult,
+      searchingTicket,
+      site_recaptch_key,
+      config,
+      oddType,
+    } = this.props,
+
       { time, showRecaptcha, showFullInput } = this.state,
+
       searchGame = (event) => {
         var d = {},
           type = activeView === "Live" ? Live : Prematch;
@@ -322,12 +323,13 @@ class Header extends React.Component {
       Object.keys(searchDataC.sport).forEach((sport) => {
         searchResult.competition.push(searchDataC.sport[sport]);
       });
+
     }
+    console.log(appState.isLoggedIn, "isLoggedIn");
     return (
       <div
-        className={`header-container ${
-          this.props.casinoMode.playMode && "fullscreen"
-        }`}
+        className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
+          }`}
       >
         <div className="header-body bg-primary">
           <div className="header-inner">
@@ -337,9 +339,9 @@ class Header extends React.Component {
                   {/* <div className="brand-name"></div> */}
                   <div className="brand-logo">
                     <NavLink to="/">
-                    <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"5px"}}>
-                      <img src={favicon} style={{height:"28px",width:"28px"}}/>
-                      <h1 style={{ color: "white" }}>Drives</h1>
+                      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "5px" }}>
+                        <img src={favicon} style={{ height: "28px", width: "28px" }} />
+                        <h1 style={{ color: "white" }}>Drives</h1>
                       </div>
                     </NavLink>
                   </div>
@@ -465,11 +467,10 @@ class Header extends React.Component {
             <div className="header-row secondary">
               <div className="header-col col-sm-12">
                 <div
-                  className={`nav-links ${
-                    activeView === "Live" || activeView === "Prematch"
-                      ? "partial"
-                      : "full"
-                  }`}
+                  className={`nav-links ${activeView === "Live" || activeView === "Prematch"
+                    ? "partial"
+                    : "full"
+                    }`}
                 >
                   <div className="link">
                     <NavLink exact to="/">
@@ -494,16 +495,14 @@ class Header extends React.Component {
                   {/* <div className="link"><NavLink to="/sports/result"><span>Match Results</span></NavLink></div> */}
                 </div>
                 <div
-                  className={`search ${showFullInput ? "input-active" : ""} ${
-                    activeView === "Live" || activeView === "Prematch"
-                      ? "hidden"
-                      : "hidden"
-                  }`}
+                  className={`search ${showFullInput ? "input-active" : ""} ${activeView === "Live" || activeView === "Prematch"
+                    ? "hidden"
+                    : "hidden"
+                    }`}
                 >
                   <div
-                    className={`sportsbook-search ${
-                      showFullInput ? "search-full-width" : "search-minimal"
-                    }`}
+                    className={`sportsbook-search ${showFullInput ? "search-full-width" : "search-minimal"
+                      }`}
                     style={{
                       padding: "unset",
                       paddingTop: "unset",
@@ -520,9 +519,8 @@ class Header extends React.Component {
                         </div>
                       )}
                       <input
-                        placeholder={`${
-                          showFullInput ? "Search Competition/Game" : ""
-                        }`}
+                        placeholder={`${showFullInput ? "Search Competition/Game" : ""
+                          }`}
                         className="search-input ember-text-field ember-view"
                         type="text"
                         onChange={(e) => searchGame(e)}
@@ -544,9 +542,8 @@ class Header extends React.Component {
                         </div>
                       ) : null}
                       <div
-                        className={`search-results open ${
-                          emptyResult || searching ? "no-results" : ""
-                        }`}
+                        className={`search-results open ${emptyResult || searching ? "no-results" : ""
+                          }`}
                       >
                         {(hasGameResult || hasCompetionsResult) && (
                           <div className="search-results-arrow"></div>
@@ -640,7 +637,7 @@ class Header extends React.Component {
                                                         {game.team1_name}
                                                         {game.team2_name
                                                           ? " - " +
-                                                            game.team2_name
+                                                          game.team2_name
                                                           : ""}
                                                       </div>
                                                       <div className="search-results-match-details">
