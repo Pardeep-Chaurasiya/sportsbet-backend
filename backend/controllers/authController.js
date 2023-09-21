@@ -5,7 +5,7 @@ const client = require("twilio")(
   process.env.ACCOUNT_SID,
   process.env.AUTH_TOKEN
 );
-const { User, SMS } = require("../models");
+const { User, OTP } = require("../models");
 
 const register = async (req, res) => {
   const {
@@ -109,16 +109,16 @@ const sendSMS = async (req, res) => {
 
   let newmobile = "+" + dialing_code + mobile;
   console.log(newmobile);
-  var OTP = Math.floor(1000 + Math.random() * 9000);
+  let Otp = Math.floor(100000 + Math.random() * 900000);
   try {
     client.messages
       .create({
-        body: `Your OTP verification code is ${OTP}`,
+        body: `Your OTP verification code is ${Otp}`,
         to: newmobile, // Text your number
         from: process.env.TWILIO_NUMBER, // From a valid Twilio number
       })
       .then(async (message) => {
-        const sms = new SMS({ otp: OTP, userId: user.id, isUsed: false });
+        const sms = new OTP({ otp: Otp, userId: user.id, isUsed: false });
         await sms.save();
         return res.status(200).json({
           message:
@@ -149,7 +149,7 @@ const resetPassword = async (req, res) => {
       where: { mobilenumber },
     });
 
-    const otp = await SMS.findAll(
+    const otp = await OTP.findAll(
       {
         where: {
           userid: user.id,

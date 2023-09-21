@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.SMS, { foreignKey: "userId" });
+      User.hasMany(models.OTP, { foreignKey: "userId" });
     }
   }
   User.init(
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       email: { type: DataTypes.STRING, allowNull: false, unique: true },
       password: { type: DataTypes.STRING, allowNull: false },
       source: { type: DataTypes.INTEGER },
-      dialing_code: { type: DataTypes.INTEGER, allowNull: false },
+      dialing_code: { type: DataTypes.STRING, allowNull: false },
       mobilenumber: { type: DataTypes.STRING, allowNull: false, unique: true },
     },
     {

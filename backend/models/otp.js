@@ -1,20 +1,21 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class SMS extends Model {
+  class OTP extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      SMS.belongsTo(models.User, {
+      // define association here
+      OTP.belongsTo(models.User, {
         foreignKey: "userId",
         onDelete: "CASCADE",
       });
     }
   }
-  SMS.init(
+  OTP.init(
     {
       otp: DataTypes.STRING,
       userId: DataTypes.INTEGER,
@@ -22,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "SMS",
+      modelName: "OTP",
     }
   );
-  return SMS;
+  return OTP;
 };
