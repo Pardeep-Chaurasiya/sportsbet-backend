@@ -99,11 +99,6 @@ const sendSMS = async (req, res) => {
 
   const user = await User.findOne({ where: { mobilenumber: mobile } });
 
-  console.log(user);
-  //   if (!user) {
-  //     // return res.status(404);
-  //   }
-
   if (!user) {
     return res.json({
       message:
@@ -111,13 +106,9 @@ const sendSMS = async (req, res) => {
     });
   }
 
-  let newmobile = dialing_code + mobile;
-  let digits = "123456789";
-  let OTP = "";
-
-  for (let i = 0; i < 4; i++) {
-    OTP += digits[Math.floor(Math.random(4) * 10)];
-  }
+  let newmobile = "+" + dialing_code + mobile;
+  console.log(newmobile);
+  var OTP = Math.floor(1000 + Math.random() * 9000);
   try {
     client.messages
       .create({
@@ -126,7 +117,7 @@ const sendSMS = async (req, res) => {
         from: process.env.TWILIO_NUMBER, // From a valid Twilio number
       })
       .then(async (message) => {
-        const sms = new SMS({ otp: OTP, userId: user.id });
+        const sms = new SMS({ otp: OTP, userId: user.id, isUsed: false });
         await sms.save();
         return res.status(200).json({
           message:
@@ -146,18 +137,37 @@ const sendSMS = async (req, res) => {
 const resetPassword = async (req, res) => {
   const { mobilenumber, sms, password, CPassword, dialing_code } = req.body;
 
-  if (password !== CPassword) {
-    return res
-      .status(400)
-      .json({ message: "Password and confirm password does not matched" });
-  }
-
   try {
+    if (password !== CPassword) {
+      return res
+        .status(400)
+        .json({ message: "Password and confirm password does not matched" });
+    }
+    const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.findOne({
       where: { mobilenumber },
     });
 
-    console.log(user + "jfkjn");
+    const otp = await SMS.findAll(
+      {
+        where: {
+          userid: user.id,
+        },
+        order: [["createdAt", "DESC"]],
+      },
+      { plain: true, raw: true }
+    );
+
+    if (otp[0].dataValues.otp != sms || otp[0].isUsed == 1) {
+      return res.status(400).json({ message: "OTP not valid" });
+    }
+    check_otp = otp[0];
+    check_otp.isUsed = true;
+    check_otp.save();
+
+    user.password = hashPassword;
+    await user.save();
+    return res.status(200).json({ message: "Password changed successfully" });
   } catch (error) {
     console.log(error);
     return res.status(500).json(error.message);
