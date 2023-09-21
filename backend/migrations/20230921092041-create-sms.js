@@ -1,3 +1,6 @@
+
+
+
 "use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -25,7 +28,7 @@ module.exports = {
           notEmpty: true,
         },
       },
-
+      isUsed: { type: Sequelize.BOOLEAN, defaultValue: false },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

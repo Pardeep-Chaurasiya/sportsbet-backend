@@ -8,6 +8,7 @@ module.exports = {
     // port: "9906",
     host: "127.0.0.1",
     dialect: "mysql",
+    port: "9906",
     dialectOptions: {
       bigNumberStrings: true,
     },

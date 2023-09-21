@@ -107,9 +107,10 @@ const sendSMS = async (req, res) => {
     });
   }
 
-  let newmobile = "+" + dialing_code + mobile;
+  let newmobile = dialing_code + mobile;
+  // let newmobile = "+" + dialing_code + mobile;
   console.log(newmobile);
-  var OTP = Math.floor(1000 + Math.random() * 9000);
+  var OTP = Math.floor(100000 + Math.random() * 900000);
   try {
     client.messages
       .create({
@@ -118,7 +119,9 @@ const sendSMS = async (req, res) => {
         from: process.env.TWILIO_NUMBER, // From a valid Twilio number
       })
       .then(async (message) => {
+        console.log("YFYYGUUYFGuygfyugyuyg")
         const sms = new SMS({ otp: OTP, userId: user.id, isUsed: false });
+        console.log("YFYYGUUYFGuygfyugyuyg", console.log("YFYYGUUYFGuygfyugyuyg"))
         await sms.save();
         return res.status(200).json({
           message:
@@ -137,6 +140,7 @@ const sendSMS = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   const { mobilenumber, sms, password, CPassword, dialing_code } = req.body;
+  console.log(req.body, "aga");
 
   try {
     if (password !== CPassword) {
