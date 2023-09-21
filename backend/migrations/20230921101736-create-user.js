@@ -14,7 +14,7 @@ module.exports = {
       email: { type: Sequelize.STRING, allowNull: false, unique: true },
       password: { type: Sequelize.STRING, allowNull: false },
       source: { type: Sequelize.INTEGER },
-      dialing_code: { type: Sequelize.INTEGER, allowNull: false },
+      dialing_code: { type: Sequelize.STRING, allowNull: false },
       mobilenumber: { type: Sequelize.STRING, allowNull: false, unique: true },
       createdAt: {
         allowNull: false,

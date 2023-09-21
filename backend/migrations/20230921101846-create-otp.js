@@ -1,11 +1,8 @@
-
-
-
 "use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("SMS", {
+    await queryInterface.createTable("OTPs", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -29,6 +26,7 @@ module.exports = {
         },
       },
       isUsed: { type: Sequelize.BOOLEAN, defaultValue: false },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -40,6 +38,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("SMS");
+    await queryInterface.dropTable("OTP");
   },
 };
