@@ -10,7 +10,6 @@ class API {
 
         this.http = axios.create({
             baseURL: "https://api.corisbet.com",
-            // baseURL:"http://159.65.156.19:4000/api",
             headers: { 'Content-Type': 'application/json;charset=utf-8' },
             cancelToken: this.cancelToken.token
         })
@@ -151,7 +150,6 @@ export class NewAPI {
         this.cancelToken = axios.CancelToken.source()
 
         this.http = axios.create({
-            // baseURL:"https://api.corisbet.com",
             baseURL: "http://159.65.156.19:4000/api",
             headers: { 'Content-Type': 'application/json;charset=utf-8' },
             cancelToken: this.cancelToken.token
