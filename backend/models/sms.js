@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       otp: DataTypes.STRING,
       userId: DataTypes.INTEGER,
+      isUsed: DataTypes.BOOLEAN,
     },
     {
       sequelize,
