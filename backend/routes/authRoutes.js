@@ -1,6 +1,7 @@
 const express = require("express");
 const authController = require("../controllers/authController");
 const joi_validator = require("../middleware/joi-validations");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -20,6 +21,13 @@ router.post(
   "/resetPassword",
   joi_validator.validateResetPassword,
   authController.resetPassword
+);
+
+router.post(
+  "/changePassword",
+  authMiddleware,
+  joi_validator.validateChangePassword,
+  authController.changePassword
 );
 
 module.exports = router;

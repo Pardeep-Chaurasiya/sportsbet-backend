@@ -77,17 +77,18 @@ const login = async (req, res) => {
     if (!pass) {
       return res.status(400).json({ message: "Invalid Credientials" });
     }
-    const token = await jwt.sign(
+    const AuthToken = await jwt.sign(
       { id: existUserEmail.id },
       process.env.JWT_SECRET_KEY,
       { expiresIn: "2h" }
     );
+    console.log("authToken", AuthToken);
     const date = moment().format("MMMM Do YYYY, h:mm:ss a");
     // console.log("login time", date);
     return res.status(200).json({
       code: "Success",
       message: "Login successfully",
-      token,
+      AuthToken,
     });
   } catch (error) {
     console.log(error);
@@ -175,4 +176,32 @@ const resetPassword = async (req, res) => {
   }
 };
 
-module.exports = { register, login, sendSMS, resetPassword };
+const changePassword = async (req, res) => {
+  try {
+    const { old_pass, c_password, password } = req.body;
+
+    const savedPassword = await bcrypt.compare(old_pass, req.User.password);
+    if (!savedPassword) {
+      return res.status(400).json({ message: "Old password not correct !" });
+    }
+
+    if (password !== c_password) {
+      return res
+        .status(400)
+        .json({ message: "password and confirm password does not matched !" });
+    }
+
+    const hashPassword = await bcrypt.hash(password, 10);
+
+    req.User.password = hashPassword;
+    await req.User.save();
+    return res
+      .status(200)
+      .json({ message: "Password changed successfully !!" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { register, login, sendSMS, resetPassword, changePassword };

@@ -67,9 +67,32 @@ const validateResetPassword = (req, res, next) => {
     password: Joi.string()
       .pattern(/^[a-zA-Z0-9]{5,30}$/)
       .required(),
-    dialing_code: Joi.string().required(),
+    dialing_code: Joi.string(),
     sms: Joi.string().required(),
     CPassword: Joi.string()
+      .pattern(/^[a-zA-Z0-9]{5,30}$/)
+      .required(),
+  });
+
+  const { error, value } = schema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
+
+  req.body = value;
+  return next();
+};
+
+const validateChangePassword = (req, res, next) => {
+  const schema = Joi.object({
+    password: Joi.string()
+      .pattern(/^[a-zA-Z0-9]{5,30}$/)
+      .required(),
+    c_password: Joi.string()
+      .pattern(/^[a-zA-Z0-9]{5,30}$/)
+      .required(),
+    old_pass: Joi.string()
       .pattern(/^[a-zA-Z0-9]{5,30}$/)
       .required(),
   });
@@ -89,4 +112,5 @@ module.exports = {
   validateLogin,
   validateSMS,
   validateResetPassword,
+  validateChangePassword,
 };

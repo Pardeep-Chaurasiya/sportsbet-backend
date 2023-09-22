@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/userSchema");
+const { User } = require("../models");
 
 const secretKey = process.env.JWT_SECRET_KEY;
 
 const authMiddleware = async (req, res, next) => {
   try {
-    const { AuthToken } = req.headers;
+    const AuthToken = req.headers.authtoken;
     if (!AuthToken) {
       return res.status(401).json({
         code: "Invalid-Token",
@@ -21,11 +21,7 @@ const authMiddleware = async (req, res, next) => {
         error: "Invalid token or token expired",
       });
     }
-
-    const existUser = await User.findById(decodedToken._id).select({
-      password: 0,
-    });
-
+    const existUser = await User.findByPk(decodedToken.id);
     if (!existUser) {
       return res
         .status(401)
