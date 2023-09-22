@@ -108,7 +108,8 @@ const sendSMS = async (req, res) => {
     });
   }
 
-  let newmobile = "+" + dialing_code + mobile;
+  let newmobile = dialing_code + mobile;
+  // let newmobile = "+" + dialing_code + mobile;
   console.log(newmobile);
   let Otp = Math.floor(100000 + Math.random() * 900000);
   try {
@@ -138,6 +139,7 @@ const sendSMS = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   const { mobilenumber, sms, password, CPassword, dialing_code } = req.body;
+  console.log(req.body, "aga");
 
   try {
     if (password !== CPassword) {

@@ -29,8 +29,9 @@ export default class ForgotPassword extends React.Component {
     }
   }
   resetPass() {
-    const { mobilenumber, smscode, password } = this.state
-    this.props.reset({ mobilenumber: mobilenumber, sms: smscode, password: password })
+    const { mobilenumber, smscode, password, dialing_code } = this.state;
+    const number = mobilenumber.split(dialing_code)[1]
+    this.props.reset({ mobilenumber: number, sms: smscode, password: password })
   }
   onSMSSend() {
     this.startCountDown()

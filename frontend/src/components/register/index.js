@@ -412,8 +412,8 @@ export default class RegisterFrom extends React.Component {
       //     if (data.status === 200) {
       this.attemptSignup();
       // this.props.onClose()
-      alert("User register successfully ..")
       this.props.changeForm({ formType: "login" })
+      alert("User register successfully ..")
       // } else {
       //   this.setState({
       //     accountExist: true,
