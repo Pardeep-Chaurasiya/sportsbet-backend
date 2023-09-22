@@ -325,7 +325,6 @@ class Header extends React.Component {
       });
 
     }
-    console.log(appState.isLoggedIn, "isLoggedIn");
     return (
       <div
         className={`header-container ${this.props.casinoMode.playMode && "fullscreen"

@@ -82,6 +82,7 @@ export default class AccVerifyModal extends React.Component {
     else this.props.dispatch(allActionDucer(MODAL, { sendingSMS: false, smsHasError: true, smsErrorMSG: data.msg }))
   }
   onResetSuccess(data, success) {
+
     if (data.status === 200) {
       this.props.dispatch(allActionDucer(MODAL, { attemptingPassReset: false, resetHasError: false, resetErrorMSG: '' }))
       success()

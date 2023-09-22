@@ -300,7 +300,7 @@ export default class Main extends React.PureComponent {
     const userId = getCookie("id"),
       authToken = getCookie("AuthToken"),
       odd_format = dataStorage("odds_format", {}, 3);
-    if (userId !== undefined && authToken !== undefined) { 
+    if (userId !== undefined && authToken !== undefined) {
       this.getUserBalanceMain();
       this.props.dispatch(appStateActionDucer(LOGIN, { isLoggedIn: true }));
     }
@@ -386,7 +386,7 @@ export default class Main extends React.PureComponent {
           .then(() => {
             this.setState({ isInternetAvail: true }, () => {
               return clearInterval(this.webPing);
-            }); 
+            });
           })
           .catch(() => this.setState({ isInternetAvail: true }));
       }, 2000);
@@ -866,8 +866,8 @@ export default class Main extends React.PureComponent {
           ? data.data.details.hasOwnProperty("api_code")
             ? data.data.details.api_code
             : data.data.result
-            ? data.data.result
-            : 50000
+              ? data.data.result
+              : 50000
           : 50000
       );
     }
@@ -965,21 +965,21 @@ export default class Main extends React.PureComponent {
       } else if (viewmode === 3) {
         sport
           ? dispatch(
-              allActionDucer(SPORTSBOOK_ANY, {
-                sportsubid: data.subid,
-                data: data.data,
-                subscriptions: subscriptions,
-                loadSports: false,
-              })
-            )
+            allActionDucer(SPORTSBOOK_ANY, {
+              sportsubid: data.subid,
+              data: data.data,
+              subscriptions: subscriptions,
+              loadSports: false,
+            })
+          )
           : dispatch(
-              allActionDucer(SPORTSBOOK_ANY, {
-                sportsubid: data.subid,
-                data: [],
-                subscriptions: subscriptions,
-                loadSports: false,
-              })
-            );
+            allActionDucer(SPORTSBOOK_ANY, {
+              sportsubid: data.subid,
+              data: [],
+              subscriptions: subscriptions,
+              loadSports: false,
+            })
+          );
       }
     } else
       dispatch(
@@ -1265,7 +1265,7 @@ export default class Main extends React.PureComponent {
   }
   addEventToSelection(game, market, event, { sport, region, competition }) {
     let { isQuickBet, betSelections, selectionSub, quickBetStake, oddType } =
-        this.props.sportsbook,
+      this.props.sportsbook,
       dispatch = this.props.dispatch;
     if (!isQuickBet) {
       betSelections = { ...betSelections };
@@ -1374,7 +1374,7 @@ export default class Main extends React.PureComponent {
           processing: false,
           singlePosWin:
             betSelections[market.id] &&
-            betSelections[market.id].singleStake !== ""
+              betSelections[market.id].singleStake !== ""
               ? event.price * betSelections[market.id].singleStake
               : 0,
           singleStake: "",
@@ -1392,8 +1392,8 @@ export default class Main extends React.PureComponent {
       betSlen > 1
         ? (stateData.betMode = 2)
         : betSlen < 1
-        ? (stateData.betStake = 0)
-        : (stateData.betMode = 1);
+          ? (stateData.betStake = 0)
+          : (stateData.betMode = 1);
 
       if (selectionSub) {
         this.unsubscribe(selectionSub);
@@ -1410,14 +1410,14 @@ export default class Main extends React.PureComponent {
       if (quickBetStake > 0) {
         const profile = this.props.profile;
         let isLowBalance =
-            (profile.bonus === "0.00" &&
-              parseFloat(profile.balance).toFixed(2) < quickBetStake) ||
+          (profile.bonus === "0.00" &&
+            parseFloat(profile.balance).toFixed(2) < quickBetStake) ||
             (parseFloat(profile.bonus) > 0 &&
               parseFloat(
                 profile.games.split(",").includes("1") ? profile.bonus : "0"
               ).toFixed(2) < quickBetStake)
-              ? true
-              : false,
+            ? true
+            : false,
           state = {};
         if (isLowBalance) {
           state.showBetSlipNoty = isLowBalance;
@@ -1529,7 +1529,7 @@ export default class Main extends React.PureComponent {
                           if (
                             !(
                               data.sport[gameID][gameItem][
-                                marketEventId
+                              marketEventId
                               ] instanceof Object
                             )
                           ) {
@@ -1546,94 +1546,94 @@ export default class Main extends React.PureComponent {
                             ).forEach((EventId) => {
                               if (
                                 sportData.sport[gameID][gameItem][
-                                  marketEventId
+                                marketEventId
                                 ][EventId]
                               ) {
                                 if (
                                   !(
                                     data.sport[gameID][gameItem][marketEventId][
-                                      EventId
+                                    EventId
                                     ] instanceof Object
                                   )
                                 ) {
                                   if (
                                     data.sport[gameID][gameItem][marketEventId][
-                                      EventId
+                                    EventId
                                     ] !==
                                     sportData.sport[gameID][gameItem][
-                                      marketEventId
+                                    marketEventId
                                     ][EventId]
                                   ) {
                                     sportData.sport[gameID][gameItem][
                                       marketEventId
                                     ][EventId] =
                                       data.sport[gameID][gameItem][
-                                        marketEventId
+                                      marketEventId
                                       ][EventId];
                                   }
                                 } else {
                                   Object.keys(
                                     data.sport[gameID][gameItem][marketEventId][
-                                      EventId
+                                    EventId
                                     ]
                                   ).forEach((eventKey) => {
                                     if (
                                       sportData.sport[gameID][gameItem][
-                                        marketEventId
+                                      marketEventId
                                       ][EventId][eventKey]
                                     ) {
                                       if (
                                         !(
                                           data.sport[gameID][gameItem][
-                                            marketEventId
+                                          marketEventId
                                           ][EventId][eventKey] instanceof Object
                                         )
                                       ) {
                                         if (
                                           data.sport[gameID][gameItem][
-                                            marketEventId
+                                          marketEventId
                                           ][EventId][eventKey] !==
                                           sportData.sport[gameID][gameItem][
-                                            marketEventId
+                                          marketEventId
                                           ][EventId][eventKey]
                                         ) {
                                           sportData.sport[gameID][gameItem][
                                             marketEventId
                                           ][EventId][eventKey] =
                                             data.sport[gameID][gameItem][
-                                              marketEventId
+                                            marketEventId
                                             ][EventId][eventKey];
                                         }
                                       } else {
                                         Object.keys(
                                           data.sport[gameID][gameItem][
-                                            marketEventId
+                                          marketEventId
                                           ][EventId][eventKey]
                                         ).forEach((eventKey1) => {
                                           if (
                                             sportData.sport[gameID][gameItem][
-                                              marketEventId
+                                            marketEventId
                                             ][EventId][eventKey][eventKey1]
                                           ) {
                                             if (
                                               !(
                                                 data.sport[gameID][gameItem][
-                                                  marketEventId
+                                                marketEventId
                                                 ][EventId][eventKey][
-                                                  eventKey1
+                                                eventKey1
                                                 ] instanceof Object
                                               )
                                             ) {
                                               if (
                                                 data.sport[gameID][gameItem][
-                                                  marketEventId
+                                                marketEventId
                                                 ][EventId][eventKey][
-                                                  eventKey1
+                                                eventKey1
                                                 ] !==
                                                 sportData.sport[gameID][
-                                                  gameItem
+                                                gameItem
                                                 ][marketEventId][EventId][
-                                                  eventKey
+                                                eventKey
                                                 ][eventKey1]
                                               ) {
                                                 sportData.sport[gameID][
@@ -1642,41 +1642,41 @@ export default class Main extends React.PureComponent {
                                                   eventKey
                                                 ][eventKey1] =
                                                   data.sport[gameID][gameItem][
-                                                    marketEventId
+                                                  marketEventId
                                                   ][EventId][eventKey][
-                                                    eventKey1
+                                                  eventKey1
                                                   ];
                                               }
                                             } else {
                                               Object.keys(
                                                 data.sport[gameID][gameItem][
-                                                  marketEventId
+                                                marketEventId
                                                 ][EventId][eventKey][eventKey1]
                                               ).forEach((eventKey2) => {
                                                 if (
                                                   sportData.sport[gameID][
-                                                    gameItem
+                                                  gameItem
                                                   ][marketEventId][EventId][
-                                                    eventKey
+                                                  eventKey
                                                   ][eventKey1][eventKey2]
                                                 ) {
                                                   if (
                                                     !(
                                                       data.sport[gameID][
-                                                        gameItem
+                                                      gameItem
                                                       ][marketEventId][EventId][
-                                                        eventKey
+                                                      eventKey
                                                       ][eventKey1][
-                                                        eventKey2
+                                                      eventKey2
                                                       ] instanceof Object
                                                     )
                                                   ) {
                                                     if (
                                                       null ===
                                                       data.sport[gameID][
-                                                        gameItem
+                                                      gameItem
                                                       ][marketEventId][EventId][
-                                                        eventKey
+                                                      eventKey
                                                       ][eventKey1][eventKey2]
                                                     ) {
                                                       // toDo : load new live game
@@ -1684,8 +1684,8 @@ export default class Main extends React.PureComponent {
                                                       if (
                                                         this.state.activeGame &&
                                                         eventKey2 ===
-                                                          this.state.activeGame
-                                                            .id
+                                                        this.state.activeGame
+                                                          .id
                                                       ) {
                                                         this.setState({
                                                           activeGameSuspended: true,
@@ -1694,16 +1694,16 @@ export default class Main extends React.PureComponent {
                                                     }
                                                     if (
                                                       data.sport[gameID][
-                                                        gameItem
+                                                      gameItem
                                                       ][marketEventId][EventId][
-                                                        eventKey
+                                                      eventKey
                                                       ][eventKey1][
-                                                        eventKey2
+                                                      eventKey2
                                                       ] !==
                                                       sportData.sport[gameID][
-                                                        gameItem
+                                                      gameItem
                                                       ][marketEventId][EventId][
-                                                        eventKey
+                                                      eventKey
                                                       ][eventKey1][eventKey2]
                                                     ) {
                                                       sportData.sport[gameID][
@@ -1712,18 +1712,18 @@ export default class Main extends React.PureComponent {
                                                         eventKey
                                                       ][eventKey1][eventKey2] =
                                                         data.sport[gameID][
-                                                          gameItem
+                                                        gameItem
                                                         ][marketEventId][
-                                                          EventId
+                                                        EventId
                                                         ][eventKey][eventKey1][
-                                                          eventKey2
+                                                        eventKey2
                                                         ];
 
                                                       if (
                                                         this.state.activeGame &&
                                                         eventKey2 ===
-                                                          this.state.activeGame
-                                                            .id &&
+                                                        this.state.activeGame
+                                                          .id &&
                                                         this.state
                                                           .activeGameSuspended
                                                       ) {
@@ -1735,51 +1735,51 @@ export default class Main extends React.PureComponent {
                                                   } else {
                                                     Object.keys(
                                                       data.sport[gameID][
-                                                        gameItem
+                                                      gameItem
                                                       ][marketEventId][EventId][
-                                                        eventKey
+                                                      eventKey
                                                       ][eventKey1][eventKey2]
                                                     ).forEach((eventKey3) => {
                                                       if (
                                                         sportData.sport[gameID][
-                                                          gameItem
+                                                        gameItem
                                                         ][marketEventId][
-                                                          EventId
+                                                        EventId
                                                         ][eventKey][eventKey1][
-                                                          eventKey2
+                                                        eventKey2
                                                         ][eventKey3]
                                                       ) {
                                                         if (
                                                           !(
                                                             data.sport[gameID][
-                                                              gameItem
+                                                            gameItem
                                                             ][marketEventId][
-                                                              EventId
+                                                            EventId
                                                             ][eventKey][
-                                                              eventKey1
+                                                            eventKey1
                                                             ][eventKey2][
-                                                              eventKey3
+                                                            eventKey3
                                                             ] instanceof Object
                                                           )
                                                         ) {
                                                           if (
                                                             data.sport[gameID][
-                                                              gameItem
+                                                            gameItem
                                                             ][marketEventId][
-                                                              EventId
+                                                            EventId
                                                             ][eventKey][
-                                                              eventKey1
+                                                            eventKey1
                                                             ][eventKey2][
-                                                              eventKey3
+                                                            eventKey3
                                                             ] !==
                                                             sportData.sport[
-                                                              gameID
+                                                            gameID
                                                             ][gameItem][
-                                                              marketEventId
+                                                            marketEventId
                                                             ][EventId][
-                                                              eventKey
+                                                            eventKey
                                                             ][eventKey1][
-                                                              eventKey2
+                                                            eventKey2
                                                             ][eventKey3]
                                                           ) {
                                                             sportData.sport[
@@ -1792,90 +1792,90 @@ export default class Main extends React.PureComponent {
                                                               eventKey2
                                                             ][eventKey3] =
                                                               data.sport[
-                                                                gameID
+                                                              gameID
                                                               ][gameItem][
-                                                                marketEventId
+                                                              marketEventId
                                                               ][EventId][
-                                                                eventKey
+                                                              eventKey
                                                               ][eventKey1][
-                                                                eventKey2
+                                                              eventKey2
                                                               ][eventKey3];
                                                           }
                                                         } else {
                                                           Object.keys(
                                                             data.sport[gameID][
-                                                              gameItem
+                                                            gameItem
                                                             ][marketEventId][
-                                                              EventId
+                                                            EventId
                                                             ][eventKey][
-                                                              eventKey1
+                                                            eventKey1
                                                             ][eventKey2][
-                                                              eventKey3
+                                                            eventKey3
                                                             ]
                                                           ).forEach(
                                                             (eventKey4) => {
                                                               if (
                                                                 sportData.sport[
-                                                                  gameID
+                                                                gameID
                                                                 ][gameItem][
-                                                                  marketEventId
+                                                                marketEventId
                                                                 ][EventId][
-                                                                  eventKey
+                                                                eventKey
                                                                 ][eventKey1][
-                                                                  eventKey2
+                                                                eventKey2
                                                                 ][eventKey3][
-                                                                  eventKey4
+                                                                eventKey4
                                                                 ]
                                                               ) {
                                                                 if (
                                                                   !(
                                                                     data.sport[
-                                                                      gameID
+                                                                    gameID
                                                                     ][gameItem][
-                                                                      marketEventId
+                                                                    marketEventId
                                                                     ][EventId][
-                                                                      eventKey
+                                                                    eventKey
                                                                     ][
-                                                                      eventKey1
+                                                                    eventKey1
                                                                     ][
-                                                                      eventKey2
+                                                                    eventKey2
                                                                     ][
-                                                                      eventKey3
+                                                                    eventKey3
                                                                     ][
-                                                                      eventKey4
+                                                                    eventKey4
                                                                     ] instanceof
                                                                     Object
                                                                   )
                                                                 ) {
                                                                   if (
                                                                     data.sport[
-                                                                      gameID
+                                                                    gameID
                                                                     ][gameItem][
-                                                                      marketEventId
+                                                                    marketEventId
                                                                     ][EventId][
-                                                                      eventKey
+                                                                    eventKey
                                                                     ][
-                                                                      eventKey1
+                                                                    eventKey1
                                                                     ][
-                                                                      eventKey2
+                                                                    eventKey2
                                                                     ][
-                                                                      eventKey3
+                                                                    eventKey3
                                                                     ][
-                                                                      eventKey4
+                                                                    eventKey4
                                                                     ] !==
                                                                     sportData
                                                                       .sport[
-                                                                      gameID
+                                                                    gameID
                                                                     ][gameItem][
-                                                                      marketEventId
+                                                                    marketEventId
                                                                     ][EventId][
-                                                                      eventKey
+                                                                    eventKey
                                                                     ][
-                                                                      eventKey1
+                                                                    eventKey1
                                                                     ][
-                                                                      eventKey2
+                                                                    eventKey2
                                                                     ][
-                                                                      eventKey3
+                                                                    eventKey3
                                                                     ][eventKey4]
                                                                   ) {
                                                                     sportData.sport[
@@ -1894,39 +1894,39 @@ export default class Main extends React.PureComponent {
                                                                       eventKey4
                                                                     ] =
                                                                       data.sport[
-                                                                        gameID
+                                                                      gameID
                                                                       ][
-                                                                        gameItem
+                                                                      gameItem
                                                                       ][
-                                                                        marketEventId
+                                                                      marketEventId
                                                                       ][
-                                                                        EventId
+                                                                      EventId
                                                                       ][
-                                                                        eventKey
+                                                                      eventKey
                                                                       ][
-                                                                        eventKey1
+                                                                      eventKey1
                                                                       ][
-                                                                        eventKey2
+                                                                      eventKey2
                                                                       ][
-                                                                        eventKey3
+                                                                      eventKey3
                                                                       ][
-                                                                        eventKey4
+                                                                      eventKey4
                                                                       ];
                                                                   }
                                                                 } else {
                                                                   Object.keys(
                                                                     data.sport[
-                                                                      gameID
+                                                                    gameID
                                                                     ][gameItem][
-                                                                      marketEventId
+                                                                    marketEventId
                                                                     ][EventId][
-                                                                      eventKey
+                                                                    eventKey
                                                                     ][
-                                                                      eventKey1
+                                                                    eventKey1
                                                                     ][
-                                                                      eventKey2
+                                                                    eventKey2
                                                                     ][
-                                                                      eventKey3
+                                                                    eventKey3
                                                                     ][eventKey4]
                                                                   ).forEach(
                                                                     (
@@ -1935,50 +1935,50 @@ export default class Main extends React.PureComponent {
                                                                       if (
                                                                         sportData
                                                                           .sport[
-                                                                          gameID
+                                                                        gameID
                                                                         ][
-                                                                          gameItem
+                                                                        gameItem
                                                                         ][
-                                                                          marketEventId
+                                                                        marketEventId
                                                                         ][
-                                                                          EventId
+                                                                        EventId
                                                                         ][
-                                                                          eventKey
+                                                                        eventKey
                                                                         ][
-                                                                          eventKey1
+                                                                        eventKey1
                                                                         ][
-                                                                          eventKey2
+                                                                        eventKey2
                                                                         ][
-                                                                          eventKey3
+                                                                        eventKey3
                                                                         ][
-                                                                          eventKey4
+                                                                        eventKey4
                                                                         ][
-                                                                          eventKey5
+                                                                        eventKey5
                                                                         ]
                                                                       ) {
                                                                         if (
                                                                           !(
                                                                             data
                                                                               .sport[
-                                                                              gameID
+                                                                            gameID
                                                                             ][
-                                                                              gameItem
+                                                                            gameItem
                                                                             ][
-                                                                              marketEventId
+                                                                            marketEventId
                                                                             ][
-                                                                              EventId
+                                                                            EventId
                                                                             ][
-                                                                              eventKey
+                                                                            eventKey
                                                                             ][
-                                                                              eventKey1
+                                                                            eventKey1
                                                                             ][
-                                                                              eventKey2
+                                                                            eventKey2
                                                                             ][
-                                                                              eventKey3
+                                                                            eventKey3
                                                                             ][
-                                                                              eventKey4
+                                                                            eventKey4
                                                                             ][
-                                                                              eventKey5
+                                                                            eventKey5
                                                                             ] instanceof
                                                                             Object
                                                                           )
@@ -1986,47 +1986,47 @@ export default class Main extends React.PureComponent {
                                                                           if (
                                                                             data
                                                                               .sport[
-                                                                              gameID
+                                                                            gameID
                                                                             ][
-                                                                              gameItem
+                                                                            gameItem
                                                                             ][
-                                                                              marketEventId
+                                                                            marketEventId
                                                                             ][
-                                                                              EventId
+                                                                            EventId
                                                                             ][
-                                                                              eventKey
+                                                                            eventKey
                                                                             ][
-                                                                              eventKey1
+                                                                            eventKey1
                                                                             ][
-                                                                              eventKey2
+                                                                            eventKey2
                                                                             ][
-                                                                              eventKey3
+                                                                            eventKey3
                                                                             ][
-                                                                              eventKey4
+                                                                            eventKey4
                                                                             ][
-                                                                              eventKey5
+                                                                            eventKey5
                                                                             ] !==
                                                                             sportData
                                                                               .sport[
-                                                                              gameID
+                                                                            gameID
                                                                             ][
-                                                                              gameItem
+                                                                            gameItem
                                                                             ][
-                                                                              marketEventId
+                                                                            marketEventId
                                                                             ][
-                                                                              EventId
+                                                                            EventId
                                                                             ][
-                                                                              eventKey
+                                                                            eventKey
                                                                             ][
-                                                                              eventKey1
+                                                                            eventKey1
                                                                             ][
-                                                                              eventKey2
+                                                                            eventKey2
                                                                             ][
-                                                                              eventKey3
+                                                                            eventKey3
                                                                             ][
-                                                                              eventKey4
+                                                                            eventKey4
                                                                             ][
-                                                                              eventKey5
+                                                                            eventKey5
                                                                             ]
                                                                           ) {
                                                                             sportData.sport[
@@ -2051,50 +2051,50 @@ export default class Main extends React.PureComponent {
                                                                               eventKey5
                                                                             ] =
                                                                               data.sport[
-                                                                                gameID
+                                                                              gameID
                                                                               ][
-                                                                                gameItem
+                                                                              gameItem
                                                                               ][
-                                                                                marketEventId
+                                                                              marketEventId
                                                                               ][
-                                                                                EventId
+                                                                              EventId
                                                                               ][
-                                                                                eventKey
+                                                                              eventKey
                                                                               ][
-                                                                                eventKey1
+                                                                              eventKey1
                                                                               ][
-                                                                                eventKey2
+                                                                              eventKey2
                                                                               ][
-                                                                                eventKey3
+                                                                              eventKey3
                                                                               ][
-                                                                                eventKey4
+                                                                              eventKey4
                                                                               ][
-                                                                                eventKey5
+                                                                              eventKey5
                                                                               ];
                                                                           }
                                                                         } else {
                                                                           Object.keys(
                                                                             data
                                                                               .sport[
-                                                                              gameID
+                                                                            gameID
                                                                             ][
-                                                                              gameItem
+                                                                            gameItem
                                                                             ][
-                                                                              marketEventId
+                                                                            marketEventId
                                                                             ][
-                                                                              EventId
+                                                                            EventId
                                                                             ][
-                                                                              eventKey
+                                                                            eventKey
                                                                             ][
-                                                                              eventKey1
+                                                                            eventKey1
                                                                             ][
-                                                                              eventKey2
+                                                                            eventKey2
                                                                             ][
-                                                                              eventKey3
+                                                                            eventKey3
                                                                             ][
-                                                                              eventKey4
+                                                                            eventKey4
                                                                             ][
-                                                                              eventKey5
+                                                                            eventKey5
                                                                             ]
                                                                           ).forEach(
                                                                             (
@@ -2103,54 +2103,54 @@ export default class Main extends React.PureComponent {
                                                                               if (
                                                                                 sportData
                                                                                   .sport[
-                                                                                  gameID
+                                                                                gameID
                                                                                 ][
-                                                                                  gameItem
+                                                                                gameItem
                                                                                 ][
-                                                                                  marketEventId
+                                                                                marketEventId
                                                                                 ][
-                                                                                  EventId
+                                                                                EventId
                                                                                 ][
-                                                                                  eventKey
+                                                                                eventKey
                                                                                 ][
-                                                                                  eventKey1
+                                                                                eventKey1
                                                                                 ][
-                                                                                  eventKey2
+                                                                                eventKey2
                                                                                 ][
-                                                                                  eventKey3
+                                                                                eventKey3
                                                                                 ][
-                                                                                  eventKey4
+                                                                                eventKey4
                                                                                 ][
-                                                                                  eventKey5
+                                                                                eventKey5
                                                                                 ][
-                                                                                  eventKey6
+                                                                                eventKey6
                                                                                 ]
                                                                               ) {
                                                                                 if (
                                                                                   !(
                                                                                     data
                                                                                       .sport[
-                                                                                      gameID
+                                                                                    gameID
                                                                                     ][
-                                                                                      gameItem
+                                                                                    gameItem
                                                                                     ][
-                                                                                      marketEventId
+                                                                                    marketEventId
                                                                                     ][
-                                                                                      EventId
+                                                                                    EventId
                                                                                     ][
-                                                                                      eventKey
+                                                                                    eventKey
                                                                                     ][
-                                                                                      eventKey1
+                                                                                    eventKey1
                                                                                     ][
-                                                                                      eventKey2
+                                                                                    eventKey2
                                                                                     ][
-                                                                                      eventKey3
+                                                                                    eventKey3
                                                                                     ][
-                                                                                      eventKey4
+                                                                                    eventKey4
                                                                                     ][
-                                                                                      eventKey5
+                                                                                    eventKey5
                                                                                     ][
-                                                                                      eventKey6
+                                                                                    eventKey6
                                                                                     ] instanceof
                                                                                     Object
                                                                                   )
@@ -2158,51 +2158,51 @@ export default class Main extends React.PureComponent {
                                                                                   if (
                                                                                     data
                                                                                       .sport[
-                                                                                      gameID
+                                                                                    gameID
                                                                                     ][
-                                                                                      gameItem
+                                                                                    gameItem
                                                                                     ][
-                                                                                      marketEventId
+                                                                                    marketEventId
                                                                                     ][
-                                                                                      EventId
+                                                                                    EventId
                                                                                     ][
-                                                                                      eventKey
+                                                                                    eventKey
                                                                                     ][
-                                                                                      eventKey1
+                                                                                    eventKey1
                                                                                     ][
-                                                                                      eventKey2
+                                                                                    eventKey2
                                                                                     ][
-                                                                                      eventKey3
+                                                                                    eventKey3
                                                                                     ][
-                                                                                      eventKey4
+                                                                                    eventKey4
                                                                                     ][
-                                                                                      eventKey5
+                                                                                    eventKey5
                                                                                     ][
-                                                                                      eventKey6
+                                                                                    eventKey6
                                                                                     ] !==
                                                                                     sportData
                                                                                       .sport[
-                                                                                      gameID
+                                                                                    gameID
                                                                                     ][
-                                                                                      gameItem
+                                                                                    gameItem
                                                                                     ][
-                                                                                      marketEventId
+                                                                                    marketEventId
                                                                                     ][
-                                                                                      EventId
+                                                                                    EventId
                                                                                     ][
-                                                                                      eventKey
+                                                                                    eventKey
                                                                                     ][
-                                                                                      eventKey1
+                                                                                    eventKey1
                                                                                     ][
-                                                                                      eventKey2
+                                                                                    eventKey2
                                                                                     ][
-                                                                                      eventKey3
+                                                                                    eventKey3
                                                                                     ][
-                                                                                      eventKey4
+                                                                                    eventKey4
                                                                                     ][
-                                                                                      eventKey5
+                                                                                    eventKey5
                                                                                     ][
-                                                                                      eventKey6
+                                                                                    eventKey6
                                                                                     ]
                                                                                   ) {
                                                                                     sportData.sport[
@@ -2229,54 +2229,54 @@ export default class Main extends React.PureComponent {
                                                                                       eventKey6
                                                                                     ] =
                                                                                       data.sport[
-                                                                                        gameID
+                                                                                      gameID
                                                                                       ][
-                                                                                        gameItem
+                                                                                      gameItem
                                                                                       ][
-                                                                                        marketEventId
+                                                                                      marketEventId
                                                                                       ][
-                                                                                        EventId
+                                                                                      EventId
                                                                                       ][
-                                                                                        eventKey
+                                                                                      eventKey
                                                                                       ][
-                                                                                        eventKey1
+                                                                                      eventKey1
                                                                                       ][
-                                                                                        eventKey2
+                                                                                      eventKey2
                                                                                       ][
-                                                                                        eventKey3
+                                                                                      eventKey3
                                                                                       ][
-                                                                                        eventKey4
+                                                                                      eventKey4
                                                                                       ][
-                                                                                        eventKey5
+                                                                                      eventKey5
                                                                                       ][
-                                                                                        eventKey6
+                                                                                      eventKey6
                                                                                       ];
                                                                                   }
                                                                                 } else {
                                                                                   Object.keys(
                                                                                     data
                                                                                       .sport[
-                                                                                      gameID
+                                                                                    gameID
                                                                                     ][
-                                                                                      gameItem
+                                                                                    gameItem
                                                                                     ][
-                                                                                      marketEventId
+                                                                                    marketEventId
                                                                                     ][
-                                                                                      EventId
+                                                                                    EventId
                                                                                     ][
-                                                                                      eventKey
+                                                                                    eventKey
                                                                                     ][
-                                                                                      eventKey1
+                                                                                    eventKey1
                                                                                     ][
-                                                                                      eventKey2
+                                                                                    eventKey2
                                                                                     ][
-                                                                                      eventKey3
+                                                                                    eventKey3
                                                                                     ][
-                                                                                      eventKey4
+                                                                                    eventKey4
                                                                                     ][
-                                                                                      eventKey5
+                                                                                    eventKey5
                                                                                     ][
-                                                                                      eventKey6
+                                                                                    eventKey6
                                                                                     ]
                                                                                   ).forEach(
                                                                                     (
@@ -2285,58 +2285,58 @@ export default class Main extends React.PureComponent {
                                                                                       if (
                                                                                         sportData
                                                                                           .sport[
-                                                                                          gameID
+                                                                                        gameID
                                                                                         ][
-                                                                                          gameItem
+                                                                                        gameItem
                                                                                         ][
-                                                                                          marketEventId
+                                                                                        marketEventId
                                                                                         ][
-                                                                                          EventId
+                                                                                        EventId
                                                                                         ][
-                                                                                          eventKey
+                                                                                        eventKey
                                                                                         ][
-                                                                                          eventKey1
+                                                                                        eventKey1
                                                                                         ][
-                                                                                          eventKey2
+                                                                                        eventKey2
                                                                                         ][
-                                                                                          eventKey3
+                                                                                        eventKey3
                                                                                         ][
-                                                                                          eventKey4
+                                                                                        eventKey4
                                                                                         ][
-                                                                                          eventKey5
+                                                                                        eventKey5
                                                                                         ][
-                                                                                          eventKey6
+                                                                                        eventKey6
                                                                                         ][
-                                                                                          eventKey7
+                                                                                        eventKey7
                                                                                         ]
                                                                                       ) {
                                                                                         if (
                                                                                           !(
                                                                                             data
                                                                                               .sport[
-                                                                                              gameID
+                                                                                            gameID
                                                                                             ][
-                                                                                              gameItem
+                                                                                            gameItem
                                                                                             ][
-                                                                                              marketEventId
+                                                                                            marketEventId
                                                                                             ][
-                                                                                              EventId
+                                                                                            EventId
                                                                                             ][
-                                                                                              eventKey
+                                                                                            eventKey
                                                                                             ][
-                                                                                              eventKey1
+                                                                                            eventKey1
                                                                                             ][
-                                                                                              eventKey2
+                                                                                            eventKey2
                                                                                             ][
-                                                                                              eventKey3
+                                                                                            eventKey3
                                                                                             ][
-                                                                                              eventKey4
+                                                                                            eventKey4
                                                                                             ][
-                                                                                              eventKey5
+                                                                                            eventKey5
                                                                                             ][
-                                                                                              eventKey6
+                                                                                            eventKey6
                                                                                             ][
-                                                                                              eventKey7
+                                                                                            eventKey7
                                                                                             ] instanceof
                                                                                             Object
                                                                                           )
@@ -2344,55 +2344,55 @@ export default class Main extends React.PureComponent {
                                                                                           if (
                                                                                             data
                                                                                               .sport[
-                                                                                              gameID
+                                                                                            gameID
                                                                                             ][
-                                                                                              gameItem
+                                                                                            gameItem
                                                                                             ][
-                                                                                              marketEventId
+                                                                                            marketEventId
                                                                                             ][
-                                                                                              EventId
+                                                                                            EventId
                                                                                             ][
-                                                                                              eventKey
+                                                                                            eventKey
                                                                                             ][
-                                                                                              eventKey1
+                                                                                            eventKey1
                                                                                             ][
-                                                                                              eventKey2
+                                                                                            eventKey2
                                                                                             ][
-                                                                                              eventKey3
+                                                                                            eventKey3
                                                                                             ][
-                                                                                              eventKey4
+                                                                                            eventKey4
                                                                                             ][
-                                                                                              eventKey5
+                                                                                            eventKey5
                                                                                             ][
-                                                                                              eventKey6
+                                                                                            eventKey6
                                                                                             ][
-                                                                                              eventKey7
+                                                                                            eventKey7
                                                                                             ] !==
                                                                                             sportData
                                                                                               .sport[
-                                                                                              gameID
+                                                                                            gameID
                                                                                             ][
-                                                                                              gameItem
+                                                                                            gameItem
                                                                                             ][
-                                                                                              marketEventId
+                                                                                            marketEventId
                                                                                             ][
-                                                                                              EventId
+                                                                                            EventId
                                                                                             ][
-                                                                                              eventKey
+                                                                                            eventKey
                                                                                             ][
-                                                                                              eventKey1
+                                                                                            eventKey1
                                                                                             ][
-                                                                                              eventKey2
+                                                                                            eventKey2
                                                                                             ][
-                                                                                              eventKey3
+                                                                                            eventKey3
                                                                                             ][
-                                                                                              eventKey4
+                                                                                            eventKey4
                                                                                             ][
-                                                                                              eventKey5
+                                                                                            eventKey5
                                                                                             ][
-                                                                                              eventKey6
+                                                                                            eventKey6
                                                                                             ][
-                                                                                              eventKey7
+                                                                                            eventKey7
                                                                                             ]
                                                                                           ) {
                                                                                             sportData.sport[
@@ -2419,29 +2419,29 @@ export default class Main extends React.PureComponent {
                                                                                               eventKey6
                                                                                             ].initialPrice =
                                                                                               sportData.sport[
-                                                                                                gameID
+                                                                                              gameID
                                                                                               ][
-                                                                                                gameItem
+                                                                                              gameItem
                                                                                               ][
-                                                                                                marketEventId
+                                                                                              marketEventId
                                                                                               ][
-                                                                                                EventId
+                                                                                              EventId
                                                                                               ][
-                                                                                                eventKey
+                                                                                              eventKey
                                                                                               ][
-                                                                                                eventKey1
+                                                                                              eventKey1
                                                                                               ][
-                                                                                                eventKey2
+                                                                                              eventKey2
                                                                                               ][
-                                                                                                eventKey3
+                                                                                              eventKey3
                                                                                               ][
-                                                                                                eventKey4
+                                                                                              eventKey4
                                                                                               ][
-                                                                                                eventKey5
+                                                                                              eventKey5
                                                                                               ][
-                                                                                                eventKey6
+                                                                                              eventKey6
                                                                                               ][
-                                                                                                eventKey7
+                                                                                              eventKey7
                                                                                               ];
                                                                                             sportData.sport[
                                                                                               gameID
@@ -2469,58 +2469,58 @@ export default class Main extends React.PureComponent {
                                                                                               eventKey7
                                                                                             ] =
                                                                                               data.sport[
-                                                                                                gameID
+                                                                                              gameID
                                                                                               ][
-                                                                                                gameItem
+                                                                                              gameItem
                                                                                               ][
-                                                                                                marketEventId
+                                                                                              marketEventId
                                                                                               ][
-                                                                                                EventId
+                                                                                              EventId
                                                                                               ][
-                                                                                                eventKey
+                                                                                              eventKey
                                                                                               ][
-                                                                                                eventKey1
+                                                                                              eventKey1
                                                                                               ][
-                                                                                                eventKey2
+                                                                                              eventKey2
                                                                                               ][
-                                                                                                eventKey3
+                                                                                              eventKey3
                                                                                               ][
-                                                                                                eventKey4
+                                                                                              eventKey4
                                                                                               ][
-                                                                                                eventKey5
+                                                                                              eventKey5
                                                                                               ][
-                                                                                                eventKey6
+                                                                                              eventKey6
                                                                                               ][
-                                                                                                eventKey7
+                                                                                              eventKey7
                                                                                               ];
                                                                                           }
                                                                                         } else {
                                                                                           Object.keys(
                                                                                             data
                                                                                               .sport[
-                                                                                              gameID
+                                                                                            gameID
                                                                                             ][
-                                                                                              gameItem
+                                                                                            gameItem
                                                                                             ][
-                                                                                              marketEventId
+                                                                                            marketEventId
                                                                                             ][
-                                                                                              EventId
+                                                                                            EventId
                                                                                             ][
-                                                                                              eventKey
+                                                                                            eventKey
                                                                                             ][
-                                                                                              eventKey1
+                                                                                            eventKey1
                                                                                             ][
-                                                                                              eventKey2
+                                                                                            eventKey2
                                                                                             ][
-                                                                                              eventKey3
+                                                                                            eventKey3
                                                                                             ][
-                                                                                              eventKey4
+                                                                                            eventKey4
                                                                                             ][
-                                                                                              eventKey5
+                                                                                            eventKey5
                                                                                             ][
-                                                                                              eventKey6
+                                                                                            eventKey6
                                                                                             ][
-                                                                                              eventKey7
+                                                                                            eventKey7
                                                                                             ]
                                                                                           ).forEach(
                                                                                             (
@@ -2529,62 +2529,62 @@ export default class Main extends React.PureComponent {
                                                                                               if (
                                                                                                 sportData
                                                                                                   .sport[
-                                                                                                  gameID
+                                                                                                gameID
                                                                                                 ][
-                                                                                                  gameItem
+                                                                                                gameItem
                                                                                                 ][
-                                                                                                  marketEventId
+                                                                                                marketEventId
                                                                                                 ][
-                                                                                                  EventId
+                                                                                                EventId
                                                                                                 ][
-                                                                                                  eventKey
+                                                                                                eventKey
                                                                                                 ][
-                                                                                                  eventKey1
+                                                                                                eventKey1
                                                                                                 ][
-                                                                                                  eventKey2
+                                                                                                eventKey2
                                                                                                 ][
-                                                                                                  eventKey3
+                                                                                                eventKey3
                                                                                                 ][
-                                                                                                  eventKey4
+                                                                                                eventKey4
                                                                                                 ][
-                                                                                                  eventKey5
+                                                                                                eventKey5
                                                                                                 ][
-                                                                                                  eventKey6
+                                                                                                eventKey6
                                                                                                 ][
-                                                                                                  eventKey7
+                                                                                                eventKey7
                                                                                                 ][
-                                                                                                  eventKey8
+                                                                                                eventKey8
                                                                                                 ]
                                                                                               ) {
                                                                                                 if (
                                                                                                   !(
                                                                                                     data
                                                                                                       .sport[
-                                                                                                      gameID
+                                                                                                    gameID
                                                                                                     ][
-                                                                                                      gameItem
+                                                                                                    gameItem
                                                                                                     ][
-                                                                                                      marketEventId
+                                                                                                    marketEventId
                                                                                                     ][
-                                                                                                      EventId
+                                                                                                    EventId
                                                                                                     ][
-                                                                                                      eventKey
+                                                                                                    eventKey
                                                                                                     ][
-                                                                                                      eventKey1
+                                                                                                    eventKey1
                                                                                                     ][
-                                                                                                      eventKey2
+                                                                                                    eventKey2
                                                                                                     ][
-                                                                                                      eventKey3
+                                                                                                    eventKey3
                                                                                                     ][
-                                                                                                      eventKey4
+                                                                                                    eventKey4
                                                                                                     ][
-                                                                                                      eventKey5
+                                                                                                    eventKey5
                                                                                                     ][
-                                                                                                      eventKey6
+                                                                                                    eventKey6
                                                                                                     ][
-                                                                                                      eventKey7
+                                                                                                    eventKey7
                                                                                                     ][
-                                                                                                      eventKey8
+                                                                                                    eventKey8
                                                                                                     ] instanceof
                                                                                                     Object
                                                                                                   )
@@ -2592,59 +2592,59 @@ export default class Main extends React.PureComponent {
                                                                                                   if (
                                                                                                     data
                                                                                                       .sport[
-                                                                                                      gameID
+                                                                                                    gameID
                                                                                                     ][
-                                                                                                      gameItem
+                                                                                                    gameItem
                                                                                                     ][
-                                                                                                      marketEventId
+                                                                                                    marketEventId
                                                                                                     ][
-                                                                                                      EventId
+                                                                                                    EventId
                                                                                                     ][
-                                                                                                      eventKey
+                                                                                                    eventKey
                                                                                                     ][
-                                                                                                      eventKey1
+                                                                                                    eventKey1
                                                                                                     ][
-                                                                                                      eventKey2
+                                                                                                    eventKey2
                                                                                                     ][
-                                                                                                      eventKey3
+                                                                                                    eventKey3
                                                                                                     ][
-                                                                                                      eventKey4
+                                                                                                    eventKey4
                                                                                                     ][
-                                                                                                      eventKey5
+                                                                                                    eventKey5
                                                                                                     ][
-                                                                                                      eventKey6
+                                                                                                    eventKey6
                                                                                                     ][
-                                                                                                      eventKey7
+                                                                                                    eventKey7
                                                                                                     ][
-                                                                                                      eventKey8
+                                                                                                    eventKey8
                                                                                                     ] !==
                                                                                                     sportData
                                                                                                       .sport[
-                                                                                                      gameID
+                                                                                                    gameID
                                                                                                     ][
-                                                                                                      gameItem
+                                                                                                    gameItem
                                                                                                     ][
-                                                                                                      marketEventId
+                                                                                                    marketEventId
                                                                                                     ][
-                                                                                                      EventId
+                                                                                                    EventId
                                                                                                     ][
-                                                                                                      eventKey
+                                                                                                    eventKey
                                                                                                     ][
-                                                                                                      eventKey1
+                                                                                                    eventKey1
                                                                                                     ][
-                                                                                                      eventKey2
+                                                                                                    eventKey2
                                                                                                     ][
-                                                                                                      eventKey3
+                                                                                                    eventKey3
                                                                                                     ][
-                                                                                                      eventKey4
+                                                                                                    eventKey4
                                                                                                     ][
-                                                                                                      eventKey5
+                                                                                                    eventKey5
                                                                                                     ][
-                                                                                                      eventKey6
+                                                                                                    eventKey6
                                                                                                     ][
-                                                                                                      eventKey7
+                                                                                                    eventKey7
                                                                                                     ][
-                                                                                                      eventKey8
+                                                                                                    eventKey8
                                                                                                     ]
                                                                                                   ) {
                                                                                                     sportData.sport[
@@ -2675,62 +2675,62 @@ export default class Main extends React.PureComponent {
                                                                                                       eventKey8
                                                                                                     ] =
                                                                                                       data.sport[
-                                                                                                        gameID
+                                                                                                      gameID
                                                                                                       ][
-                                                                                                        gameItem
+                                                                                                      gameItem
                                                                                                       ][
-                                                                                                        marketEventId
+                                                                                                      marketEventId
                                                                                                       ][
-                                                                                                        EventId
+                                                                                                      EventId
                                                                                                       ][
-                                                                                                        eventKey
+                                                                                                      eventKey
                                                                                                       ][
-                                                                                                        eventKey1
+                                                                                                      eventKey1
                                                                                                       ][
-                                                                                                        eventKey2
+                                                                                                      eventKey2
                                                                                                       ][
-                                                                                                        eventKey3
+                                                                                                      eventKey3
                                                                                                       ][
-                                                                                                        eventKey4
+                                                                                                      eventKey4
                                                                                                       ][
-                                                                                                        eventKey5
+                                                                                                      eventKey5
                                                                                                       ][
-                                                                                                        eventKey6
+                                                                                                      eventKey6
                                                                                                       ][
-                                                                                                        eventKey7
+                                                                                                      eventKey7
                                                                                                       ][
-                                                                                                        eventKey8
+                                                                                                      eventKey8
                                                                                                       ];
                                                                                                   }
                                                                                                 } else {
                                                                                                   Object.keys(
                                                                                                     data
                                                                                                       .sport[
-                                                                                                      gameID
+                                                                                                    gameID
                                                                                                     ][
-                                                                                                      gameItem
+                                                                                                    gameItem
                                                                                                     ][
-                                                                                                      marketEventId
+                                                                                                    marketEventId
                                                                                                     ][
-                                                                                                      EventId
+                                                                                                    EventId
                                                                                                     ][
-                                                                                                      eventKey
+                                                                                                    eventKey
                                                                                                     ][
-                                                                                                      eventKey1
+                                                                                                    eventKey1
                                                                                                     ][
-                                                                                                      eventKey2
+                                                                                                    eventKey2
                                                                                                     ][
-                                                                                                      eventKey3
+                                                                                                    eventKey3
                                                                                                     ][
-                                                                                                      eventKey4
+                                                                                                    eventKey4
                                                                                                     ][
-                                                                                                      eventKey5
+                                                                                                    eventKey5
                                                                                                     ][
-                                                                                                      eventKey6
+                                                                                                    eventKey6
                                                                                                     ][
-                                                                                                      eventKey7
+                                                                                                    eventKey7
                                                                                                     ][
-                                                                                                      eventKey8
+                                                                                                    eventKey8
                                                                                                     ]
                                                                                                   ).forEach(
                                                                                                     (
@@ -2739,66 +2739,66 @@ export default class Main extends React.PureComponent {
                                                                                                       if (
                                                                                                         sportData
                                                                                                           .sport[
-                                                                                                          gameID
+                                                                                                        gameID
                                                                                                         ][
-                                                                                                          gameItem
+                                                                                                        gameItem
                                                                                                         ][
-                                                                                                          marketEventId
+                                                                                                        marketEventId
                                                                                                         ][
-                                                                                                          EventId
+                                                                                                        EventId
                                                                                                         ][
-                                                                                                          eventKey
+                                                                                                        eventKey
                                                                                                         ][
-                                                                                                          eventKey1
+                                                                                                        eventKey1
                                                                                                         ][
-                                                                                                          eventKey2
+                                                                                                        eventKey2
                                                                                                         ][
-                                                                                                          eventKey3
+                                                                                                        eventKey3
                                                                                                         ][
-                                                                                                          eventKey4
+                                                                                                        eventKey4
                                                                                                         ][
-                                                                                                          eventKey5
+                                                                                                        eventKey5
                                                                                                         ][
-                                                                                                          eventKey6
+                                                                                                        eventKey6
                                                                                                         ][
-                                                                                                          eventKey7
+                                                                                                        eventKey7
                                                                                                         ][
-                                                                                                          eventKey8
+                                                                                                        eventKey8
                                                                                                         ][
-                                                                                                          eventKey9
+                                                                                                        eventKey9
                                                                                                         ]
                                                                                                       ) {
                                                                                                         if (
                                                                                                           !(
                                                                                                             data
                                                                                                               .sport[
-                                                                                                              gameID
+                                                                                                            gameID
                                                                                                             ][
-                                                                                                              gameItem
+                                                                                                            gameItem
                                                                                                             ][
-                                                                                                              marketEventId
+                                                                                                            marketEventId
                                                                                                             ][
-                                                                                                              EventId
+                                                                                                            EventId
                                                                                                             ][
-                                                                                                              eventKey
+                                                                                                            eventKey
                                                                                                             ][
-                                                                                                              eventKey1
+                                                                                                            eventKey1
                                                                                                             ][
-                                                                                                              eventKey2
+                                                                                                            eventKey2
                                                                                                             ][
-                                                                                                              eventKey3
+                                                                                                            eventKey3
                                                                                                             ][
-                                                                                                              eventKey4
+                                                                                                            eventKey4
                                                                                                             ][
-                                                                                                              eventKey5
+                                                                                                            eventKey5
                                                                                                             ][
-                                                                                                              eventKey6
+                                                                                                            eventKey6
                                                                                                             ][
-                                                                                                              eventKey7
+                                                                                                            eventKey7
                                                                                                             ][
-                                                                                                              eventKey8
+                                                                                                            eventKey8
                                                                                                             ][
-                                                                                                              eventKey9
+                                                                                                            eventKey9
                                                                                                             ] instanceof
                                                                                                             Object
                                                                                                           )
@@ -2806,63 +2806,63 @@ export default class Main extends React.PureComponent {
                                                                                                           if (
                                                                                                             data
                                                                                                               .sport[
-                                                                                                              gameID
+                                                                                                            gameID
                                                                                                             ][
-                                                                                                              gameItem
+                                                                                                            gameItem
                                                                                                             ][
-                                                                                                              marketEventId
+                                                                                                            marketEventId
                                                                                                             ][
-                                                                                                              EventId
+                                                                                                            EventId
                                                                                                             ][
-                                                                                                              eventKey
+                                                                                                            eventKey
                                                                                                             ][
-                                                                                                              eventKey1
+                                                                                                            eventKey1
                                                                                                             ][
-                                                                                                              eventKey2
+                                                                                                            eventKey2
                                                                                                             ][
-                                                                                                              eventKey3
+                                                                                                            eventKey3
                                                                                                             ][
-                                                                                                              eventKey4
+                                                                                                            eventKey4
                                                                                                             ][
-                                                                                                              eventKey5
+                                                                                                            eventKey5
                                                                                                             ][
-                                                                                                              eventKey6
+                                                                                                            eventKey6
                                                                                                             ][
-                                                                                                              eventKey7
+                                                                                                            eventKey7
                                                                                                             ][
-                                                                                                              eventKey8
+                                                                                                            eventKey8
                                                                                                             ][
-                                                                                                              eventKey9
+                                                                                                            eventKey9
                                                                                                             ] !==
                                                                                                             sportData
                                                                                                               .sport[
-                                                                                                              gameID
+                                                                                                            gameID
                                                                                                             ][
-                                                                                                              gameItem
+                                                                                                            gameItem
                                                                                                             ][
-                                                                                                              marketEventId
+                                                                                                            marketEventId
                                                                                                             ][
-                                                                                                              EventId
+                                                                                                            EventId
                                                                                                             ][
-                                                                                                              eventKey
+                                                                                                            eventKey
                                                                                                             ][
-                                                                                                              eventKey1
+                                                                                                            eventKey1
                                                                                                             ][
-                                                                                                              eventKey2
+                                                                                                            eventKey2
                                                                                                             ][
-                                                                                                              eventKey3
+                                                                                                            eventKey3
                                                                                                             ][
-                                                                                                              eventKey4
+                                                                                                            eventKey4
                                                                                                             ][
-                                                                                                              eventKey5
+                                                                                                            eventKey5
                                                                                                             ][
-                                                                                                              eventKey6
+                                                                                                            eventKey6
                                                                                                             ][
-                                                                                                              eventKey7
+                                                                                                            eventKey7
                                                                                                             ][
-                                                                                                              eventKey8
+                                                                                                            eventKey8
                                                                                                             ][
-                                                                                                              eventKey9
+                                                                                                            eventKey9
                                                                                                             ]
                                                                                                           ) {
                                                                                                             sportData.sport[
@@ -2895,33 +2895,33 @@ export default class Main extends React.PureComponent {
                                                                                                               eventKey9
                                                                                                             ] =
                                                                                                               data.sport[
-                                                                                                                gameID
+                                                                                                              gameID
                                                                                                               ][
-                                                                                                                gameItem
+                                                                                                              gameItem
                                                                                                               ][
-                                                                                                                marketEventId
+                                                                                                              marketEventId
                                                                                                               ][
-                                                                                                                EventId
+                                                                                                              EventId
                                                                                                               ][
-                                                                                                                eventKey
+                                                                                                              eventKey
                                                                                                               ][
-                                                                                                                eventKey1
+                                                                                                              eventKey1
                                                                                                               ][
-                                                                                                                eventKey2
+                                                                                                              eventKey2
                                                                                                               ][
-                                                                                                                eventKey3
+                                                                                                              eventKey3
                                                                                                               ][
-                                                                                                                eventKey4
+                                                                                                              eventKey4
                                                                                                               ][
-                                                                                                                eventKey5
+                                                                                                              eventKey5
                                                                                                               ][
-                                                                                                                eventKey6
+                                                                                                              eventKey6
                                                                                                               ][
-                                                                                                                eventKey7
+                                                                                                              eventKey7
                                                                                                               ][
-                                                                                                                eventKey8
+                                                                                                              eventKey8
                                                                                                               ][
-                                                                                                                eventKey9
+                                                                                                              eventKey9
                                                                                                               ];
                                                                                                           }
                                                                                                         } else {
@@ -2957,97 +2957,97 @@ export default class Main extends React.PureComponent {
                                                                                                             Object.keys(
                                                                                                               sportData
                                                                                                                 .sport[
-                                                                                                                gameID
+                                                                                                              gameID
                                                                                                               ][
-                                                                                                                gameItem
+                                                                                                              gameItem
                                                                                                               ][
-                                                                                                                marketEventId
+                                                                                                              marketEventId
                                                                                                               ][
-                                                                                                                EventId
+                                                                                                              EventId
                                                                                                               ][
-                                                                                                                eventKey
+                                                                                                              eventKey
                                                                                                               ][
-                                                                                                                eventKey1
+                                                                                                              eventKey1
                                                                                                               ][
-                                                                                                                eventKey2
+                                                                                                              eventKey2
                                                                                                               ][
-                                                                                                                eventKey3
+                                                                                                              eventKey3
                                                                                                               ][
-                                                                                                                eventKey4
+                                                                                                              eventKey4
                                                                                                               ][
-                                                                                                                eventKey5
+                                                                                                              eventKey5
                                                                                                               ][
-                                                                                                                eventKey6
+                                                                                                              eventKey6
                                                                                                               ][
-                                                                                                                eventKey7
+                                                                                                              eventKey7
                                                                                                               ][
-                                                                                                                eventKey8
+                                                                                                              eventKey8
                                                                                                               ][
-                                                                                                                eventKey9
+                                                                                                              eventKey9
                                                                                                               ]
                                                                                                             )[0]
                                                                                                           ] =
                                                                                                             data.sport[
+                                                                                                            gameID
+                                                                                                            ][
+                                                                                                            gameItem
+                                                                                                            ][
+                                                                                                            marketEventId
+                                                                                                            ][
+                                                                                                            EventId
+                                                                                                            ][
+                                                                                                            eventKey
+                                                                                                            ][
+                                                                                                            eventKey1
+                                                                                                            ][
+                                                                                                            eventKey2
+                                                                                                            ][
+                                                                                                            eventKey3
+                                                                                                            ][
+                                                                                                            eventKey4
+                                                                                                            ][
+                                                                                                            eventKey5
+                                                                                                            ][
+                                                                                                            eventKey6
+                                                                                                            ][
+                                                                                                            eventKey7
+                                                                                                            ][
+                                                                                                            eventKey8
+                                                                                                            ][
+                                                                                                            eventKey9
+                                                                                                            ][
+                                                                                                            Object.keys(
+                                                                                                              data
+                                                                                                                .sport[
                                                                                                               gameID
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               gameItem
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               marketEventId
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               EventId
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               eventKey
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               eventKey1
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               eventKey2
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               eventKey3
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               eventKey4
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               eventKey5
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               eventKey6
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               eventKey7
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               eventKey8
-                                                                                                            ][
+                                                                                                              ][
                                                                                                               eventKey9
-                                                                                                            ][
-                                                                                                              Object.keys(
-                                                                                                                data
-                                                                                                                  .sport[
-                                                                                                                  gameID
-                                                                                                                ][
-                                                                                                                  gameItem
-                                                                                                                ][
-                                                                                                                  marketEventId
-                                                                                                                ][
-                                                                                                                  EventId
-                                                                                                                ][
-                                                                                                                  eventKey
-                                                                                                                ][
-                                                                                                                  eventKey1
-                                                                                                                ][
-                                                                                                                  eventKey2
-                                                                                                                ][
-                                                                                                                  eventKey3
-                                                                                                                ][
-                                                                                                                  eventKey4
-                                                                                                                ][
-                                                                                                                  eventKey5
-                                                                                                                ][
-                                                                                                                  eventKey6
-                                                                                                                ][
-                                                                                                                  eventKey7
-                                                                                                                ][
-                                                                                                                  eventKey8
-                                                                                                                ][
-                                                                                                                  eventKey9
-                                                                                                                ]
-                                                                                                              )[0]
+                                                                                                              ]
+                                                                                                            )[0]
                                                                                                             ];
                                                                                                         }
                                                                                                       } else
@@ -3081,33 +3081,33 @@ export default class Main extends React.PureComponent {
                                                                                                           eventKey9
                                                                                                         ] =
                                                                                                           data.sport[
-                                                                                                            gameID
+                                                                                                          gameID
                                                                                                           ][
-                                                                                                            gameItem
+                                                                                                          gameItem
                                                                                                           ][
-                                                                                                            marketEventId
+                                                                                                          marketEventId
                                                                                                           ][
-                                                                                                            EventId
+                                                                                                          EventId
                                                                                                           ][
-                                                                                                            eventKey
+                                                                                                          eventKey
                                                                                                           ][
-                                                                                                            eventKey1
+                                                                                                          eventKey1
                                                                                                           ][
-                                                                                                            eventKey2
+                                                                                                          eventKey2
                                                                                                           ][
-                                                                                                            eventKey3
+                                                                                                          eventKey3
                                                                                                           ][
-                                                                                                            eventKey4
+                                                                                                          eventKey4
                                                                                                           ][
-                                                                                                            eventKey5
+                                                                                                          eventKey5
                                                                                                           ][
-                                                                                                            eventKey6
+                                                                                                          eventKey6
                                                                                                           ][
-                                                                                                            eventKey7
+                                                                                                          eventKey7
                                                                                                           ][
-                                                                                                            eventKey8
+                                                                                                          eventKey8
                                                                                                           ][
-                                                                                                            eventKey9
+                                                                                                          eventKey9
                                                                                                           ];
                                                                                                     }
                                                                                                   );
@@ -3141,31 +3141,31 @@ export default class Main extends React.PureComponent {
                                                                                                   eventKey8
                                                                                                 ] =
                                                                                                   data.sport[
-                                                                                                    gameID
+                                                                                                  gameID
                                                                                                   ][
-                                                                                                    gameItem
+                                                                                                  gameItem
                                                                                                   ][
-                                                                                                    marketEventId
+                                                                                                  marketEventId
                                                                                                   ][
-                                                                                                    EventId
+                                                                                                  EventId
                                                                                                   ][
-                                                                                                    eventKey
+                                                                                                  eventKey
                                                                                                   ][
-                                                                                                    eventKey1
+                                                                                                  eventKey1
                                                                                                   ][
-                                                                                                    eventKey2
+                                                                                                  eventKey2
                                                                                                   ][
-                                                                                                    eventKey3
+                                                                                                  eventKey3
                                                                                                   ][
-                                                                                                    eventKey4
+                                                                                                  eventKey4
                                                                                                   ][
-                                                                                                    eventKey5
+                                                                                                  eventKey5
                                                                                                   ][
-                                                                                                    eventKey6
+                                                                                                  eventKey6
                                                                                                   ][
-                                                                                                    eventKey7
+                                                                                                  eventKey7
                                                                                                   ][
-                                                                                                    eventKey8
+                                                                                                  eventKey8
                                                                                                   ];
                                                                                             }
                                                                                           );
@@ -3197,29 +3197,29 @@ export default class Main extends React.PureComponent {
                                                                                           eventKey7
                                                                                         ] =
                                                                                           data.sport[
-                                                                                            gameID
+                                                                                          gameID
                                                                                           ][
-                                                                                            gameItem
+                                                                                          gameItem
                                                                                           ][
-                                                                                            marketEventId
+                                                                                          marketEventId
                                                                                           ][
-                                                                                            EventId
+                                                                                          EventId
                                                                                           ][
-                                                                                            eventKey
+                                                                                          eventKey
                                                                                           ][
-                                                                                            eventKey1
+                                                                                          eventKey1
                                                                                           ][
-                                                                                            eventKey2
+                                                                                          eventKey2
                                                                                           ][
-                                                                                            eventKey3
+                                                                                          eventKey3
                                                                                           ][
-                                                                                            eventKey4
+                                                                                          eventKey4
                                                                                           ][
-                                                                                            eventKey5
+                                                                                          eventKey5
                                                                                           ][
-                                                                                            eventKey6
+                                                                                          eventKey6
                                                                                           ][
-                                                                                            eventKey7
+                                                                                          eventKey7
                                                                                           ];
                                                                                     }
                                                                                   );
@@ -3249,27 +3249,27 @@ export default class Main extends React.PureComponent {
                                                                                   eventKey6
                                                                                 ] =
                                                                                   data.sport[
-                                                                                    gameID
+                                                                                  gameID
                                                                                   ][
-                                                                                    gameItem
+                                                                                  gameItem
                                                                                   ][
-                                                                                    marketEventId
+                                                                                  marketEventId
                                                                                   ][
-                                                                                    EventId
+                                                                                  EventId
                                                                                   ][
-                                                                                    eventKey
+                                                                                  eventKey
                                                                                   ][
-                                                                                    eventKey1
+                                                                                  eventKey1
                                                                                   ][
-                                                                                    eventKey2
+                                                                                  eventKey2
                                                                                   ][
-                                                                                    eventKey3
+                                                                                  eventKey3
                                                                                   ][
-                                                                                    eventKey4
+                                                                                  eventKey4
                                                                                   ][
-                                                                                    eventKey5
+                                                                                  eventKey5
                                                                                   ][
-                                                                                    eventKey6
+                                                                                  eventKey6
                                                                                   ];
                                                                             }
                                                                           );
@@ -3297,25 +3297,25 @@ export default class Main extends React.PureComponent {
                                                                           eventKey5
                                                                         ] =
                                                                           data.sport[
-                                                                            gameID
+                                                                          gameID
                                                                           ][
-                                                                            gameItem
+                                                                          gameItem
                                                                           ][
-                                                                            marketEventId
+                                                                          marketEventId
                                                                           ][
-                                                                            EventId
+                                                                          EventId
                                                                           ][
-                                                                            eventKey
+                                                                          eventKey
                                                                           ][
-                                                                            eventKey1
+                                                                          eventKey1
                                                                           ][
-                                                                            eventKey2
+                                                                          eventKey2
                                                                           ][
-                                                                            eventKey3
+                                                                          eventKey3
                                                                           ][
-                                                                            eventKey4
+                                                                          eventKey4
                                                                           ][
-                                                                            eventKey5
+                                                                          eventKey5
                                                                           ];
                                                                     }
                                                                   );
@@ -3333,15 +3333,15 @@ export default class Main extends React.PureComponent {
                                                                   eventKey4
                                                                 ] =
                                                                   data.sport[
-                                                                    gameID
+                                                                  gameID
                                                                   ][gameItem][
-                                                                    marketEventId
+                                                                  marketEventId
                                                                   ][EventId][
-                                                                    eventKey
+                                                                  eventKey
                                                                   ][eventKey1][
-                                                                    eventKey2
+                                                                  eventKey2
                                                                   ][eventKey3][
-                                                                    eventKey4
+                                                                  eventKey4
                                                                   ];
                                                             }
                                                           );
@@ -3355,13 +3355,13 @@ export default class Main extends React.PureComponent {
                                                           eventKey2
                                                         ][eventKey3] =
                                                           data.sport[gameID][
-                                                            gameItem
+                                                          gameItem
                                                           ][marketEventId][
-                                                            EventId
+                                                          EventId
                                                           ][eventKey][
-                                                            eventKey1
+                                                          eventKey1
                                                           ][eventKey2][
-                                                            eventKey3
+                                                          eventKey3
                                                           ];
                                                     });
                                                   }
@@ -3372,9 +3372,9 @@ export default class Main extends React.PureComponent {
                                                     eventKey
                                                   ][eventKey1][eventKey2] =
                                                     data.sport[gameID][
-                                                      gameItem
+                                                    gameItem
                                                     ][marketEventId][EventId][
-                                                      eventKey
+                                                    eventKey
                                                     ][eventKey1][eventKey2];
                                               });
                                             }
@@ -3383,7 +3383,7 @@ export default class Main extends React.PureComponent {
                                               marketEventId
                                             ][EventId][eventKey][eventKey1] =
                                               data.sport[gameID][gameItem][
-                                                marketEventId
+                                              marketEventId
                                               ][EventId][eventKey][eventKey1];
                                         });
                                       }
@@ -3392,7 +3392,7 @@ export default class Main extends React.PureComponent {
                                         marketEventId
                                       ][EventId][eventKey] =
                                         data.sport[gameID][gameItem][
-                                          marketEventId
+                                        marketEventId
                                         ][EventId][eventKey];
                                   });
                                 }
@@ -3401,7 +3401,7 @@ export default class Main extends React.PureComponent {
                                   marketEventId
                                 ][EventId] =
                                   data.sport[gameID][gameItem][marketEventId][
-                                    EventId
+                                  EventId
                                   ];
                             });
                           }
@@ -3445,7 +3445,7 @@ export default class Main extends React.PureComponent {
                         if (
                           !(
                             data.game[gameID][gameItem][
-                              marketEventId
+                            marketEventId
                             ] instanceof Object
                           )
                         ) {
@@ -3466,86 +3466,86 @@ export default class Main extends React.PureComponent {
                               if (
                                 !(
                                   data.game[gameID][gameItem][marketEventId][
-                                    EventId
+                                  EventId
                                   ] instanceof Object
                                 )
                               ) {
                                 if (
                                   data.game[gameID][gameItem][marketEventId][
-                                    EventId
+                                  EventId
                                   ] !==
                                   gameData[gameID][gameItem][marketEventId][
-                                    EventId
+                                  EventId
                                   ]
                                 ) {
                                   gameData[gameID][gameItem][marketEventId][
                                     EventId
                                   ] =
                                     data.game[gameID][gameItem][marketEventId][
-                                      EventId
+                                    EventId
                                     ];
                                 }
                               } else {
                                 Object.keys(
                                   data.game[gameID][gameItem][marketEventId][
-                                    EventId
+                                  EventId
                                   ]
                                 ).forEach((eventKey) => {
                                   if (
                                     gameData[gameID][gameItem][marketEventId][
-                                      EventId
+                                    EventId
                                     ][eventKey]
                                   ) {
                                     if (
                                       !(
                                         data.game[gameID][gameItem][
-                                          marketEventId
+                                        marketEventId
                                         ][EventId][eventKey] instanceof Object
                                       )
                                     ) {
                                       if (
                                         data.game[gameID][gameItem][
-                                          marketEventId
+                                        marketEventId
                                         ][EventId][eventKey] !==
                                         gameData[gameID][gameItem][
-                                          marketEventId
+                                        marketEventId
                                         ][EventId][eventKey]
                                       ) {
                                         gameData[gameID][gameItem][
                                           marketEventId
                                         ][EventId][eventKey] =
                                           data.game[gameID][gameItem][
-                                            marketEventId
+                                          marketEventId
                                           ][EventId][eventKey];
                                       }
                                     } else {
                                       Object.keys(
                                         data.game[gameID][gameItem][
-                                          marketEventId
+                                        marketEventId
                                         ][EventId][eventKey]
                                       ).forEach((eventKey1) => {
                                         if (
                                           gameData[gameID][gameItem][
-                                            marketEventId
+                                          marketEventId
                                           ][EventId][eventKey][eventKey1]
                                         ) {
                                           if (
                                             !(
                                               data.game[gameID][gameItem][
-                                                marketEventId
+                                              marketEventId
                                               ][EventId][eventKey][
-                                                eventKey1
+                                              eventKey1
                                               ] instanceof Object
                                             )
                                           ) {
                                             if (
                                               data.game[gameID][gameItem][
-                                                marketEventId
+                                              marketEventId
                                               ][EventId][eventKey][
-                                                eventKey1
+                                              eventKey1
                                               ] !==
                                               gameData[gameID][gameItem][
-                                                marketEventId
+                                              marketEventId
                                               ][EventId][eventKey][eventKey1]
                                             ) {
                                               gameData[gameID][gameItem][
@@ -3554,48 +3554,48 @@ export default class Main extends React.PureComponent {
                                                 eventKey
                                               ].initialPrice =
                                                 gameData[gameID][gameItem][
-                                                  marketEventId
+                                                marketEventId
                                                 ][EventId][eventKey][eventKey1];
                                               gameData[gameID][gameItem][
                                                 marketEventId
                                               ][EventId][eventKey][eventKey1] =
                                                 data.game[gameID][gameItem][
-                                                  marketEventId
+                                                marketEventId
                                                 ][EventId][eventKey][eventKey1];
                                             }
                                           } else {
                                             Object.keys(
                                               data.game[gameID][gameItem][
-                                                marketEventId
+                                              marketEventId
                                               ][EventId][eventKey][eventKey1]
                                             ).forEach((eventKey2) => {
                                               if (
                                                 gameData[gameID][gameItem][
-                                                  marketEventId
+                                                marketEventId
                                                 ][EventId][eventKey][eventKey1][
-                                                  eventKey2
+                                                eventKey2
                                                 ]
                                               ) {
                                                 if (
                                                   !(
                                                     data.game[gameID][gameItem][
-                                                      marketEventId
+                                                    marketEventId
                                                     ][EventId][eventKey][
-                                                      eventKey1
+                                                    eventKey1
                                                     ][eventKey2] instanceof
                                                     Object
                                                   )
                                                 ) {
                                                   if (
                                                     data.game[gameID][gameItem][
-                                                      marketEventId
+                                                    marketEventId
                                                     ][EventId][eventKey][
-                                                      eventKey1
+                                                    eventKey1
                                                     ][eventKey2] !==
                                                     gameData[gameID][gameItem][
-                                                      marketEventId
+                                                    marketEventId
                                                     ][EventId][eventKey][
-                                                      eventKey1
+                                                    eventKey1
                                                     ][eventKey2]
                                                   ) {
                                                     gameData[gameID][gameItem][
@@ -3604,59 +3604,59 @@ export default class Main extends React.PureComponent {
                                                       eventKey1
                                                     ][eventKey2] =
                                                       data.game[gameID][
-                                                        gameItem
+                                                      gameItem
                                                       ][marketEventId][EventId][
-                                                        eventKey
+                                                      eventKey
                                                       ][eventKey1][eventKey2];
                                                   }
                                                 } else {
                                                   Object.keys(
                                                     data.game[gameID][gameItem][
-                                                      marketEventId
+                                                    marketEventId
                                                     ][EventId][eventKey][
-                                                      eventKey1
+                                                    eventKey1
                                                     ][eventKey2]
                                                   ).forEach((eventKey3) => {
                                                     if (
                                                       gameData[gameID][
-                                                        gameItem
+                                                      gameItem
                                                       ][marketEventId][EventId][
-                                                        eventKey
+                                                      eventKey
                                                       ][eventKey1][eventKey2][
-                                                        eventKey3
+                                                      eventKey3
                                                       ]
                                                     ) {
                                                       if (
                                                         !(
                                                           data.game[gameID][
-                                                            gameItem
+                                                          gameItem
                                                           ][marketEventId][
-                                                            EventId
+                                                          EventId
                                                           ][eventKey][
-                                                            eventKey1
+                                                          eventKey1
                                                           ][eventKey2][
-                                                            eventKey3
+                                                          eventKey3
                                                           ] instanceof Object
                                                         )
                                                       ) {
                                                         if (
                                                           data.game[gameID][
-                                                            gameItem
+                                                          gameItem
                                                           ][marketEventId][
-                                                            EventId
+                                                          EventId
                                                           ][eventKey][
-                                                            eventKey1
+                                                          eventKey1
                                                           ][eventKey2][
-                                                            eventKey3
+                                                          eventKey3
                                                           ] !==
                                                           gameData[gameID][
-                                                            gameItem
+                                                          gameItem
                                                           ][marketEventId][
-                                                            EventId
+                                                          EventId
                                                           ][eventKey][
-                                                            eventKey1
+                                                          eventKey1
                                                           ][eventKey2][
-                                                            eventKey3
+                                                          eventKey3
                                                           ]
                                                         ) {
                                                           gameData[gameID][
@@ -3669,13 +3669,13 @@ export default class Main extends React.PureComponent {
                                                             eventKey3
                                                           ] =
                                                             data.game[gameID][
-                                                              gameItem
+                                                            gameItem
                                                             ][marketEventId][
-                                                              EventId
+                                                            EventId
                                                             ][eventKey][
-                                                              eventKey1
+                                                            eventKey1
                                                             ][eventKey2][
-                                                              eventKey3
+                                                            eventKey3
                                                             ];
                                                         }
                                                       } else {
@@ -3686,24 +3686,24 @@ export default class Main extends React.PureComponent {
                                                         ][eventKey][
                                                           Object.keys(
                                                             gameData[gameID][
-                                                              gameItem
+                                                            gameItem
                                                             ][marketEventId][
-                                                              EventId
+                                                            EventId
                                                             ][eventKey]
                                                           )[0]
                                                         ] =
                                                           data.game[gameID][
-                                                            gameItem
+                                                          gameItem
                                                           ][marketEventId][
-                                                            EventId
+                                                          EventId
                                                           ][eventKey][
-                                                            Object.keys(
-                                                              data.game[gameID][
-                                                                gameItem
-                                                              ][marketEventId][
-                                                                EventId
-                                                              ][eventKey]
-                                                            )[0]
+                                                          Object.keys(
+                                                            data.game[gameID][
+                                                            gameItem
+                                                            ][marketEventId][
+                                                            EventId
+                                                            ][eventKey]
+                                                          )[0]
                                                           ];
                                                       }
                                                     } else
@@ -3715,11 +3715,11 @@ export default class Main extends React.PureComponent {
                                                         eventKey3
                                                       ] =
                                                         data.game[gameID][
-                                                          gameItem
+                                                        gameItem
                                                         ][marketEventId][
-                                                          EventId
+                                                        EventId
                                                         ][eventKey][eventKey1][
-                                                          eventKey2
+                                                        eventKey2
                                                         ][eventKey3];
                                                   });
                                                 }
@@ -3730,9 +3730,9 @@ export default class Main extends React.PureComponent {
                                                   eventKey2
                                                 ] =
                                                   data.game[gameID][gameItem][
-                                                    marketEventId
+                                                  marketEventId
                                                   ][EventId][eventKey][
-                                                    eventKey1
+                                                  eventKey1
                                                   ][eventKey2];
                                             });
                                           }
@@ -3741,7 +3741,7 @@ export default class Main extends React.PureComponent {
                                             marketEventId
                                           ][EventId][eventKey][eventKey1] =
                                             data.game[gameID][gameItem][
-                                              marketEventId
+                                            marketEventId
                                             ][EventId][eventKey][eventKey1];
                                       });
                                     }
@@ -3750,7 +3750,7 @@ export default class Main extends React.PureComponent {
                                       EventId
                                     ][eventKey] =
                                       data.game[gameID][gameItem][
-                                        marketEventId
+                                      marketEventId
                                       ][EventId][eventKey];
                                 });
                               }
@@ -3759,7 +3759,7 @@ export default class Main extends React.PureComponent {
                                 EventId
                               ] =
                                 data.game[gameID][gameItem][marketEventId][
-                                  EventId
+                                EventId
                                 ];
                           });
                         }
@@ -3817,96 +3817,96 @@ export default class Main extends React.PureComponent {
                         ).forEach((gameDataSubKey2) => {
                           if (
                             activeGame[gameDataKey][gameDataSubKey1][
-                              gameDataSubKey2
+                            gameDataSubKey2
                             ]
                           ) {
                             if (
                               !(
                                 dataclone[gameDataKey][gameDataSubKey1][
-                                  gameDataSubKey2
+                                gameDataSubKey2
                                 ] instanceof Object
                               )
                             ) {
                               if (
                                 dataclone[gameDataKey][gameDataSubKey1][
-                                  gameDataSubKey2
+                                gameDataSubKey2
                                 ] !==
                                 activeGame[gameDataKey][gameDataSubKey1][
-                                  gameDataSubKey2
+                                gameDataSubKey2
                                 ]
                               ) {
                                 activeGame[gameDataKey][gameDataSubKey1][
                                   gameDataSubKey2
                                 ] =
                                   dataclone[gameDataKey][gameDataSubKey1][
-                                    gameDataSubKey2
+                                  gameDataSubKey2
                                   ];
                               }
                             } else {
                               Object.keys(
                                 dataclone[gameDataKey][gameDataSubKey1][
-                                  gameDataSubKey2
+                                gameDataSubKey2
                                 ]
                               ).forEach((gameDataSubKey3) => {
                                 if (
                                   activeGame[gameDataKey][gameDataSubKey1][
-                                    gameDataSubKey2
+                                  gameDataSubKey2
                                   ][gameDataSubKey3]
                                 ) {
                                   if (
                                     !(
                                       dataclone[gameDataKey][gameDataSubKey1][
-                                        gameDataSubKey2
+                                      gameDataSubKey2
                                       ][gameDataSubKey3] instanceof Object
                                     )
                                   ) {
                                     if (
                                       dataclone[gameDataKey][gameDataSubKey1][
-                                        gameDataSubKey2
+                                      gameDataSubKey2
                                       ][gameDataSubKey3] !==
                                       activeGame[gameDataKey][gameDataSubKey1][
-                                        gameDataSubKey2
+                                      gameDataSubKey2
                                       ][gameDataSubKey3]
                                     ) {
                                       activeGame[gameDataKey][gameDataSubKey1][
                                         gameDataSubKey2
                                       ][gameDataSubKey3] =
                                         dataclone[gameDataKey][gameDataSubKey1][
-                                          gameDataSubKey2
+                                        gameDataSubKey2
                                         ][gameDataSubKey3];
                                     }
                                   } else {
                                     Object.keys(
                                       dataclone[gameDataKey][gameDataSubKey1][
-                                        gameDataSubKey2
+                                      gameDataSubKey2
                                       ][gameDataSubKey3]
                                     ).forEach((gameDataSubKey4) => {
                                       if (
                                         activeGame[gameDataKey][
-                                          gameDataSubKey1
+                                        gameDataSubKey1
                                         ][gameDataSubKey2][gameDataSubKey3][
-                                          gameDataSubKey4
+                                        gameDataSubKey4
                                         ]
                                       ) {
                                         if (
                                           !(
                                             dataclone[gameDataKey][
-                                              gameDataSubKey1
+                                            gameDataSubKey1
                                             ][gameDataSubKey2][gameDataSubKey3][
-                                              gameDataSubKey4
+                                            gameDataSubKey4
                                             ] instanceof Object
                                           )
                                         ) {
                                           if (
                                             dataclone[gameDataKey][
-                                              gameDataSubKey1
+                                            gameDataSubKey1
                                             ][gameDataSubKey2][gameDataSubKey3][
-                                              gameDataSubKey4
+                                            gameDataSubKey4
                                             ] !==
                                             activeGame[gameDataKey][
-                                              gameDataSubKey1
+                                            gameDataSubKey1
                                             ][gameDataSubKey2][gameDataSubKey3][
-                                              gameDataSubKey4
+                                            gameDataSubKey4
                                             ]
                                           ) {
                                             activeGame[gameDataKey][
@@ -3915,53 +3915,53 @@ export default class Main extends React.PureComponent {
                                               gameDataSubKey4
                                             ] =
                                               dataclone[gameDataKey][
-                                                gameDataSubKey1
+                                              gameDataSubKey1
                                               ][gameDataSubKey2][
-                                                gameDataSubKey3
+                                              gameDataSubKey3
                                               ][gameDataSubKey4];
                                           }
                                         } else {
                                           Object.keys(
                                             dataclone[gameDataKey][
-                                              gameDataSubKey1
+                                            gameDataSubKey1
                                             ][gameDataSubKey2][gameDataSubKey3][
-                                              gameDataSubKey4
+                                            gameDataSubKey4
                                             ]
                                           ).forEach((gameDataSubKey5) => {
                                             if (
                                               activeGame[gameDataKey][
-                                                gameDataSubKey1
+                                              gameDataSubKey1
                                               ][gameDataSubKey2][
-                                                gameDataSubKey3
+                                              gameDataSubKey3
                                               ][gameDataSubKey4][
-                                                gameDataSubKey5
+                                              gameDataSubKey5
                                               ]
                                             ) {
                                               if (
                                                 !(
                                                   dataclone[gameDataKey][
-                                                    gameDataSubKey1
+                                                  gameDataSubKey1
                                                   ][gameDataSubKey2][
-                                                    gameDataSubKey3
+                                                  gameDataSubKey3
                                                   ][gameDataSubKey4][
-                                                    gameDataSubKey5
+                                                  gameDataSubKey5
                                                   ] instanceof Object
                                                 )
                                               ) {
                                                 if (
                                                   dataclone[gameDataKey][
-                                                    gameDataSubKey1
+                                                  gameDataSubKey1
                                                   ][gameDataSubKey2][
-                                                    gameDataSubKey3
+                                                  gameDataSubKey3
                                                   ][gameDataSubKey4][
-                                                    gameDataSubKey5
+                                                  gameDataSubKey5
                                                   ] !==
                                                   activeGame[gameDataKey][
-                                                    gameDataSubKey1
+                                                  gameDataSubKey1
                                                   ][gameDataSubKey2][
-                                                    gameDataSubKey3
+                                                  gameDataSubKey3
                                                   ][gameDataSubKey4][
-                                                    gameDataSubKey5
+                                                  gameDataSubKey5
                                                   ]
                                                 ) {
                                                   activeGame[gameDataKey][
@@ -3972,11 +3972,11 @@ export default class Main extends React.PureComponent {
                                                     gameDataSubKey5
                                                   ] =
                                                     dataclone[gameDataKey][
-                                                      gameDataSubKey1
+                                                    gameDataSubKey1
                                                     ][gameDataSubKey2][
-                                                      gameDataSubKey3
+                                                    gameDataSubKey3
                                                     ][gameDataSubKey4][
-                                                      gameDataSubKey5
+                                                    gameDataSubKey5
                                                     ];
                                                 }
                                               }
@@ -4024,7 +4024,7 @@ export default class Main extends React.PureComponent {
                         if (
                           !(
                             data.market[marketID][marketItem][
-                              marketEventId
+                            marketEventId
                             ] instanceof Object
                           )
                         ) {
@@ -4041,107 +4041,107 @@ export default class Main extends React.PureComponent {
                           ).forEach((EventId) => {
                             if (
                               marketData[marketID][marketItem][marketEventId][
-                                EventId
+                              EventId
                               ]
                             ) {
                               if (
                                 !(
                                   data.market[marketID][marketItem][
-                                    marketEventId
+                                  marketEventId
                                   ][EventId] instanceof Object
                                 )
                               ) {
                                 if (
                                   data.market[marketID][marketItem][
-                                    marketEventId
+                                  marketEventId
                                   ][EventId] !==
                                   marketData[marketID][marketItem][
-                                    marketEventId
+                                  marketEventId
                                   ][EventId]
                                 ) {
                                   marketData[marketID][marketItem][
                                     marketEventId
                                   ].initialPrice =
                                     marketData[marketID][marketItem][
-                                      marketEventId
+                                    marketEventId
                                     ][EventId];
                                   marketData[marketID][marketItem][
                                     marketEventId
                                   ][EventId] =
                                     data.market[marketID][marketItem][
-                                      marketEventId
+                                    marketEventId
                                     ][EventId];
                                 }
                               } else {
                                 Object.keys(
                                   data.market[marketID][marketItem][
-                                    marketEventId
+                                  marketEventId
                                   ][EventId]
                                 ).forEach((eventKey) => {
                                   if (
                                     marketData[marketID][marketItem][
-                                      marketEventId
+                                    marketEventId
                                     ][EventId][eventKey]
                                   ) {
                                     if (
                                       !(
                                         data.market[marketID][marketItem][
-                                          marketEventId
+                                        marketEventId
                                         ][EventId][eventKey] instanceof Object
                                       )
                                     ) {
                                       if (
                                         data.market[marketID][marketItem][
-                                          marketEventId
+                                        marketEventId
                                         ][EventId][eventKey] !==
                                         marketData[marketID][marketItem][
-                                          marketEventId
+                                        marketEventId
                                         ][EventId][eventKey]
                                       ) {
                                         marketData[marketID][marketItem][
                                           marketEventId
                                         ][EventId][eventKey] =
                                           data.market[marketID][marketItem][
-                                            marketEventId
+                                          marketEventId
                                           ][EventId][eventKey];
                                       }
                                     } else {
                                       Object.keys(
                                         data.market[marketID][marketItem][
-                                          marketEventId
+                                        marketEventId
                                         ][EventId][eventKey]
                                       ).forEach((eventKey1) => {
                                         if (
                                           marketData[marketID][marketItem][
-                                            marketEventId
+                                          marketEventId
                                           ][EventId][eventKey][eventKey1]
                                         ) {
                                           if (
                                             !(
                                               data.market[marketID][marketItem][
-                                                marketEventId
+                                              marketEventId
                                               ][EventId][eventKey][
-                                                eventKey1
+                                              eventKey1
                                               ] instanceof Object
                                             )
                                           ) {
                                             if (
                                               data.market[marketID][marketItem][
-                                                marketEventId
+                                              marketEventId
                                               ][EventId][eventKey][
-                                                eventKey1
+                                              eventKey1
                                               ] !==
                                               marketData[marketID][marketItem][
-                                                marketEventId
+                                              marketEventId
                                               ][EventId][eventKey][eventKey1]
                                             ) {
                                               marketData[marketID][marketItem][
                                                 marketEventId
                                               ][EventId][eventKey][eventKey1] =
                                                 data.market[marketID][
-                                                  marketItem
+                                                marketItem
                                                 ][marketEventId][EventId][
-                                                  eventKey
+                                                eventKey
                                                 ][eventKey1];
                                             }
                                           }
@@ -4150,7 +4150,7 @@ export default class Main extends React.PureComponent {
                                             marketEventId
                                           ][EventId][eventKey][eventKey1] =
                                             data.market[marketID][marketItem][
-                                              marketEventId
+                                            marketEventId
                                             ][EventId][eventKey][eventKey1];
                                       });
                                     }
@@ -4159,7 +4159,7 @@ export default class Main extends React.PureComponent {
                                       marketEventId
                                     ][EventId][eventKey] =
                                       data.market[marketID][marketItem][
-                                        marketEventId
+                                      marketEventId
                                       ][EventId][eventKey];
                                 });
                               }
@@ -4168,7 +4168,7 @@ export default class Main extends React.PureComponent {
                                 EventId
                               ] =
                                 data.market[marketID][marketItem][
-                                  marketEventId
+                                marketEventId
                                 ][EventId];
                           });
                         }
@@ -4302,11 +4302,11 @@ export default class Main extends React.PureComponent {
   }
   betFailed(code) {
     let stateData = {
-        showBetSlipNoty: true,
-        betFailed: true,
-        betSlipNotyMsg: this.swarmErrors[code],
-        betInprogress: false,
-      },
+      showBetSlipNoty: true,
+      betFailed: true,
+      betSlipNotyMsg: this.swarmErrors[code],
+      betInprogress: false,
+    },
       dispatch = this.props.dispatch;
     switch (code) {
       case 1800:
@@ -4565,13 +4565,12 @@ export default class Main extends React.PureComponent {
         })
       );
       let historyState = {
-          sport: sport.id,
-          region: region.id,
-          competition: competition.id,
-        },
-        historyURL = `/sports/${activeView.toLowerCase()}/${sport.alias}/${
-          region.name
-        }/${competition.id}`;
+        sport: sport.id,
+        region: region.id,
+        competition: competition.id,
+      },
+        historyURL = `/sports/${activeView.toLowerCase()}/${sport.alias}/${region.name
+          }/${competition.id}`;
       if (game) {
         historyState.game = game.id;
         historyURL += `/${game.id}`;
@@ -4632,14 +4631,13 @@ export default class Main extends React.PureComponent {
         null !== viewmode && (newState.viewmode = viewmode);
         this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, newState));
         let historyState = {
-            sport: sportData.id,
-            region: regionData.id,
-            competition: competition,
-            game: game.id,
-          },
-          historyURL = `/sports/${activeView.toLowerCase()}/${
-            sportData.alias
-          }/${regionData.name}/${competition}/${game.id}`;
+          sport: sportData.id,
+          region: regionData.id,
+          competition: competition,
+          game: game.id,
+        },
+          historyURL = `/sports/${activeView.toLowerCase()}/${sportData.alias
+            }/${regionData.name}/${competition}/${game.id}`;
         updateBrowserHistoryState(historyState, historyURL);
       } else {
         let newState = {
@@ -4652,14 +4650,13 @@ export default class Main extends React.PureComponent {
         };
         this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, newState));
         let historyState = {
-            sport: activeSport.id,
-            region: activeRegion.id,
-            competition: competition,
-            game: game.id,
-          },
-          historyURL = `/sports/${activeView.toLowerCase()}/${
-            activeSport.alias
-          }/${activeRegion.name}/${competition}/${game.id}`;
+          sport: activeSport.id,
+          region: activeRegion.id,
+          competition: competition,
+          game: game.id,
+        },
+          historyURL = `/sports/${activeView.toLowerCase()}/${activeSport.alias
+            }/${activeRegion.name}/${competition}/${game.id}`;
         updateBrowserHistoryState(historyState, historyURL);
       }
       if (null !== viewmode) {
@@ -4694,7 +4691,7 @@ export default class Main extends React.PureComponent {
 
   checkBetTicket(id, googleAuthKey, callback) {
     let ridStart =
-        parseInt(Object.keys(this.rids)[Object.keys(this.rids).length - 1]) + 1,
+      parseInt(Object.keys(this.rids)[Object.keys(this.rids).length - 1]) + 1,
       ticketNumber = parseInt(id, 10);
     this.rids[ridStart] = {
       rid: ridStart,
@@ -4779,9 +4776,9 @@ export default class Main extends React.PureComponent {
                                   processing: false,
                                   singlePosWin:
                                     betSelections[sg.id] &&
-                                    betSelections[sg.id].singleStake !== ""
+                                      betSelections[sg.id].singleStake !== ""
                                       ? sev.price *
-                                        betSelections[sg.id].singleStake
+                                      betSelections[sg.id].singleStake
                                       : 0,
                                   singleStake: "",
                                   start_ts: sg.start_ts,
@@ -4790,8 +4787,7 @@ export default class Main extends React.PureComponent {
                                 };
                                 betSelections[sg.id].title =
                                   sg.team1_name +
-                                  `${
-                                    sg.team2_name ? " - " + sg.team2_name : ""
+                                  `${sg.team2_name ? " - " + sg.team2_name : ""
                                   }`;
                                 if (sg.team2_name)
                                   betSelections[sg.id].team2Name =
@@ -4840,11 +4836,11 @@ export default class Main extends React.PureComponent {
           this.formatRetrivalRs(d, () =>
             data.data.details.amount > 0
               ? setBetStakeInputVal(
-                  data.data.details.bet_type === 1
-                    ? "singlebetStake"
-                    : "betStake",
-                  data.data.details.amount
-                )
+                data.data.details.bet_type === 1
+                  ? "singlebetStake"
+                  : "betStake",
+                data.data.details.amount
+              )
               : null
           );
         },
@@ -4893,7 +4889,7 @@ export default class Main extends React.PureComponent {
   }
   getEvents(id, callback) {
     let ridStart =
-        parseInt(Object.keys(this.rids)[Object.keys(this.rids).length - 1]) + 1,
+      parseInt(Object.keys(this.rids)[Object.keys(this.rids).length - 1]) + 1,
       newRid = {};
     newRid[ridStart] = {
       rid: ridStart,

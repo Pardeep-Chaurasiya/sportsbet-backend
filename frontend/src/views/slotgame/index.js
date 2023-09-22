@@ -228,9 +228,8 @@ export default class SlotGames extends React.Component {
                   <div className="slot-game-container">
                     <div className="providers col-sm-12">
                       <div
-                        className={`provider-header ${
-                          hidePro ? "icon-up" : "icon-down"
-                        }`}
+                        className={`provider-header ${hidePro ? "icon-up" : "icon-down"
+                          }`}
                         onClick={this.togleProviders.bind(this)}
                       >
                         <div className="title">Game providers</div>
@@ -252,9 +251,8 @@ export default class SlotGames extends React.Component {
                         <ul>
                           <li>
                             <div
-                              className={`provider ${
-                                activePro === "all" && "active"
-                              }`}
+                              className={`provider ${activePro === "all" && "active"
+                                }`}
                               onClick={() => this.filterGamesByProivder("all")}
                             >
                               ALL
@@ -264,9 +262,8 @@ export default class SlotGames extends React.Component {
                             return (
                               <li key={key}>
                                 <div
-                                  className={`provider ${
-                                    activePro === provider.provider && "active"
-                                  }`}
+                                  className={`provider ${activePro === provider.provider && "active"
+                                    }`}
                                   onClick={() =>
                                     this.filterGamesByProivder(
                                       provider.provider
@@ -299,9 +296,8 @@ export default class SlotGames extends React.Component {
                                   onClick={() =>
                                     this.filterGamesByCategory(category.id)
                                   }
-                                  className={`${
-                                    activeCat === category.id && "active"
-                                  }`}
+                                  className={`${activeCat === category.id && "active"
+                                    }`}
                                 >
                                   {category.title}
                                 </div>
