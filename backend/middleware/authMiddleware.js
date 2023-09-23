@@ -5,9 +5,7 @@ const secretKey = process.env.JWT_SECRET_KEY;
 
 const authMiddleware = async (req, res, next) => {
   try {
-    console.log("first")
     const AuthToken = req.headers.authorization;
-    console.log(AuthToken)
     if (!AuthToken) {
       return res.status(401).json({
         code: "Invalid-Token",
@@ -15,14 +13,7 @@ const authMiddleware = async (req, res, next) => {
       });
     }
     let decodedToken = "";
-    try {
-      decodedToken = jwt.verify(AuthToken, secretKey);
-    } catch (error) {
-      return res.status(401).json({
-        code: "Unauthorized",
-        error: "Invalid token or token expired",
-      });
-    }
+    decodedToken = jwt.verify(AuthToken, secretKey);
     const existUser = await User.findByPk(decodedToken.id);
     if (!existUser) {
       return res
@@ -32,12 +23,11 @@ const authMiddleware = async (req, res, next) => {
 
     req.User = existUser;
     next();
-    return 0;
   } catch (error) {
-    console.error(error.toString());
+    console.error(error);
     return res
       .status(401)
-      .json({ code: "Unauthorized", error: "Unusual Activity" });
+      .json({ code: "Unauthorized", error: "Unusual Activity or no token" });
   }
 };
 
