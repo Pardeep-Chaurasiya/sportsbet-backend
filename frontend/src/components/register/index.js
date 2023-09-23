@@ -1247,13 +1247,9 @@ export default class RegisterFrom extends React.Component {
                           className="sb-account-btn btn-primary submit-join-now "
                           type="submit"
                         >
-                          {attemptingSignup ? (
-                            <div className="no-results-container sb-spinner">
-                              <span className="btn-preloader sb-preloader"></span>
-                            </div>
-                          ) : (
-                            "Submit"
-                          )}
+
+                          Submit
+
                         </button>
                       </div>
                     )}

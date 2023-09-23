@@ -26,12 +26,18 @@ export default class AccVerifyModal extends React.Component {
   }
 
   dispatchLoginData = () => {
+
     if (this.props.sb_modal.created) {
+
 
       this.props.dispatchLogin()
       this.props.dispatch(allActionDucer(LOGIN, { isLoggedIn: true }))
 
+
+
+
     }
+
   }
   componentWillUnmount() {
     clearTimeout(this.onCreatedTimeout)
@@ -109,15 +115,18 @@ export default class AccVerifyModal extends React.Component {
   }
   onLoginSuccess({ data, status }) {
     if (status === 200) {
+
+      localStorage.setItem('authToken', data.AuthToken)
       this.dispatchLoginData()
       alert("Login successfully ..")
+
       let date = new Date();
       date.setTime(date.getTime() + (0.5 * 24 * 60 * 60 * 1000));
       this.props.dispatch(allActionDucer(PROFILE, data.data))
       this.props.dispatch(allActionDucer(MODAL, { attemptingLogin: false, loginHasError: false, loginErrorMSG: '' }))
-      let userId = data.data.uid, authToken = data.data.AuthToken;
+      let userId = data.data.uid;
       console.log(data.data);
-      setCookie('AuthToken', authToken, '/', date)
+
       setCookie('id', userId, '/', date)
       setCookie('email', data.data.email, '/', date)
       setCookie('mobile', data.data.mobilenumber, '/', date)
@@ -128,10 +137,15 @@ export default class AccVerifyModal extends React.Component {
       this.props.dispatch(allActionDucer(AUTHENTICATED, { ...data.data }))
       this.closeModal()
     }
-    else this.onLoginError(data)
+    else {
+      console.log(status, "status");
+      this.onLoginError(data)
+
+    }
   }
   onLoginError(data) {
     this.props.dispatch(allActionDucer(MODAL, { attemptingLogin: false, loginHasError: true, loginErrorMSG: data.msg }))
+    console.log(data);
   }
   changeFormType(options) {
     this.props.dispatch(allActionDucer(MODAL, options))

@@ -74,7 +74,7 @@ export default class ForgotPassword extends React.Component {
     const { mobilenumber, smscode, countdown, canResend, formStep, c_password, showPass, password } = this.state, { attemptingPassReset, resetHasError, resetErrorMSG, sendingSMS, verifyingSMS, smsHasError, smsErrorMSG } = this.props
     return (
       <div className="sb-login-form-container forgot-password">
-        <div>
+        <div className='ForgotpasswordModal'>
           <span onClick={this.props.onClose} className="sb-login-form-close icon-icon-close-x"></span>
           <div className="liquid-container ember-view" >
             <div className="liquid-child ember-view" style={{ top: "0px", left: "0px", opacity: "1" }}>

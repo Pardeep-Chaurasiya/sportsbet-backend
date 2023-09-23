@@ -32,8 +32,8 @@ export default class LoginForm extends React.Component {
     const { showPass, password, email } = this.state, { loginHasError,
       loginErrorMSG } = this.props.errorState, { attemptingLogin } = this.props
     return (
-      <div className="sb-login-form-container sign-in">
-        <div>
+      <div className="sb-login-form-container sign-up" >
+        <div className='login-Modal'>
           <span onClick={this.props.onClose} className="sb-login-form-close icon-icon-close-x"></span>
           <div className="liquid-container ember-view" ><div className="liquid-child ember-view" style={{ top: "0px", left: "0px", opacity: "1" }}>
             <div data-step="sign-in" id="ember129058" className="sb-login-step active ember-view">  <div className="title">
@@ -74,11 +74,8 @@ export default class LoginForm extends React.Component {
                   <span>{loginHasError ? this.errMSG[loginErrorMSG] ? this.errMSG[loginErrorMSG] : loginErrorMSG : ''}</span>
                 </div>
                 <button className="sb-account-btn btn-primary" onClick={this.attemptLogin} disabled={email === '' || password === ''}>
-                  {attemptingLogin ?
-                    <div className="no-results-container sb-spinner">
-                      <span className="btn-preloader sb-preloader"></span>
-                    </div>
-                    : 'Login'}
+
+                  Login
                 </button>
 
                 <div className="footer">

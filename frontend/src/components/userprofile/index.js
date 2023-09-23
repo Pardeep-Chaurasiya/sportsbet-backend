@@ -7,8 +7,8 @@ import { allActionDucer } from '../../actionCreator'
 import { SPORTSBOOK_ANY, RIDS_PUSH, PROFILE, LOGIN, LOGOUT, MODAL } from '../../actionReducers'
 import { validateEmail, validateFullname, validatePhone, validatePassword, validateUsername, validateSMSCode } from '../../utils/index'
 import { calcMD5 } from '../../utils/jsmd5'
-import API from '../../services/api'
-const $api = API.getInstance()
+import { NewAPI } from '../../services/api'
+const $api = NewAPI.getInstance()
 export default class UserProfile extends React.Component {
     constructor(props) {
         super(props)
@@ -87,23 +87,29 @@ export default class UserProfile extends React.Component {
             makeToast('Noting to Update!', 5000)
         }
     }
+    //  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjk1NDQ1MzExLCJleHAiOjE2OTU0NTI1MTF9.74n6JCqfpvRi85tcDcm4lLeLiob_PVU8jTfqYY4CYhI
     changePass() {
         this.setState({ changingpass: true })
         const { uid, AuthToken, password, old_password, phoneNumber, c_password } = this.state, $time = moment().format('YYYY-MM-DD H:mm:ss'),
             $hash = calcMD5(`uid${uid}password${old_password}AuthToken${AuthToken}time${$time}${this.props.appState.$publicKey}`)
-        $api.changePassword({ c_password: c_password, old_pass: old_password, password: password, AuthToken: AuthToken }, this.onPasswordChanged.bind(this))
+        const authToken = localStorage.getItem("authToken")
+        $api.changePassword({ c_password: c_password, old_pass: old_password, password: password }, this.onPasswordChanged.bind(this))
     }
-    onPasswordChanged({ data }) {
-        if (data.status === 200) {
-            makeToast(data.msg, 5000)
+    onPasswordChanged({ data, status }) {
+        if (status === 200) {
+
+            makeToast(data.message, 5000)
             this.props.dispatchLogout(1)
             this.props.dispatch(allActionDucer(MODAL, { modalOpen: false, type: 0 }))
         }
+
         this.setState({ changingpass: false, formEdited: false })
-        makeToast(data.msg, 5000)
+        makeToast(data.message, 5000)
+
+
     }
-    onEditSucess({ data }) {
-        if (data.status === 200) {
+    onEditSucess({ data, status }) {
+        if (status === 200) {
             const { username, phoneNumber, birth_date, document_type, idnumber, uid, email, address, gender } = this.state
             this.props.dispatch(allActionDucer(PROFILE, { birth_date: birth_date !== '' ? moment(birth_date).unix() : 0, mobile: phoneNumber, uid: uid, idnumber: idnumber, address: address, email: email, gender: gender, nickname: username, document_type: document_type }))
         }
@@ -188,7 +194,7 @@ export default class UserProfile extends React.Component {
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
                                                                 <select name="gender" style={{ padding: '18px 10px 0' }} value={gender} className={` ember-text-field ember-view`} type="text" onChange={(e) => this.onInputChange(e)} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off">
-                                                                    <option value="U">Don't Specify</option>
+                                                                    <option value="U" disabled>Don't Specify</option>
                                                                     <option value="M">Male</option>
                                                                     <option value="F">Female</option>
                                                                 </select>
@@ -211,7 +217,7 @@ export default class UserProfile extends React.Component {
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
                                                                 <select name="document_type" style={{ padding: '18px 10px 0' }} value={document_type} className={`ember-text-field ember-view`} onChange={(e) => this.onInputChange(e)} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off">
-                                                                    <option value="1">Identity Card/ID Book</option>
+                                                                    <option value="1" disabled>Identity Card/ID Book</option>
                                                                     <option value="2">Passport</option>
                                                                     <option value="3">Driver License</option>
                                                                     <option value="4">Firearms License</option>
@@ -257,11 +263,9 @@ export default class UserProfile extends React.Component {
                                                         <span></span>
                                                     </div>
                                                     <button onClick={this.updateInfo.bind(this)} className="sb-account-btn btn-primary submit-join-now " type="submit" >
-                                                        {updatingInfo ?
-                                                            <div className="no-results-container sb-spinner">
-                                                                <span className="btn-preloader sb-preloader"></span>
-                                                            </div>
-                                                            : 'Submit'}
+
+
+                                                        Submit
                                                     </button>
                                                 </div>
                                             </div>
@@ -271,8 +275,8 @@ export default class UserProfile extends React.Component {
                             </div>
                         </div>
                         :
-                        <div className="sb-login-form-container sign-in" >
-                            <div >
+                        <div className="sb-login-form-container sign-in">
+                            <div style={{ width: "100%" }}>
 
                                 <div className="liquid-container ember-view">
                                     <div className="liquid-child ember-view">
@@ -328,11 +332,8 @@ export default class UserProfile extends React.Component {
                                                         <span></span>
                                                     </div>
                                                     <button onClick={this.changePass.bind(this)} className="sb-account-btn btn-primary submit-join-now " type="submit" >
-                                                        {changingpass ?
-                                                            <div className="no-results-container sb-spinner">
-                                                                <span className="btn-preloader sb-preloader"></span>
-                                                            </div>
-                                                            : 'Submit'}
+
+                                                        Submit
                                                     </button>
                                                 </div>
                                             </div>

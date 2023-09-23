@@ -298,9 +298,9 @@ export default class Main extends React.PureComponent {
     window.addEventListener("online", this.handleConnectionChange.bind(this));
     window.addEventListener("offline", this.handleConnectionChange.bind(this));
     const userId = getCookie("id"),
-      authToken = getCookie("AuthToken"),
+      authToken = localStorage.getItem("authToken"),
       odd_format = dataStorage("odds_format", {}, 3);
-    if (userId !== undefined && authToken !== undefined) {
+    if (authToken !== undefined) {
       this.getUserBalanceMain();
       this.props.dispatch(appStateActionDucer(LOGIN, { isLoggedIn: true }));
     }
@@ -678,9 +678,9 @@ export default class Main extends React.PureComponent {
     }
   }
   loginUser() {
-    const userId = getCookie("id"),
-      authToken = getCookie("AuthToken");
-    if (userId !== undefined && authToken !== undefined) {
+    const userId = getCookie("id")
+    const authToken = localStorage.getItem("authToken");
+    if (authToken !== undefined) {
       this.rids[2].request = {
         command: "restore_login",
         params: {
@@ -693,14 +693,17 @@ export default class Main extends React.PureComponent {
     }
   }
   logoutUser(type = null) {
-    const userId = getCookie("id"),
-      authToken = getCookie("AuthToken");
-    if (userId !== undefined && authToken !== undefined) {
+
+    const authToken = localStorage.getItem("authToken");
+
+
+    if (authToken !== undefined) {
       // deleteCookie('think_var','/')
-      deleteCookie("AuthToken", "/");
-      deleteCookie("id", "/");
-      deleteCookie("mobile", "/");
-      deleteCookie("email", "/");
+      // deleteCookie("AuthToken", "/");
+      // deleteCookie("id", "/");
+      // deleteCookie("mobile", "/");
+      // deleteCookie("email", "/");
+      localStorage.removeItem("authToken")
       this.sendRequest({
         command: "logout",
         params: {},
