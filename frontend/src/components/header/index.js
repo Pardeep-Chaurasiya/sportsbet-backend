@@ -348,7 +348,7 @@ class Header extends React.Component {
               </div>
               <div className="header-col right">
                 <div className="nav-controls">
-                  {!appState.isLoggedIn ? (
+                  {!appState.isLoggedIn && !localStorage.getItem("authToken") ? (
                     <React.Fragment>
                       <div
 
@@ -361,7 +361,7 @@ class Header extends React.Component {
                         className="register"
                         onClick={() => this.openFormModal("register")}
                       >
-                        <button>Register</button>
+                        <button style={{ backgroundColor: "green" }}>Register</button>
                       </div>
                     </React.Fragment>
                   ) : (

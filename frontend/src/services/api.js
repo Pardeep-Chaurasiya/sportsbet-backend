@@ -151,13 +151,16 @@ export class NewAPI {
 
         this.http = axios.create({
             baseURL: "http://159.65.156.19:4000/api",
+
             headers: { 'Content-Type': 'application/json;charset=utf-8' },
             cancelToken: this.cancelToken.token
         })
-
+        console.log(this.http, "httttpppppppppp");
         this.http.interceptors.request.use((config) => {
+            const token = localStorage.getItem("authToken")
+
             if (this.isLoggedIn) {
-                config.headers.common['Authorization'] = 'Bearer ' + this.token
+                config.headers.common['Authorization'] = "Bearer " + token
             }
             return config
         })
@@ -196,7 +199,7 @@ export class NewAPI {
         this.http.post('resetPassword', data).then(success, error)
     }
     changePassword(data, success, error = this.logError) {
-        this.http.post('changePassword', data).then(success, error)
+        this.http.put('changePassword', data).then(success, error)
     }
     createAccount(data, success, error = this.logError) {
         this.http.post('register', data).then(success, error)

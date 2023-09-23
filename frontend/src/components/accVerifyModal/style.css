@@ -1637,3 +1637,34 @@ html .sb-login-form-container .checkbox-group.error {
   border-color: red !important;
   outline: none;
 }
+@media screen and (min-width:992px) {
+  .login-Modal{
+   
+  height: 70vh !important;
+  }
+  .ForgotpasswordModal{
+     height: 70vh !important;
+  }
+  .sb-login-form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media screen and (min-width:600px) {
+  .login-Modal{
+    
+     height: 70vh !important;
+    
+  }
+  .sign-up{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .ForgotpasswordModal{
+    height: 70vh !important;
+ }
+ 
+}
+ 
