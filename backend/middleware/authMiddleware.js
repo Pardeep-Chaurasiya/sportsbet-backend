@@ -6,29 +6,23 @@ const secretKey = process.env.JWT_SECRET_KEY;
 const authMiddleware = async (req, res, next) => {
   try {
     const AuthToken = req.headers.authorization;
-    if (!AuthToken) {
-      return res.status(401).json({
-        code: "Invalid-Token",
-        error: "Please provide a valid JWT token",
-      });
-    }
-    let decodedToken = "";
-    decodedToken = jwt.verify(AuthToken, secretKey);
-    const existUser = await User.findByPk(decodedToken.id);
-    if (!existUser) {
+    if (!AuthToken.startsWith("Bearer")) {
       return res
-        .status(401)
-        .json({ code: "Unauthorized", error: "User does not exist" });
+        .status(400)
+        .json({ message: "Invalid token or token formet wrong" });
     }
+    if (AuthToken && AuthToken.startsWith("Bearer")) {
+      const token = AuthToken.split(" ")[1];
 
-    req.User = existUser;
-    next();
+      const decodedToken = jwt.verify(token, secretKey);
+
+      req.User = await User.findByPk(decodedToken.id);
+
+      next();
+    }
   } catch (error) {
-    console.error(error);
-    return res
-      .status(401)
-      .json({ code: "Unauthorized", error: "Unusual Activity or no token" });
+    console.log(error);
+    return res.status(401).json(error);
   }
 };
-
 module.exports = authMiddleware;
