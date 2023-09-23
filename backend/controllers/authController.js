@@ -139,7 +139,6 @@ const sendSMS = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   const { mobilenumber, sms, password, CPassword, dialing_code } = req.body;
-  console.log(req.body, "aga");
 
   try {
     if (password !== CPassword) {
@@ -179,7 +178,7 @@ const resetPassword = async (req, res) => {
 };
 
 const changePassword = async (req, res) => {
-  console.log("running")
+  console.log("running");
   try {
     const { old_pass, c_password, password } = req.body;
 
