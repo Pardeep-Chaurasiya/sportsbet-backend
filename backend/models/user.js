@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.OTP, { foreignKey: "userId" });
       User.hasOne(models.UserProfile, { foreignKey: "userId" });
+      User.hasMany(models.Bet, { foreignKey: "userId" });
     }
   }
   User.init(

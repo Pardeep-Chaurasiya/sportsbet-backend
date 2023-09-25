@@ -25,8 +25,6 @@ const validateChangePassword = (req, res, next) => {
 
 const validateCreateUserProfile = (req, res, next) => {
   const schema = Joi.object({
-    firstName: Joi.string().required(),
-    lastName: Joi.string().allow(null, ""),
     email: Joi.string().email(),
     address: Joi.string().required(),
     gender: Joi.string().required(),
@@ -35,6 +33,8 @@ const validateCreateUserProfile = (req, res, next) => {
     document_type: Joi.string().required(),
     mobilenumber: Joi.string(),
     dob: Joi.string().required(),
+    firstName: Joi.string(),
+    lastName: Joi.string(),
   });
 
   const { error, value } = schema.validate(req.body);
@@ -50,14 +50,14 @@ const validateCreateUserProfile = (req, res, next) => {
 
 const validateUpdateUserProfile = (req, res, next) => {
   const schema = Joi.object({
-    firstName: Joi.string(),
-    lastName: Joi.string(),
     address: Joi.string(),
     gender: Joi.string(),
     idnumber: Joi.string(),
     nickname: Joi.string(),
     document_type: Joi.string(),
     dob: Joi.string(),
+    firstName: Joi.string(),
+    lastName: Joi.string(),
   });
 
   const { error, value } = schema.validate(req.body);
