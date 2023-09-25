@@ -17,16 +17,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   UserProfile.init(
     {
-      firstName: { type: DataTypes.STRING, allowNull: false },
-      lastName: { type: DataTypes.STRING },
-      email: { type: DataTypes.STRING, allowNull: false, unique: true },
       address: { type: DataTypes.STRING, allowNull: false },
       gender: { type: DataTypes.STRING, allowNull: false },
       idnumber: { type: DataTypes.STRING, allowNull: false },
       dob: { type: DataTypes.STRING, allowNull: false },
       nickname: { type: DataTypes.STRING, allowNull: false, unique: true },
       document_type: { type: DataTypes.STRING, allowNull: false },
-      mobilenumber: { type: DataTypes.STRING, allowNull: false, unique: true },
       userId: DataTypes.INTEGER,
     },
     {
