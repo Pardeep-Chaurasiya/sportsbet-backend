@@ -20,7 +20,7 @@ export default class UserProfile extends React.Component {
             old_password: '',
             c_password: '',
             uid: getCookie('id'),
-            AuthToken: getCookie('AuthToken'),
+            AuthToken: localStorage.getItem('authToken'),
             email: this.props.profile.email,
             firstname: this.props.profile.firstName,
             lastname: this.props.profile.lastName,
@@ -160,7 +160,7 @@ export default class UserProfile extends React.Component {
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
 
-                                                                <input name="username" value={username} className={`${(username !== '' && !validateUsername(username)) || usernameEmpty ? 'error animated pulse' : ''} ember-text-field ember-view`} type="text" onChange={(e) => this.onInputChange(e)} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off" readOnly />
+                                                                <input name="username" value={username} className={`${(username !== '' && !validateUsername(username)) || usernameEmpty ? 'error animated pulse' : ''} ember-text-field ember-view`} type="text" onChange={(e) => this.onInputChange(e)} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off" />
                                                                 <span className={`placeholder ${username === '' && 'placeholder-inactive'}`}>Nickname</span>
 
                                                             </div>
@@ -194,7 +194,7 @@ export default class UserProfile extends React.Component {
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
                                                                 <select name="gender" style={{ padding: '18px 10px 0' }} value={gender} className={` ember-text-field ember-view`} type="text" onChange={(e) => this.onInputChange(e)} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off">
-                                                                    <option value="U" disabled>Don't Specify</option>
+                                                                    <option value="U" disabled selected>Don't Specify</option>
                                                                     <option value="M">Male</option>
                                                                     <option value="F">Female</option>
                                                                 </select>
@@ -217,7 +217,7 @@ export default class UserProfile extends React.Component {
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
                                                                 <select name="document_type" style={{ padding: '18px 10px 0' }} value={document_type} className={`ember-text-field ember-view`} onChange={(e) => this.onInputChange(e)} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off">
-                                                                    <option value="1" disabled>Identity Card/ID Book</option>
+                                                                    <option value="1" disabled selected>Identity Card/ID Book</option>
                                                                     <option value="2">Passport</option>
                                                                     <option value="3">Driver License</option>
                                                                     <option value="4">Firearms License</option>

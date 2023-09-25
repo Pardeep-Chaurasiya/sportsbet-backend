@@ -30,7 +30,8 @@ import {
   deleteCookie,
 } from "../../common";
 import WS from "../../services/WS";
-import API from "../../services/api";
+
+import API, { NewAPI } from "../../services/api";
 import { calcMD5 } from "../../utils/jsmd5";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AccModal from "../../containers/modal";
@@ -60,6 +61,7 @@ import ScrollToTop from "../../components/scrolltotop";
 import { PaymentSuccess } from "../payment/success";
 import { PaymentFailed } from "../payment/failed";
 const $api = API.getInstance();
+const $NewApi = NewAPI.getInstance();
 export default class Main extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -300,7 +302,7 @@ export default class Main extends React.PureComponent {
     const userId = getCookie("id"),
       authToken = localStorage.getItem("authToken"),
       odd_format = dataStorage("odds_format", {}, 3);
-    if (authToken !== undefined) {
+    if (authToken) {
       this.getUserBalanceMain();
       this.props.dispatch(appStateActionDucer(LOGIN, { isLoggedIn: true }));
     }
@@ -447,16 +449,7 @@ export default class Main extends React.PureComponent {
       },
       this.afterBalance.bind(this)
     );
-    $api.getUserInfo(
-      {
-        uid: userId,
-        AuthToken: authToken,
-        email: email,
-        time: $time,
-        hash: hash,
-      },
-      this.afterBalance.bind(this)
-    );
+    $NewApi.getUserInfo({}, this.afterBalance.bind(this));
     this.getBalanceInterval = setInterval(() => {
       this.autoGetBalance();
     }, 5000);
@@ -483,6 +476,7 @@ export default class Main extends React.PureComponent {
   }
   afterBalance({ data }) {
     this.props.dispatch(appStateActionDucer(PROFILE, { ...data.data }));
+    console.log(data, "profileData");
   }
   socketOpen(e) {
     this.props.dispatch(appStateActionDucer(APPREADY, { isReady: true }));
