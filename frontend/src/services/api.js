@@ -200,9 +200,7 @@ export class NewAPI {
         this.http.post('register', data).then(success, error)
     }
     getUserInfo(data, success, error = this.logError) {
-        this.http.get('get-profile', data).then((success) => {
-            console.log(success, "succeesssssss")
-        }).catch(error)
+        this.http.get('get-profile', data).then(success).catch(error)
 
     }
     updateProfile(data, success, error = this.logError) {
