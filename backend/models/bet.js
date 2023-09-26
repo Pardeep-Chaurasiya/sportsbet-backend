@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       tournamentId: DataTypes.INTEGER,
       command: { type: DataTypes.STRING },
-      BetType: { type: DataTypes.STRING },
+      BetType: { type: DataTypes.INTEGER },
       AcceptMode: { type: DataTypes.INTEGER },
       Source: { type: DataTypes.INTEGER },
       TotalPrice: { type: DataTypes.DECIMAL },

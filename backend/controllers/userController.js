@@ -38,7 +38,7 @@ const getUserProfile = async (req, res) => {
       where: { userId: user.id },
     });
     const userData = await User.findOne({
-      attributes: ["firstName", "lastName"],
+      attributes: ["firstName", "lastName", "email", "mobilenumber"],
       where: { id: user.id },
     });
 
@@ -129,6 +129,7 @@ const updateUserProfile = async (req, res) => {
       },
       { where: { userId: req.User.id } }
     );
+    console.log(updatedUser);
 
     const update = await User.update(
       {

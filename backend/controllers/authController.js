@@ -5,7 +5,7 @@ const client = require("twilio")(
   process.env.ACCOUNT_SID,
   process.env.AUTH_TOKEN
 );
-const { User, OTP } = require("../models");
+const { User, OTP, UserProfile } = require("../models");
 
 const register = async (req, res) => {
   const {
@@ -42,7 +42,7 @@ const register = async (req, res) => {
     }
     const hashPassword = await bcrypt.hash(password, 10);
 
-    await User.create({
+    const user = await User.create({
       firstName,
       lastName,
       email,
@@ -50,6 +50,10 @@ const register = async (req, res) => {
       mobilenumber,
       source,
       dialing_code,
+    });
+
+    await UserProfile.create({
+      userId: user.id,
     });
 
     return res.json({ success: true, message: "User Register Successfully" });
