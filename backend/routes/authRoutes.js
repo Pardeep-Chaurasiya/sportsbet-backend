@@ -1,27 +1,27 @@
 const express = require("express");
 const authController = require("../controllers/authController");
-const joi_validator = require("../middleware/joi-auth-validations");
+const joi_validator = require("../joi-validator/joi-auth-validations");
 
 const router = express.Router();
 
-// register user
+// register user route
 router.post(
   "/register",
   joi_validator.validateRegistration,
   authController.register
 );
 
-// login user
+// login user route
 router.post("/login", joi_validator.validateLogin, authController.login);
 
-// send otp
+// send otp route
 router.post(
   "/forgetPassword",
   joi_validator.validateSMS,
   authController.sendSMS
 );
 
-// reset password
+// reset password route
 router.post(
   "/resetPassword",
   joi_validator.validateResetPassword,
