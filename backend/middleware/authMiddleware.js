@@ -6,7 +6,7 @@ const secretKey = process.env.JWT_SECRET_KEY;
 const authMiddleware = async (req, res, next) => {
   try {
     const AuthToken = req.headers.authorization;
-    if (!AuthToken.startsWith("Bearer")) {
+    if (!AuthToken && !AuthToken.startsWith("Bearer")) {
       return res
         .status(400)
         .json({ message: "Invalid token or token formet wrong" });
@@ -17,11 +17,10 @@ const authMiddleware = async (req, res, next) => {
       const decodedToken = jwt.verify(token, secretKey);
 
       req.User = await User.findByPk(decodedToken.id);
-
       next();
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(401).json(error);
   }
 };

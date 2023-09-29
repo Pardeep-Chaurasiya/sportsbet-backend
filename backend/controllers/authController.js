@@ -5,8 +5,9 @@ const client = require("twilio")(
   process.env.ACCOUNT_SID,
   process.env.AUTH_TOKEN
 );
-const { User, OTP } = require("../models");
+const { User, OTP, UserProfile } = require("../models");
 
+// register user controller
 const register = async (req, res) => {
   const {
     firstName,
@@ -42,7 +43,7 @@ const register = async (req, res) => {
     }
     const hashPassword = await bcrypt.hash(password, 10);
 
-    await User.create({
+    const user = await User.create({
       firstName,
       lastName,
       email,
@@ -52,6 +53,10 @@ const register = async (req, res) => {
       dialing_code,
     });
 
+    await UserProfile.create({
+      userId: user.id,
+    });
+
     return res.json({ success: true, message: "User Register Successfully" });
   } catch (error) {
     console.error(error);
@@ -59,6 +64,7 @@ const register = async (req, res) => {
   }
 };
 
+// login user controller
 const login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -82,9 +88,7 @@ const login = async (req, res) => {
       process.env.JWT_SECRET_KEY,
       { expiresIn: "2h" }
     );
-    console.log("authToken", AuthToken);
-    const date = moment().format("MMMM Do YYYY, h:mm:ss a");
-    // console.log("login time", date);
+    const date = moment().format("MMMM Do YYYY, h:mm:ss ");
     return res.status(200).json({
       code: "Success",
       message: "Login successfully",
@@ -92,11 +96,12 @@ const login = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    return res.status(400).json({ message: error.message });
   }
 };
 
+// forget password send otp logic controller
 const sendSMS = async (req, res) => {
-  console.log("log");
   const { mobile, dialing_code } = req.body;
 
   const user = await User.findOne({ where: { mobilenumber: mobile } });
@@ -109,8 +114,6 @@ const sendSMS = async (req, res) => {
   }
 
   let newmobile = dialing_code + mobile;
-  // let newmobile = "+" + dialing_code + mobile;
-  console.log(newmobile);
   let Otp = Math.floor(100000 + Math.random() * 900000);
   try {
     client.messages
@@ -128,15 +131,16 @@ const sendSMS = async (req, res) => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         return res.status(500);
       });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json(error.message);
   }
 };
 
+// reset password logic controller
 const resetPassword = async (req, res) => {
   const { mobilenumber, sms, password, CPassword, dialing_code } = req.body;
 
@@ -172,13 +176,12 @@ const resetPassword = async (req, res) => {
     await user.save();
     return res.status(200).json({ message: "Password changed successfully" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json(error.message);
   }
 };
 
 const changePassword = async (req, res) => {
-  console.log("running");
   try {
     const { old_pass, c_password, password } = req.body;
 
@@ -201,7 +204,7 @@ const changePassword = async (req, res) => {
       .status(200)
       .json({ message: "Password changed successfully !!" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ message: error.message });
   }
 };

@@ -1,9 +1,9 @@
 const bcrypt = require("bcrypt");
 const { UserProfile, User } = require("../models");
 
+// change password after login controller
 const changePassword = async (req, res) => {
   try {
-    console.log(req.User);
     const { old_pass, c_password, password } = req.body;
 
     const savedPassword = await bcrypt.compare(old_pass, req.User.password);
@@ -25,15 +25,15 @@ const changePassword = async (req, res) => {
       .status(200)
       .json({ message: "Password changed successfully !!" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ message: error.message });
   }
 };
 
+// get user profile controller
 const getUserProfile = async (req, res) => {
   try {
     const user = req.User;
-    // console.log(user);
     const newuser = await UserProfile.findAll({
       where: { userId: user.id },
     });
@@ -44,67 +44,15 @@ const getUserProfile = async (req, res) => {
 
     return res.status(200).json({ newuser, userData });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      success: false,
-      error: error.message,
-    });
-  }
-};
-
-const createUserProfile = async (req, res) => {
-  try {
-    const {
-      firstName,
-      lastName,
-      idnumber,
-      address,
-      gender,
-      dob,
-      nickname,
-      document_type,
-    } = req.body;
-
-    const user = req.User;
-
-    const newUser = await UserProfile.create({
-      idnumber,
-      address,
-      gender,
-      dob,
-      nickname,
-      document_type,
-      userId: user.id,
-    });
-
-    const update = await User.update(
-      {
-        firstName: firstName,
-        lastName: lastName,
-      },
-      { where: { id: req.User.id } }
-    );
-
-    if (newUser && update) {
-      return res.status(200).json({
-        success: true,
-        message: "User Profile Register Successfully",
-        newUser,
-        update,
-      });
-    } else {
-      return res.status(400).json({ message: "User not Added" });
-    }
-  } catch (error) {
     console.error(error);
     return res.status(500).json({
       success: false,
       error: error.message,
-      message: "user not register",
     });
   }
 };
 
+// update user profile controller
 const updateUserProfile = async (req, res) => {
   try {
     const {
@@ -158,6 +106,5 @@ const updateUserProfile = async (req, res) => {
 module.exports = {
   getUserProfile,
   changePassword,
-  createUserProfile,
   updateUserProfile,
 };
