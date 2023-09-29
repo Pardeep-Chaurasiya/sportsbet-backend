@@ -253,7 +253,7 @@ export default class AccModal extends React.Component {
                     </div>
                   </div>
                   <AccountMenuOption type={type} onExpand={this.changeTab} id={1} title={'Profile'} icon={"icon-sb-edit-profile"} tabType={tabType}>
-                    <div className={tabType == 1 ? 'active' : ''} onClick={() => { this.showContent(1) }}> <span>Edit Profile </span></div>
+                    <div className={tabType == 1 ? 'active' : ''} onClick={() => { this.showContent(1) }}> <span> Profile </span></div>
                     <div className={tabType == 2 ? 'active' : ''} onClick={() => { this.showContent(2) }}><span>Change Password</span></div>
                   </AccountMenuOption>
                   <AccountMenuOption type={type} onExpand={this.changeTab} id={3} title={'Wallet'} icon={"icon-sb-wallet"} tabType={tabType}>

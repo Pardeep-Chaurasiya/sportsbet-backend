@@ -72,9 +72,7 @@ class API {
     getBalance(data, success, error = this.logError) {
         this.http.post('getuserbalancebonus', data).then(success, error)
     }
-    getUserInfo(data, success, error = this.logError) {
-        this.http.post('getuserinfo', data).then(success, error)
-    }
+
     getUserBalanceHistory(data, success, error = this.logError) {
         this.http.post('getUserBalanceHistory', data).then(success, error)
     }
@@ -100,9 +98,7 @@ class API {
         this.http.post('userWithdrawal', data).then(success, error)
     }
 
-    updateProfile(data, success, error = this.logError) {
-        this.http.post('userInfoSave', data).then(success, error)
-    }
+
 
     getSlotGames(data, success, error = this.logError) {
         this.http[data.reqType]('getSlotGames', data.reqType === 'post' ? data : { params: data }).then(success, error)
@@ -158,8 +154,7 @@ export class NewAPI {
         console.log(this.http, "httttpppppppppp");
         this.http.interceptors.request.use((config) => {
             const token = localStorage.getItem("authToken")
-
-            if (this.isLoggedIn) {
+            if (this.isLoggedIn || token) {
                 config.headers.common['Authorization'] = "Bearer " + token
             }
             return config
@@ -203,6 +198,13 @@ export class NewAPI {
     }
     createAccount(data, success, error = this.logError) {
         this.http.post('register', data).then(success, error)
+    }
+    getUserInfo(data, success, error = this.logError) {
+        this.http.get('get-profile', data).then(success).catch(error)
+
+    }
+    updateProfile(data, success, error = this.logError) {
+        this.http.patch('update-profile', data).then(success, error)
     }
 
 }

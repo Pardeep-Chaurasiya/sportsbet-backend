@@ -325,6 +325,7 @@ class Header extends React.Component {
       });
 
     }
+    console.log(appState.isLoggedIn, "loggedin");
     return (
       <div
         className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
@@ -348,7 +349,7 @@ class Header extends React.Component {
               </div>
               <div className="header-col right">
                 <div className="nav-controls">
-                  {!appState.isLoggedIn && !localStorage.getItem("authToken") ? (
+                  {!appState.isLoggedIn ? (
                     <React.Fragment>
                       <div
 
