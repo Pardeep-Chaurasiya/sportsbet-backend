@@ -1,11 +1,11 @@
 const express = require("express");
 const userController = require("../controllers/userController");
-const joi_validator = require("../middleware/joi-userProfile-validation");
+const joi_validator = require("../joi-validator/joi-userProfile-validation");
 const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// change password after logged in
+// change password after logged in route
 router.put(
   "/changePassword",
   authMiddleware,
@@ -13,18 +13,10 @@ router.put(
   userController.changePassword
 );
 
-//  get user profile
+//  get user profile route
 router.get("/get-profile", authMiddleware, userController.getUserProfile);
 
-// create user profile
-router.post(
-  "/create-profile",
-  authMiddleware,
-  joi_validator.validateCreateUserProfile,
-  userController.createUserProfile
-);
-
-// update user profile
+// update user profile route
 router.patch(
   "/update-profile",
   authMiddleware,

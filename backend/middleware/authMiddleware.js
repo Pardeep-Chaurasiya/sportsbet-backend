@@ -6,7 +6,6 @@ const secretKey = process.env.JWT_SECRET_KEY;
 const authMiddleware = async (req, res, next) => {
   try {
     const AuthToken = req.headers.authorization;
-    console.log(AuthToken);
     if (!AuthToken && !AuthToken.startsWith("Bearer")) {
       return res
         .status(400)
@@ -18,11 +17,10 @@ const authMiddleware = async (req, res, next) => {
       const decodedToken = jwt.verify(token, secretKey);
 
       req.User = await User.findByPk(decodedToken.id);
-
       next();
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(401).json(error);
   }
 };
