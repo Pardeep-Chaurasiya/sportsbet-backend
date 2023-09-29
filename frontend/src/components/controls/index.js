@@ -1034,7 +1034,7 @@ export default class Controls extends React.Component {
                         <React.Fragment>
                           <div className="betslip-tabs">
                             <div className="betslip-panel">
-                              <select onChange={(e) => this.changeBetMode(e)} value={betMode}>
+                              {/* <select onChange={(e) => this.changeBetMode(e)} value={betMode}>
                                 <option value="1">Single</option>
                                 <option disabled={betlen < 2} value="2" >Multiple</option>
                                 <option disabled={betlen < 3 || betlen > 16} value="3">System</option>
@@ -1048,7 +1048,7 @@ export default class Controls extends React.Component {
                                     })
                                   }
                                 </select>
-                              }
+                              } */}
                               <div className="clear-all" onClick={() => this.removeAllBetSelections()}>
                                 <span>Remove All</span>
                               </div>

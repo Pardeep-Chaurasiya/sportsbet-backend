@@ -26,13 +26,13 @@ const validateChangePassword = (req, res, next) => {
 const validateCreateUserProfile = (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().email(),
-    address: Joi.string().required(),
-    gender: Joi.string().required(),
-    idnumber: Joi.string().required(),
-    nickname: Joi.string().required(),
-    document_type: Joi.string().required(),
+    address: Joi.string(),
+    gender: Joi.string(),
+    idnumber: Joi.string(),
+    nickname: Joi.string(),
+    document_type: Joi.string(),
     mobilenumber: Joi.string(),
-    dob: Joi.string().required(),
+    dob: Joi.string(),
     firstName: Joi.string(),
     lastName: Joi.string(),
   });

@@ -27,7 +27,7 @@ export default class UserProfile extends React.Component {
             phoneNumber: this.props.profile.mobilenumber,
             idnumber: this.props.profile.idnumber,
             gender: this.props.profile.gender,
-            birth_date: this.props.profile.birth_date ? moment.unix(this.props.profile.birth_date).format('YYYY/MM/DD') : '',
+            birth_date: this.props.profile.birth_date || '',
             address: this.props.profile.address,
             document_type: this.props.profile.document_type,
             formStep: 1,
@@ -46,27 +46,27 @@ export default class UserProfile extends React.Component {
         this.toggleShow = this.toggleShow.bind(this)
         this.changePass = this.changePass.bind(this)
     }
-    componentDidMount() {
-        $("#datepickerBD").datepicker({
-            maxDate: new Date(moment().subtract(18, 'years')), onSelect: function () { onSelect('datepickerBD') }, changeMonth: true,
-            changeYear: true
-        });
-        $("#datepickerBD").datepicker("option", "dateFormat", "yy/mm/dd");
-        $("#datepickerBD").datepicker("setDate", new Date(this.state.birth_date));
-        this.setState({ birth_date: moment($("#datepickerBD").val()).format('YYYY/MM/DD') })
-    }
+    // componentDidMount() {
+    //     $("#datepickerBD").datepicker({
+    //         maxDate: new Date(moment().subtract(18, 'years')), onSelect: function () { onSelect('datepickerBD') }, changeMonth: true,
+    //         changeYear: true
+    //     });
+    //     $("#datepickerBD").datepicker("option", "dateFormat", "yy/mm/dd");
+    //     $("#datepickerBD").datepicker("setDate", new Date(this.state.birth_date));
+    //     this.setState({ birth_date: moment($("#datepickerBD").val()).format('YYYY/MM/DD') })
+    // }
     changeForm(type) {
         type !== this.props.formType && this.props.changeForm(type)
     }
     toggleShow() {
         !this.state.changingpass && this.setState(prevState => ({ showPass: !prevState.showPass }));
     }
-    onDateChangeBD(e) {
-        e.persist()
-        let val = e.target.value
-        $("#datepickerBD").val(moment(val).format('YYYY/MM/DD'));
-        this.setState({ birth_date: moment(val).format('YYYY/MM/DD') })
-    }
+    // onDateChangeBD(e) {
+    //     e.persist()
+    //     let val = e.target.value
+    //     $("#datepickerBD").val(moment(val).format('DD/MM/YYYY'));
+    //     this.setState({ birth_date: moment(val).format('DD/MM/YYYY') })
+    // }
     onInputChange(e) {
         let $el = e.target, newState = {}
         newState[$el.name] = $el.value
@@ -77,10 +77,10 @@ export default class UserProfile extends React.Component {
     updateInfo() {
         this.setState({ updatingInfo: true })
         const { username, phoneNumber, formEdited, birth_date, document_type, idnumber, uid, email, AuthToken, address, gender, firstname, lastname } = this.state, $time = moment().format('YYYY-MM-DD H:mm:ss')
-        let p = { mobilenumber: phoneNumber, uid: uid, AuthToken: AuthToken, idnumber: idnumber || '', address: address, email: email, gender: gender, nickname: username, firstName: firstname, lastName: lastname, document_type: document_type, time: $time }
-        if (birth_date !== '') p['birth_date'] = moment(birth_date).unix(); else p['birth_date'] = 0
+        let p = { idnumber: idnumber || '', address: address, gender: gender, nickname: username, firstName: firstname, lastName: lastname, document_type: document_type, dob: birth_date }
+        // if (birth_date !== '') p['birth_date'] = moment(birth_date).unix(); else p['birth_date'] = 0
         const $hash = calcMD5(`AuthToken${AuthToken}uid${uid}mobilenumber${phoneNumber}email${email}time${$time}${this.props.appState.$publicKey}`)
-        p.hash = $hash
+
         if (formEdited) $api.updateProfile(p, this.onEditSucess.bind(this))
         else {
             this.setState({ updatingInfo: false })
@@ -114,7 +114,8 @@ export default class UserProfile extends React.Component {
             this.props.dispatch(allActionDucer(PROFILE, { birth_date: birth_date !== '' ? moment(birth_date).unix() : 0, mobile: phoneNumber, uid: uid, idnumber: idnumber, address: address, email: email, gender: gender, nickname: username, document_type: document_type }))
         }
         this.setState({ edited: data.msg, updatingInfo: false, formEdited: false })
-        makeToast(data.msg, 5000)
+        console.log(data, 'update');
+        makeToast(data.message, 5000)
     }
     render() {
         const { showPass, password, phoneNumber, email, username, c_password, updatingInfo, changingpass, phoneNumberEmpty,
@@ -149,7 +150,7 @@ export default class UserProfile extends React.Component {
                                                     <div className="ember-view col-sm-12"><div className="form-group required">
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
-                                                                <input value={this.props.profile.dialing_code + " " + phoneNumber} className={`ember-text-field ember-view`} type="text" readOnly />
+                                                                <input value={phoneNumber} className={`ember-text-field ember-view`} type="text" readOnly />
                                                                 <span className={`placeholder ${phoneNumber === '' && 'placeholder-inactive'}`}>Phone Number</span>
                                                             </div>
                                                         </div>
@@ -194,9 +195,9 @@ export default class UserProfile extends React.Component {
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
                                                                 <select name="gender" style={{ padding: '18px 10px 0' }} value={gender} className={` ember-text-field ember-view`} type="text" onChange={(e) => this.onInputChange(e)} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off">
-                                                                    <option value="U" disabled selected>Don't Specify</option>
-                                                                    <option value="M">Male</option>
-                                                                    <option value="F">Female</option>
+                                                                    <option value="Don't Specify" >Don't Specify</option>
+                                                                    <option value="Male">Male</option>
+                                                                    <option value="Female">Female</option>
                                                                 </select>
                                                                 <span className={`placeholder ${gender === '' && 'placeholder-inactive'}`}>Gender</span>
                                                             </div>
@@ -206,7 +207,7 @@ export default class UserProfile extends React.Component {
                                                     <div className="ember-view col-sm-12"><div className="form-group required">
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
-                                                                <input name="email" value={email} className={`${email !== '' && !validateEmail(email) ? 'error animated pulse' : ''} ember-text-field ember-view`} type="text" onChange={(e) => this.onInputChange(e)} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off" />
+                                                                <input name="email" value={email} className={`${email !== '' && !validateEmail(email) ? 'error animated pulse' : ''} ember-text-field ember-view`} type="text" onChange={(e) => this.onInputChange(e)} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off" readOnly />
                                                                 <span className={`placeholder ${email === '' && 'placeholder-inactive'}`}>Email </span>
                                                             </div>
                                                         </div>
@@ -217,11 +218,11 @@ export default class UserProfile extends React.Component {
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
                                                                 <select name="document_type" style={{ padding: '18px 10px 0' }} value={document_type} className={`ember-text-field ember-view`} onChange={(e) => this.onInputChange(e)} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} autoComplete="off">
-                                                                    <option value="1" disabled selected>Identity Card/ID Book</option>
-                                                                    <option value="2">Passport</option>
-                                                                    <option value="3">Driver License</option>
-                                                                    <option value="4">Firearms License</option>
-                                                                    <option value="5">Other</option>
+                                                                    <option value="Identity Card/ID Book">Identity Card/ID Book</option>
+                                                                    <option value="Passport">Passport</option>
+                                                                    <option value="Driver License">Driver License</option>
+                                                                    <option value="Firearms License">Firearms License</option>
+                                                                    <option value="Other">Other</option>
                                                                 </select>
                                                                 <span className={`placeholder ${document_type === '' && 'placeholder-inactive'}`}>ID Type</span>
                                                             </div>
@@ -242,7 +243,7 @@ export default class UserProfile extends React.Component {
                                                     <div className="ember-view col-sm-12"><div className="form-group ">
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
-                                                                <input type="text" id="datepickerBD" name="birth_date" onChange={(e) => { this.onDateChangeBD(e) }} autoComplete="off" className={`ember-text-field ember-view`} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} readOnly />
+                                                                <input type="date" id="datepickerBD" value={birth_date} name="birth_date" onChange={(e) => { this.setState({ birth_date: e.target.value }) }} autoComplete="off" className={`ember-text-field ember-view`} onFocus={(e) => onFormInputFocus(e)} onBlur={(e) => onFormInputFocusLost(e)} />
                                                                 <span className={`placeholder ${birth_date === '' && 'placeholder-inactive'}`}>Date of Birth</span>
                                                             </div>
                                                         </div>

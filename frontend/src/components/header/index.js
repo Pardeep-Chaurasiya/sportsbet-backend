@@ -356,13 +356,13 @@ class Header extends React.Component {
                         className="login"
                         onClick={() => this.openFormModal("login")}
                       >
-                        <button>sign in</button>
+                        <button style={{ borderRadius: "5px" }}>sign in</button>
                       </div>
                       <div
                         className="register"
                         onClick={() => this.openFormModal("register")}
                       >
-                        <button style={{ backgroundColor: "green" }}>Register</button>
+                        <button style={{ backgroundColor: "green", borderRadius: "5px" }}>Register</button>
                       </div>
                     </React.Fragment>
                   ) : (

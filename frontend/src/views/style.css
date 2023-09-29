@@ -34,7 +34,7 @@
 }
 .inline-content:first-child {
     padding-left: 30px;
-    background-color: #04343c;
+    background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
     color: #fff;
 }
 .about-us div>img{

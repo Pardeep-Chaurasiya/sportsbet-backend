@@ -41,7 +41,7 @@
 .footer-container .footer-body .footer-inner .footer-row.bottom {
   /* flex: 1 1 40%; */
    
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 .footer-container .footer-body .footer-inner .footer-row.bottom .footer-col {
   /* justify-content: center;

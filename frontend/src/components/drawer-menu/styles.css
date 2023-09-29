@@ -5,7 +5,7 @@
     text-align: center;
     font-weight: 400;
     transition: height .3s ease;
-    background-color: #04343c;
+    background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
     overflow-y: auto;
     align-self: flex-end;
 }

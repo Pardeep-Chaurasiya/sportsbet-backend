@@ -69,12 +69,12 @@ a {
 }
 
 .sportsbook-container.light-theme .sportsbook-search {
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%);
 }
 
 .light-theme .sports-container .sport-header,
 .light-theme .multiview-window .sport-header {
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%);
   color: #fff;
 }
 
@@ -2826,7 +2826,7 @@ body.modal-open {
   flex-direction: row;
   justify-content: flex-end;
   width: 100%;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   padding: 0 10px;
 }
 .main-container
@@ -2849,7 +2849,7 @@ body.modal-open {
   height: 45px;
   line-height: 45px;
   padding: 10px;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   color: #fff;
 }
 
@@ -3056,7 +3056,7 @@ body.modal-open {
   height: 40px;
   line-height: 40px;
   text-align: center;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   color: #fff;
   width: 100%;
   text-transform: uppercase;
@@ -3799,10 +3799,11 @@ body.modal-open {
   flex: 1 1 4%;
 }
 .sport:hover{
-  color:  #4086bb;
+ 
  cursor: pointer;
 }
  
+  
 
 
 .main-container
@@ -4266,7 +4267,7 @@ html .betslip-header-settings {
 
 html .betslip-header {
   color: #fff;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 
 [data-ember-action] {
@@ -4547,7 +4548,7 @@ input[type="radio"] {
   color: #fff;
   font-size: 13px;
   font-weight: 500;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   position: sticky;
   top: -3px;
   z-index: 10;
@@ -9638,7 +9639,7 @@ html
 }
 
 html .betslip-floating-mode-container.betslip-icon .betslip-opener-container {
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   color: #fff;
 }
 
@@ -10858,7 +10859,7 @@ div .single-event {
 /* width */
 
 html .sportsbook-search {
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 
 .sportsbook-search,
@@ -11422,7 +11423,7 @@ html .sportsbook-search .search-results-match .search-results-match-details {
 }
 
 .betslip-header .sportsbook-search .sportsbook-search-input .clear {
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   border-radius: 0 4px 4px 0;
   color: #fff;
 }
@@ -11528,7 +11529,7 @@ html .sportsbook-search .clear {
   -moz-justify-content: space-between;
   justify-content: space-between;
   color: #fff;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   border-radius: 4px 4px 0 0;
 }
 
@@ -11593,7 +11594,7 @@ html .sportsbook-search .clear {
 }
 
 .promotion .events-container .sport-item:not(.prematch) .sport:not(.active) {
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 
 .promotion .events-container .sport-item:not(.prematch) .sport {
@@ -11663,10 +11664,10 @@ html .sportsbook-search .clear {
 }
 
 html .sports-list-container .mobile {
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 .promotion .sports-list {
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 
 .sports-list-container .sports-list .sport-item:not(:last-child),
@@ -11839,7 +11840,7 @@ html .sports-list-container .mobile {
 .promotion .events-container .sport .sport-avatar:before {
   font-size: 20px;
   padding: 0;
-  color: #fff;
+   
 }
 
 .promotion .events-container .sport-item:not(.prematch) .sport .sport-name {
@@ -11931,6 +11932,7 @@ html .events-list-container:not(.xsmall) .event-block {
   -ms-flex-direction: column;
   flex-direction: column;
   cursor: pointer;
+  background-color: lightblue;
 }
 
 .promotion .events-list-container .event-block {
@@ -11973,6 +11975,7 @@ html .events-list-container:not(.xsmall) .event-block {
   -moz-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  padding-bottom: 5px;
 }
 
 @media screen and (max-width: 880px) {
@@ -12291,7 +12294,7 @@ html .markets-count {
   line-height: 37px;
   padding-left: 10px;
   color: #fff;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 .sportsbook-content .market .change {
   flex: 1 1 10%;
@@ -12458,9 +12461,7 @@ html .markets-count {
   height: 100%;
 }
 
-.calender-event-item .sport.sport-avatar::before {
-  color: rgba(51, 51, 51, 0.65);
-}
+ 
 
 .sportsbook-content .calender-view .sport {
   /* flex: 1 1 5%; */
@@ -13134,7 +13135,7 @@ content: url(images/football-jersey.svg)
   .stats-header {
   /* height: 24px; */
   line-height: 30px;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   color: #fff;
   /* border-radius: 8px 8px 0 0; */
 }
@@ -13399,6 +13400,7 @@ content: url(images/football-jersey.svg)
   overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: nowrap;
+  background-color: lightblue;
 }
 
 .sportsbook-content
@@ -13690,7 +13692,7 @@ content: url(images/football-jersey.svg)
   -webkit-justify-content: space-between;
   -moz-justify-content: space-between;
   justify-content: space-between;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   border-bottom: 1px solid crimson;
 }
 
@@ -14068,7 +14070,7 @@ label.sb-on-off-button input[type="checkbox"] + span::before {
   vertical-align: middle;
   border: 0;
   color: #fff !important;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   height: 28px;
   padding: 0;
   position: relative;
@@ -15747,7 +15749,7 @@ html .sb-spinner .sb-preloader {
 
 .game-preview-container .game-preview-header {
   color: #fff;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   border-color: crimson;
   margin-bottom: 2px;
 }
@@ -15814,7 +15816,7 @@ html .sb-spinner .sb-preloader {
 }
 
 .game-preview-container .game-preview-header > div:first-child > i {
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 
 .game-preview-container .game-preview-header .switch-audio i {
@@ -15941,7 +15943,7 @@ html .sb-spinner .sb-preloader {
   -o-transition: all, 0.3s;
   transition: all, 0.3s;
 }
-
+ 
 .gameinfo-container {
   overflow: hidden;
 }
@@ -16011,9 +16013,9 @@ html .sb-spinner .sb-preloader {
   z-index: 2;
 }
 
-.game-container {
-  height: 100%;
-}
+ 
+ 
+
 
 .gameinfo-container .team-names {
   position: relative;
@@ -16036,7 +16038,7 @@ html .sb-spinner .sb-preloader {
   -moz-justify-content: center;
   justify-content: center;
   color: #fff;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 
 .gameinfo-container .team-names .team-name .info {
@@ -16194,14 +16196,23 @@ html .score-info-container .sets-info {
   justify-content: center;
   font-size: 14px;
 }
+.gameinfo-container{
+  height:75vh;
+  
 
+}
+ 
 .gameinfo-container .sb-animation-container.soccer .board-container {
   background-image: url(https://static.betconstruct.me/assets/images/game-preview/boards/soccer-background.svg);
   background-size: cover;
+  height:60.4vh;
+ 
 }
 
 .gameinfo-container .sb-animation-container.soccer {
   background-image: url(https://static.betconstruct.me/assets/images/game-preview/boards/soccer-background.svg);
+  height:60.4vh
+   
 }
 
 .gameinfo-container
@@ -16260,11 +16271,13 @@ html .score-info-container .sets-info {
   left: 0;
   right: 0;
   overflow: hidden;
+  height: 60.4vh;
+
 }
 
 .gameinfo-container .sb-animation-container .board-container .board {
   position: relative;
-  height: 100%;
+  height: 60.4vh;
   border: 1px solid #fff;
   z-index: 1;
 }
@@ -16429,7 +16442,7 @@ html .score-info-container .sets-info {
 
 .gameinfo-container .sb-animation-container .sb-animation-block > .ember-view {
   width: 100%;
-  height: 100%;
+  height: 75vh;
 }
 
 .gameinfo-container .sb-animation-container .attack .inner::before,
@@ -17154,7 +17167,9 @@ html .score-info-container .game-info-container {
   -ms-flex: 1;
   flex: 1;
 }
-
+.game-container{
+  height:100%;
+}
 .game-container:not(.mobile) .st-scheme {
   padding: 10px;
 }
@@ -18278,7 +18293,7 @@ html .score-info-container .game-info-container {
 }
 
 .gameinfo-container .game-statistics .st-circle::after {
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 
 html .soccer.fill .sport-header,
@@ -20357,6 +20372,7 @@ html .americanfootball.sports.sport-header {
 
 .gameinfo-container .sb-animation-container.basketball {
   overflow: hidden;
+  height: 60.4vh;
 }
 
 .gameinfo-container
@@ -21992,6 +22008,8 @@ html .americanfootball.sports.sport-header {
 }
 
 .gameinfo-container .sb-animation-container.tennis {
+  height: 60.4vh;
+
 }
 
 .gameinfo-container .sb-animation-container.tennis .ball-container {
@@ -24204,7 +24222,7 @@ html .custom-select:focus .custom-select-style .icon-icon-arrow-down {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   margin-top: 8px;
   border-radius: 20px;
   color: #fff;
@@ -24472,7 +24490,7 @@ html .custom-select:focus .custom-select-style .icon-icon-arrow-down {
   align-items: center;
   -moz-justify-content: space-between;
   justify-content: space-between;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   color: #fff;
   border-radius: 4px 4px 0 0;
 }
@@ -24811,7 +24829,7 @@ a.block-link__overlay-link {
 .sb-modal-content .user-balance-section {
   height: 130px;
   /* border-radius: 5px; */
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 .sb-modal-content .user-balance-section .close {
   font-size: 25px;
@@ -24851,7 +24869,7 @@ a.block-link__overlay-link {
 
 .sb-modal-content .user-balance-section .money {
   height: 50%;
-  /* background-color: #04343c; */
+  /* background:linear-gradient(to left, #4f7393 0%, #283947 100%);  */
   /* border-radius: 0 0 6px 6px; */
   display: flex;
   /* padding: 10px 10px 0; */
@@ -24881,7 +24899,7 @@ a.block-link__overlay-link {
 
 .menu-link-item {
   height: 40px;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24922,7 +24940,7 @@ a.block-link__overlay-link {
 .seperator {
   width: 100%;
   height: 1px;
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
 }
 
 .toast-contanier {
@@ -25150,7 +25168,7 @@ a.block-link__overlay-link {
 }
 
 .reminder legend {
-  background-color: #04343c;
+  background:linear-gradient(to left, #4f7393 0%, #283947 100%); 
   height: 30px;
   border-radius: 5px;
   display: flex;
@@ -27178,7 +27196,7 @@ html .sb-login-form-container .warning-block .warning::before {
 /*sport icons font*/
 
 .AlpineSkiing:before {
-  content: "\e64e";
+  content: url("../../frontend/src/images/game\ icons/skiing.png");
 }
 
 .AustralianFootball:before {
@@ -27186,7 +27204,7 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .AmericanFootball:before {
-  content: "\e602";
+  content: url("../../frontend/src/images/game\ icons/rugby-ball.png");
 }
 
 .Angling:before {
@@ -27194,11 +27212,11 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .Archery:before {
-  content: "\e604";
+  content: url("../../frontend/src/images/game\ icons/target.png");
 }
 
 .Badminton:before {
-  content: "\e606";
+  content: url("../../frontend/src/images/game\ icons/badminton.png");
 }
 
 .Balls:before {
@@ -27206,28 +27224,28 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .Baseball:before {
-  content: "\e608";
+  content: url("../../frontend/src/images/game\ icons/baseball.png");
 }
 
 .Basketball:before {
-  content: "\e609";
+  content: url("../../frontend/src/images/game\ icons/basketball.png");
 }
 
 .BeachHandball:before {
-  content: "\e60a";
+  content: url("../../frontend/src/images/game\ icons/beach-ball.png");
 }
 
 .BeachSoccer:before,
 .BeachFootball:before {
-  content: "\e60b";
+  content: url("../../frontend/src/images/game\ icons/soccer.png");
 }
 
 .BeachVolleyball:before {
-  content: "\e60c";
+  content:url("../../frontend/src/images/game\ icons/beachBall.png");
 }
 
 .Biathlon:before {
-  content: "\e60d";
+  content:url("../../frontend/src/images/game\ icons/biathlonist.png");
 }
 
 .Bobsleigh:before {
@@ -27240,7 +27258,7 @@ html .sb-login-form-container .warning-block .warning::before {
 
 .SpeedSkating:before,
 .ShortTrackSpeedSkating:before {
-  content: "\e655";
+  content: url("../../frontend/src/images/game\ icons/skating.png");
 }
 
 .Snowboarding:before {
@@ -27257,7 +27275,7 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .Boxing:before {
-  content: "\e60f";
+  content: url("../../frontend/src/images/game\ icons/boxing.png");
 }
 
 .Bridge:before {
@@ -27270,19 +27288,19 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .Chess:before {
-  content: "\e612";
+  content: url("../../frontend/src/images/game\ icons/chess.png");
 }
 
 .Cricket:before {
-  content: "\e613";
+  content: url("../../frontend/src/images/game\ icons/cricket.png");
 }
 
 .Curling:before {
-  content: "\e614";
+  content: url("../../frontend/src/images/game\ icons/curling.png");
 }
 
 .Cycling:before {
-  content: "\e615";
+  content: url("../../frontend/src/images/game\ icons/cycling.png");
 }
 
 .Cyclo-Cross:before,
@@ -27332,7 +27350,7 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .Futsal:before {
-  content: "\2e";
+  content: url("../../frontend/src/images/game\ icons/futsal.png");
 }
 
 .financials:before {
@@ -27349,7 +27367,7 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .Golf:before {
-  content: "\e622";
+  content: url("../../frontend/src/images/game\ icons/golf.png");
 }
 
 .GrassHockey:before {
@@ -27361,16 +27379,16 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .Gymnastics:before {
-  content: "\e625";
+  content: url("../../frontend/src/images/game\ icons/gymnastic.png");
 }
 
 .Handball:before {
-  content: "\e626";
+  content: url("../../frontend/src/images/game\ icons/handball.png");
 }
 
 .HardAthletics:before,
 .Weightlifting:before {
-  content: "\e627";
+  content: url("../../frontend/src/images/game\ icons/weight-lifting.png");
 }
 
 .Hockey:before {
@@ -27399,7 +27417,8 @@ html .sb-login-form-container .warning-block .warning::before {
 
 .LeagueofLegends:before,
 .LeagueOfLegends:before {
-  content: "\22";
+  content: url("../../frontend/src/images/game\ icons/shooting.png");
+
 }
 
 .Lacross:before {
@@ -27449,7 +27468,7 @@ html .sb-login-form-container .warning-block .warning::before {
 
 .NordicCombined:before {
   content: "\e63a";
-}
+}  
 
 .Olimpic:before,
 .Olympics:before {
@@ -27462,6 +27481,7 @@ html .sb-login-form-container .warning-block .warning::before {
 
 .Overwatch:before {
   content: "\2a";
+  color: #FFCF9D;
 }
 
 .outright:before {
@@ -27493,7 +27513,7 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .E-IceHockey:before {
-  content: "\e919";
+  content: "\e640";
 }
 
 .Politics:before {
@@ -27529,7 +27549,7 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .Shooting:before {
-  content: "\e64a";
+  content: url("../../frontend/src/images/game\ icons/shooting.png");
 }
 
 .Shorttrackspeedskating:before {
@@ -27582,7 +27602,9 @@ html .sb-login-form-container .warning-block .warning::before {
 .Soccer:before,
 .Football:before,
 .MixedFootball:before {
-  content: "\E66F";
+  content:url("../../frontend/src/images/game\ icons/football.png");
+   
+ 
 }
 
 .ThePenaltyKicks:before {
@@ -27675,7 +27697,7 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .TableTennis:before {
-  content: "\e65f";
+  content: url("../../frontend/src/images/game\ icons/table-tennis.png");
 }
 
 .Taekwondo:before {
@@ -27713,7 +27735,7 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .Tennis:before {
-  content: "\e663";
+  content: url("../../frontend/src/images/game\ icons/tennis.png");
 }
 
 .ETennis:before {
@@ -27730,7 +27752,7 @@ html .sb-login-form-container .warning-block .warning::before {
 
 .UFS:before,
 .Mma:before {
-  content: "\e665";
+  content: url("../../frontend/src/images/game\ icons/mma.png");
 }
 
 .UltimateFighting:before {
@@ -27756,7 +27778,7 @@ html .sb-login-form-container .warning-block .warning::before {
 }
 
 .Volleyball:before {
-  content: "\e66a";
+  content: url("../../frontend/src/images/game\ icons/volleyball.png");
 }
 
 .WaterPolo:before {
@@ -27796,7 +27818,7 @@ html .sb-login-form-container .warning-block .warning::before {
 
 .Global.Offensive:before,
 .CounterStrike:before {
-  content: "\21";
+  content:  url("../../frontend/src/images/game\ icons/counter-strike.png");
 }
 
 .Dota:before,
@@ -27849,6 +27871,7 @@ html .sb-login-form-container .warning-block .warning::before {
 
 .Halo:before {
   content: "\e90d";
+  color: orange;
 }
 
 .eSports:before,
@@ -27877,6 +27900,7 @@ html .sb-login-form-container .warning-block .warning::before {
 .Crossfire:before,
 .CrossFire:before {
   content: "\e90e";
+  color:  #F78CA2;
 }
 
 .menu-games .contain-menu-games ul li a > span.all:before {

@@ -191,13 +191,13 @@ export default class Home extends React.Component {
                             <div className="event-view col-sm-12">
 
                                 <div className={`promotion col-sm-12`}>
-                                    <div>
+                                    {/* <div>
                                         <div className="promo-banner">
                                             <div>
                                                 <HomeBanner photos={siteBanner} featured_banner={featuredbanner} history={this.props.history} />
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     {
                                         pg.length ?
                                             <div className="events-container">
@@ -222,7 +222,7 @@ export default class Home extends React.Component {
                                             <div className="header" onClick={() => this.goToSportsPage({ url: '/sports/prematch', params: {} })}>
                                                 <div className="title">Upcoming </div>
                                                 <div className={`minutes-filter`}>
-                                                    <div className={`filter-button`}>More</div>
+                                                    <div className={`filter-button`} style={{ background: " #E5C3A6", padding: "5px 10px" }}>More</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -237,7 +237,7 @@ export default class Home extends React.Component {
                                             <div className="header" onClick={() => this.goToSportsPage({ url: '/sports/live', params: {} })}>
                                                 <div className="title"> LIVE NOW</div>
                                                 <div className={`minutes-filter`}>
-                                                    <div className={`filter-button`}>More</div>
+                                                    <div className={`filter-button`} style={{ background: " #E5C3A6", padding: "5px 10px" }}>More</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -255,7 +255,7 @@ export default class Home extends React.Component {
                                             <div className="header">
                                                 <div className="title">Slot Games </div>
                                                 <div className={`minutes-filter`}>
-                                                    <div className={`filter-button`}><Link to="/slot-games">More</Link></div>
+                                                    <div className={`filter-button`} style={{ background: " #E5C3A6", padding: "5px 10px" }}><Link to="/slot-games">More</Link></div>
                                                 </div>
                                             </div>
                                             <div className="swiper-container swiper-container-casino" style={{ overflow: 'hidden' }}>
