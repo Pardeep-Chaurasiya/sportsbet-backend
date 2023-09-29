@@ -69,10 +69,10 @@ const betHistory = async (req, res) => {
       where: {
         userId: user,
         createdAt: {
-          [Op.gte]: startDate,
-        },
-        createdAt: {
-          [Op.lte]: endDate,
+          [Op.gte]: moment(startDate)
+            .startOf("day")
+            .format("YYYY-MM-DD h:mm:ss"),
+          [Op.lte]: moment(endDate).endOf("day").format("YYYY-MM-DD h:mm:ss"),
         },
       },
       raw: true,
