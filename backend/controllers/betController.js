@@ -87,7 +87,6 @@ const betHistory = async (req, res) => {
     const payout = "123";
     const cash_out = "321";
 
-    console.log(history);
     const updatedHistory = history.map((item) => ({
       ...item,
       currency,
