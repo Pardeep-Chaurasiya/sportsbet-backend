@@ -163,7 +163,8 @@ export default class BetHistory extends React.Component {
     this.setState({ showFilterInputs: false })
   }
   betHistoryData({ data }) {
-    void 0 !== data.data && this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, { bets_history: data.data, loadingHistory: false, reloadHistory: !1 }))
+    console.log(data, "India--");
+    void 0 !== data && this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, { bets_history: data, loadingHistory: false, reloadHistory: !1 }))
   }
   openSelection(id, sele) {
     let bet = { ...id }
@@ -378,60 +379,64 @@ export default class BetHistory extends React.Component {
                       <button className="search" onClick={() => { this.searchBetHistoryResult() }}><span>Show</span></button>
                     </div>
                   </div>
-                </div>
+                </div> 
               </div>
               <div className="data" style={{ marginTop: '0' }}>
                 {
-                  loadingHistory ?
-                    <BetHistoryLoader />
-                    :
-                    bets.length ?
-                      bets.map((bet, i) => {
-                        var selections = [], b = { totalAmount: 0 }
-                        b.totalAmount = (bet.bonus_bet_amount ? bet.bonus_bet_amount : "" + bet.amount ? bet.amount : "").toString()
-                        Object.keys(bet.events).forEach((evt) => {
-                          selections.push(bet.events[evt])
-                        })
-                        return (
-                          <div key={bet.id}>
-                            <div className="bet-details" onClick={() => { this.openSelection(bet, selections) }}>
-                              <div className="bet-info-1">
-                                <div>
-                                  <div className={`type cms-jcon-${this.betType[bet.type].toLowerCase()}`}><span style={{ paddingLeft: '5px' }}>{this.betType[bet.type]}</span></div>
-                                  <div className="id" onClick={() => bet.is_live && this.openLiveBetHistory(bet)} style={{ display: 'flex', alignItems: 'center' }}>{bet.id}
-                                    {/* {bet.is_live &&<span className="game-is-live"></span>} */}
-                                  </div>
-                                </div>
-                                <div>
-                                  <div className={`state ${bet.status === 4 || bet.status === 5 ? 'icon-sb-success' : bet.status === 3 ? 'icon-sb-error-pu' : bet.status === 2 ? 'icon-sb-unsettled' : bet.status === 0 ? 'icon-sb-unsettled' : bet.status === 2 ? 'icon-sb-returned' : ''}`}
-                                    style={{ lineHeight: bet.hasOwnProperty('cash_out') ? '2' : '' }}><span style={{ paddingLeft: '5px' }}>{this.betState[bet.status]}</span>
-                                  </div>
-                                  <div className="date">{moment(bet.date_time).format('ddd, D MMM YYYY')}</div>
-                                </div>
-                              </div>
-                              <div className="bet-info-2">
-                                <div>
-                                  <div>Stake</div>
-                                  <div>Odd</div>
-                                </div>
-                                <div>
-                                  <div className="stake">{bet.amount}  {profile.currency}</div>
-                                  <div className="odds">{bet.k}</div>
-                                </div>
-                              </div>
-                              {(bet.status == 0 || bet.payout > 0) && <div className="bet-info-3">
-                                <div>{bet.status == 0 ? <span style={{ display: 'block', lineHeight: '2' }}>Possible Win: </span> : <span style={{ display: 'block', lineHeight: '2' }}>Win: </span>}</div>
-                                <div className="win"><span style={{ display: 'block', lineHeight: '1' }}>{bet.payout > 0 ? bet.payout : bet.possible_win}  {profile.currency}</span></div>
-                              </div>}
-                              {bet.hasOwnProperty('cash_out') && <div className="bet-info-4" onClick={(e) => { e.stopPropagation(); this.attemptCashout(bet) }}>
-                                <span > Cashout</span><span className="" style={{ display: 'block', paddingLeft: '5px', width: 'auto', lineHeight: '1', marginRight: '5px' }}>{bet.cash_out} {profile.currency}</span>
-                              </div>}
+                  // loadingHistory ?
+                  //   <BetHistoryLoader />
+                  //   : 
+                  bets_history.length ?
+                    bets_history.map((bet, i) => {
+                      var selections = [], b = { totalAmount: 0 }
+                      // b.totalAmount = (bet.bonus_bet_amount ? bet.bonus_bet_amount : "" + bet.Amount ? bet.Amount : "").toString()
+                      // Object.keys(bet.events).forEach((evt) => {
+                      //   selections.push(bet.events[evt])
+                      // })
+                      return (
+                        // <div key={bet.id}>
+                        //   <div className="bet-details" onClick={() => { this.openSelection(bet, selections) }}>
+                        //     <div className="bet-info-1">
+                        //       <div>
+                        //         <div className={`type cms-jcon-${this.betType[bet.type].toLowerCase()}`}><span style={{ paddingLeft: '5px' }}>{this.betType[bet.type]}</span></div>
+                        //         <div className="id" onClick={() => bet.is_live && this.openLiveBetHistory(bet)} style={{ display: 'flex', alignItems: 'center' }}>{bet.id}
+                        //           {/* {bet.is_live &&<span className="game-is-live"></span>} */}
+                        //         </div>
+                        //       </div>
+                        //       <div>
+                        //         <div className={`state ${bet.status === 4 || bet.status === 5 ? 'icon-sb-success' : bet.status === 3 ? 'icon-sb-error-pu' : bet.status === 2 ? 'icon-sb-unsettled' : bet.status === 0 ? 'icon-sb-unsettled' : bet.status === 2 ? 'icon-sb-returned' : ''}`}
+                        //           style={{ lineHeight: bet.hasOwnProperty('cash_out') ? '2' : '' }}><span style={{ paddingLeft: '5px' }}>{this.betState[bet.status]}</span>
+                        //         </div>
+                        //         <div className="date">{moment(bet.date_time).format('ddd, D MMM YYYY')}</div>
+                        //       </div>
+                        //     </div>
+                        //     <div className="bet-info-2">
+                        //       <div>
+                        //         <div>Stake</div>
+                        //         <div>Odd</div>
+                        //       </div>
+                        //       <div>
+                        //         <div className="stake">{bet.amount}  {profile.currency}</div>
+                        //         <div className="odds">{bet.k}</div>
+                        //       </div>
+                        //     </div>
+                        //     {(bet.status == 0 || bet.payout > 0) && <div className="bet-info-3">
+                        //       <div>{bet.status == 0 ? <span style={{ display: 'block', lineHeight: '2' }}>Possible Win: </span> : <span style={{ display: 'block', lineHeight: '2' }}>Win: </span>}</div>
+                        //       <div className="win"><span style={{ display: 'block', lineHeight: '1' }}>{bet.payout > 0 ? bet.payout : bet.possible_win}  {profile.currency}</span></div>
+                        //     </div>}
+                        //     {bet.hasOwnProperty('cash_out') && <div className="bet-info-4" onClick={(e) => { e.stopPropagation(); this.attemptCashout(bet) }}>
+                        //       <span > Cashout</span><span className="" style={{ display: 'block', paddingLeft: '5px', width: 'auto', lineHeight: '1', marginRight: '5px' }}>{bet.cash_out} {profile.currency}</span>
+                        //     </div>}
 
-                            </div>
-                          </div>
-                        )
-                      }) :
-                      <div className="empty-content"><span>No records found</span></div>
+                        //   </div>
+                        // </div>
+                        <div key={bet.id}>
+                          <h1>Amount : {bet.Amount}</h1>
+                          <h1>Total Price : {bet.TotalPrice}</h1>
+                        </div>
+                      )
+                    }) :
+                    <div className="empty-content"><span>No records found</span></div>
                 }
               </div>
             </div>
