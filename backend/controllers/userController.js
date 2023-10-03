@@ -78,6 +78,7 @@ const updateUserProfile = async (req, res) => {
       { where: { userId: req.User.id } }
     );
 
+
     const update = await User.update(
       {
         firstName: firstName,
@@ -86,6 +87,7 @@ const updateUserProfile = async (req, res) => {
       { where: { id: req.User.id } }
     );
 
+    console.log(updatedUser, update)
     if (updatedUser && update) {
       return res.status(200).json({
         message: "Profile updated successfully !",

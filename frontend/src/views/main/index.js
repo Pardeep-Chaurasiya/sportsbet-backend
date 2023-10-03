@@ -475,8 +475,8 @@ export default class Main extends React.PureComponent {
     );
   }
   afterBalance({ data }) {
-    this.props.dispatch(appStateActionDucer(PROFILE, { ...data.userData }));
-    console.log(data.userData, "profileData");
+    this.props.dispatch(appStateActionDucer(PROFILE, { ...data }));
+    console.log(data.newuser, "profileData");
   }
   socketOpen(e) {
     this.props.dispatch(appStateActionDucer(APPREADY, { isReady: true }));

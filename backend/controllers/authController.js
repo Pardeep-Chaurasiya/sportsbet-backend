@@ -42,7 +42,7 @@ const register = async (req, res) => {
         .json({ message: "Mobile Number already register" });
     }
     const hashPassword = await bcrypt.hash(password, 10);
-
+    console.log(req.body, "bodyyyyyyyyyy");
     const user = await User.create({
       firstName,
       lastName,

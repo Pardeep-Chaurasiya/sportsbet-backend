@@ -51,6 +51,7 @@ const validateBetHistory = (req, res, next) => {
   const schema = Joi.object({
     startDate: Joi.date().required(),
     endDate: Joi.date().required(),
+    range: Joi.number(),
   });
 
   const { error, value } = schema.validate(req.body);

@@ -1,3 +1,4 @@
+
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
@@ -17,12 +18,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   UserProfile.init(
     {
-      address: { type: DataTypes.STRING, allowNull: true },
-      gender: { type: DataTypes.STRING, allowNull: true },
-      idnumber: { type: DataTypes.STRING, allowNull: true },
-      dob: { type: DataTypes.STRING, allowNull: true },
-      nickname: { type: DataTypes.STRING, allowNull: true, unique: true },
-      document_type: { type: DataTypes.STRING, allowNull: true },
+      address: { type: DataTypes.STRING },
+      gender: { type: DataTypes.STRING },
+      idnumber: { type: DataTypes.STRING },
+      dob: { type: DataTypes.STRING },
+      nickname: { type: DataTypes.STRING, unique: true },
+      document_type: { type: DataTypes.STRING },
       userId: DataTypes.INTEGER,
     },
     {
@@ -32,3 +33,4 @@ module.exports = (sequelize, DataTypes) => {
   );
   return UserProfile;
 };
+

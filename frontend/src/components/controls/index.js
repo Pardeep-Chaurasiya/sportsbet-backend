@@ -7,8 +7,9 @@ import { Transition } from 'react-spring/renderprops'
 import moment from "moment-timezone";
 import { calcMD5 } from "../../utils/jsmd5";
 import API from "../../services/api";
+import { NewAPI } from '../../services/api'
 import { BetVirtualKeyboard } from '../sportsbook-virtual-keyboard'
-const $api = API.getInstance();
+const $api = NewAPI.getInstance();
 export default class Controls extends React.Component {
 
   constructor(props) {
@@ -523,11 +524,11 @@ export default class Controls extends React.Component {
           calcMD5(`AuthToken${authToken}Amount${Number.parseFloat(betStake).toFixed(2)}BetType${betMode}TotalPrice${totalOdd.toFixed(3)}Uid${userId}Email${email}${this.props.appState.$betKey}`);
         let params = {
           command: "do_bet",
-          Hash: hash,
-          AuthToken: authToken,
-          Created: $time,
-          Uid: userId,
-          Email: email,
+          // Hash: hash,
+          // AuthToken: authToken,
+          // Created: $time,
+          // Uid: userId,
+          // Email: email,
           BetType: betMode,
           AcceptMode: acceptMode,
           Source: 4,
@@ -541,7 +542,7 @@ export default class Controls extends React.Component {
               params.Amount = enableFreebet ? freeBetStake.amount : sele.singleStake.toFixed(2);
               params.Selections = [sele]
               params.TotalPrice = sele.Price.toFixed(2)
-              params.Hash = calcMD5(`AuthToken${authToken}Amount${sele.singleStake.toFixed(2)}BetType${betMode}TotalPrice${sele.Price.toFixed(3)}Uid${userId}Email${email}${this.props.appState.$betKey}`);
+              // params.Hash = calcMD5(`AuthToken${authToken}Amount${sele.singleStake.toFixed(2)}BetType${betMode}TotalPrice${sele.Price.toFixed(3)}Uid${userId}Email${email}${this.props.appState.$betKey}`);
 
               if (enableFreebet) { params.bonus_id = freeBetStake.id; params.wallet_type = 2 }
               this.rids[12].request = params
@@ -1297,12 +1298,13 @@ export default class Controls extends React.Component {
                                       }))} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
                                         Sign in to place bet</button>
                                       :
-                                      <button onClick={() => { this.placeBet() }} className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`} disabled={(betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}> {
-                                        betInprogress ?
-                                          <div className="no-results-container sb-spinner">
-                                            <span className="btn-preloader sb-preloader"></span>
-                                          </div>
-                                          : 'Place Bet'
+                                      <button style={{ cursor: "pointer" }} onClick={() => { this.placeBet() }} className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`} disabled={(betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}> {
+                                        // betInprogress ?
+                                        //   <div className="no-results-container sb-spinner">
+                                        //     <span className="btn-preloader sb-preloader"></span>
+                                        //   </div>
+                                        // :
+                                        'Place Bet'
                                       }</button>
                               }
                             </div>

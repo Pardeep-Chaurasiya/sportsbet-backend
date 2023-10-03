@@ -61,6 +61,7 @@ const createBet = async (req, res) => {
 // getting bet history
 const betHistory = async (req, res) => {
   const { startDate, endDate } = req.body;
+  console.log(req.body, "----->>>>>");
 
   const user = req.User.id;
 

@@ -15,21 +15,21 @@ export default class UserProfile extends React.Component {
         this.state = {
             formType: 1,
             showPass: false,
-            username: this.props.profile.nickname,
+            username: this.props.profile.newuser[0].nickname,
             password: '',
             old_password: '',
             c_password: '',
             uid: getCookie('id'),
             AuthToken: localStorage.getItem('authToken'),
-            email: this.props.profile.email,
-            firstname: this.props.profile.firstName,
-            lastname: this.props.profile.lastName,
-            phoneNumber: this.props.profile.mobilenumber,
-            idnumber: this.props.profile.idnumber,
-            gender: this.props.profile.gender,
-            birth_date: this.props.profile.birth_date || '',
-            address: this.props.profile.address,
-            document_type: this.props.profile.document_type,
+            email: this.props.profile.userData.email,
+            firstname: this.props.profile.userData.firstName,
+            lastname: this.props.profile.userData.lastName,
+            phoneNumber: this.props.profile.userData.mobilenumber,
+            idnumber: this.props.profile.newuser[0].idnumber,
+            gender: this.props.profile.newuser[0].gender,
+            birth_date: this.props.profile.newuser[0].dob,
+            address: this.props.profile.newuser[0].address,
+            document_type: this.props.profile.newuser[0].document_type,
             formStep: 1,
             countdown: 60,
             canResend: false,
@@ -41,6 +41,7 @@ export default class UserProfile extends React.Component {
             termsEmpty: false,
             passwordEmpty: false,
         }
+        console.log(this.state, "statetstae");
         $api.setToken(this.state.AuthToken)
         this.onInputChange = this.onInputChange.bind(this)
         this.toggleShow = this.toggleShow.bind(this)

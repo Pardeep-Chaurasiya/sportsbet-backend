@@ -9,8 +9,9 @@ import { SPORTSBOOK_ANY, RIDS_PUSH } from '../../actionReducers'
 import CashoutDialog from '../../components/cashoutdialog'
 import Swiper from 'swiper'
 import { calcMD5 } from '../../utils/jsmd5'
-import API from '../../services/api'
-const $api = API.getInstance();
+// import API from '../../services/api'
+import { NewAPI } from '../../services/api'
+const $api = NewAPI.getInstance();
 export default class BetHistory extends React.Component {
   constructor(props) {
     super(props)
@@ -114,13 +115,13 @@ export default class BetHistory extends React.Component {
       startDate: moment(moment().unix() - 3600 * 24).format('YYYY-MM-DD'),
       endDate: moment().format('YYYY-MM-DD'),
     }
-    const userId = getCookie('id'), authToken = getCookie('AuthToken'), email = getCookie('email'), $time = moment().format('YYYY-MM-DD H:mm:ss'), hash =
-      calcMD5(`AuthToken${authToken}uid${userId}email${email}time${$time}${this.props.appState.$publicKey}`);
-    where.email = email
-    where.hash = hash
-    where.uid = userId
-    where.time = $time
-    where.AuthToken = authToken
+    // const userId = getCookie('id'), authToken = getCookie('AuthToken'), email = getCookie('email'), $time = moment().format('YYYY-MM-DD H:mm:ss'), hash =
+    //   calcMD5(`AuthToken${authToken}uid${userId}email${email}time${$time}${this.props.appState.$publicKey}`);
+    // where.email = email
+    // where.hash = hash
+    // where.uid = userId
+    // where.time = $time
+    // where.AuthToken = authToken
     $api.getUserBetHistory(where, this.betHistoryData.bind(this))
     // this.props.sendRequest(this.rids[14].request)
 

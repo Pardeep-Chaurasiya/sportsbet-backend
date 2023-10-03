@@ -115,18 +115,14 @@ class API {
     getLiveCasinoProviders(data, success, error = this.logError) {
         this.http.post('getLiveCasinoProviders', data).then(success, error)
     }
-    getUserBetHistory(data, success, error = this.logError) {
-        this.http.post('getUserBetHistory', data).then(success, error)
-    }
+
     paymentOptions(success, error = this.logError) {
         this.http.get('paymentmethods').then(success, error)
     }
     withdrawalOptions(success, error = this.logError) {
         this.http.get('withdrawalmethods').then(success, error)
     }
-    doBet(data, success, error = this.logError) {
-        this.http.post('trickyroute', data).then(success, error)
-    }
+
     cancelRequest() {
         this.cancelToken.cancel("Request cancelled @ " + Date.now())
     }
@@ -205,6 +201,12 @@ export class NewAPI {
     }
     updateProfile(data, success, error = this.logError) {
         this.http.patch('update-profile', data).then(success, error)
+    }
+    doBet(data, success, error = this.logError) {
+        this.http.post('tricky-route', data).then(success, error)
+    }
+    getUserBetHistory(data, success, error = this.logError) {
+        this.http.post('getUserBetHistory', data).then(success, error)
     }
 
 }
