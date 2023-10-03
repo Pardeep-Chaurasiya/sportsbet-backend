@@ -61,7 +61,10 @@ const createBet = async (req, res) => {
 // getting bet history
 const betHistory = async (req, res) => {
   const { startDate, endDate } = req.body;
-  console.log(req.body, "----->>>>>");
+
+  const s = {
+    [Op.gte]: moment(startDate).startOf("day").format("YYYY-MM-DD h:mm:ss"),
+  };
 
   const user = req.User.id;
 
@@ -78,8 +81,21 @@ const betHistory = async (req, res) => {
       },
       raw: true,
     });
+    const currency = "ETH";
+    let possible_win;
+    const status = "WIN";
+    const payout = "123";
+    const cash_out = "321";
 
-    res.json(history);
+    console.log(history);
+    const updatedHistory = history.map((item) => ({
+      ...item,
+      currency,
+      possible_win: item.Amount * item.TotalPrice,
+      payout,
+      cash_out,
+    }));
+    return res.json(updatedHistory);
   } catch (error) {
     console.error("Error fetching betting history:", error);
     res.status(500).json({ error: error.message });
