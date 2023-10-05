@@ -69,12 +69,13 @@ const betHistory = async (req, res) => {
       where: {
         userId: user,
         createdAt: {
-          [Op.gte]: moment(startDate).startOf("day").utc("+05:30").format(),
-          [Op.lte]: moment(endDate).endOf("day").utc("+05:30").format(),
+          [Op.gte]: moment(startDate).startOf("day").format(),
+          [Op.lte]: moment(endDate).endOf("day").format(),
         },
       },
       raw: true,
     });
+    console.log(history);
     let possible_win;
     const payout = "123";
     const cash_out = "321";
