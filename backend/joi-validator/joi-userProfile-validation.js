@@ -24,16 +24,17 @@ const validateChangePassword = (req, res, next) => {
 };
 
 const validateUpdateUserProfile = (req, res, next) => {
-  console.log(req.body)
+  console.log(req.body);
   const schema = Joi.object({
-    address: Joi.string().allow(""),
-    gender: Joi.string().allow(""),
-    idnumber: Joi.string().allow(""),
-    nickname: Joi.string().allow(""),
-    document_type: Joi.string().allow(""),
-    dob: Joi.string().allow(""),
-    firstName: Joi.string().allow(""),
-    lastName: Joi.string().allow(""),
+    address: Joi.string().allow(null, ""),
+    gender: Joi.string().allow(null, null, ""),
+    idnumber: Joi.string().allow(null, ""),
+    nickname: Joi.string().allow(null, ""),
+    document_type: Joi.string().allow(null, ""),
+    dob: Joi.string().allow(null, ""),
+    firstName: Joi.string().allow(null, ""),
+    lastName: Joi.string().allow(null, ""),
+    avatar: Joi.string().allow(null, ""),
   });
 
   const { error, value } = schema.validate(req.body);
