@@ -38,7 +38,7 @@ const getUserProfile = async (req, res) => {
       where: { userId: user.id },
     });
     const userData = await User.findOne({
-      attributes: ["firstName", "lastName", "email", "mobilenumber"],
+      attributes: ["firstName", "lastName", "email", "mobilenumber", "dialing_code"],
       where: { id: user.id },
     });
 

@@ -81,7 +81,7 @@ const betHistory = async (req, res) => {
       },
       raw: true,
     });
-    const currency = "ETH";
+    const currency = "$";
     let possible_win;
     const status = "WIN";
     const payout = "123";

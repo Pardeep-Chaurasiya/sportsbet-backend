@@ -5,7 +5,9 @@ import logo from "../../images/logo.png";
 import moment from "moment-timezone";
 import favicon from "../../images/favicon.jpg"
 import { allActionDucer } from "../../actionCreator";
+import { PROFILE } from "../../actionReducers";
 import ReCAPTCHA from "react-google-recaptcha";
+
 import {
   SEARCHING_GAME,
   SPORTSBOOK_ANY,
@@ -28,6 +30,8 @@ class Header extends React.Component {
       showRecaptcha: false,
       time: "",
       showFullInput: false,
+      web3: null,
+      balance: 'Loading...',
     };
     this.openModal = this.openModal.bind(this);
     this.logOut = this.logOut.bind(this);
@@ -140,6 +144,23 @@ class Header extends React.Component {
           game: game.id,
         }
       );
+  }
+  async requestAccount() {
+    console.log("requesting account .... ");
+    if (window.ethereum) {
+      console.log("Meta mask detected .... ");
+      try {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        })
+        console.log(accounts, "accountss")
+
+      } catch (error) {
+        console.log(error, "error");
+      }
+    } else {
+      alert("metamask not detected")
+    }
   }
   validate() {
     if (this.searchTicketInput && this.recaptchaValue) {
@@ -385,18 +406,21 @@ class Header extends React.Component {
                             <span className="profile-icon icon-sb-my-bets"></span>
                             <span>Bets History</span>
                           </li>
-                          <li onClick={() => this.openModal(3, 1)}>
+                          <li onClick={() => {
+                            // this.openModal(3, 1)
+                            this.requestAccount()
+                          }}>
                             <span className="profile-icon icon-sb-deposit"></span>
                             <span>Deposit</span>
                           </li>
-                          <li onClick={() => this.openModal(3, 2)}>
+                          {/* <li onClick={() => this.openModal(3, 2)}>
                             <span className="profile-icon icon-sb-wallet"></span>
                             <span>Withdrawal</span>
                           </li>
                           <li onClick={() => this.openModal(3, 3)}>
                             <span className="profile-icon icon-sb-my-bets"></span>
                             <span>Transactions</span>
-                          </li>
+                          </li> */}
                           {/* <li onClick={()=>this.openModal(5,1)}>
                                                         <span className="profile-icon icon-sb-bonuses" style={{position:'relative'}}><i className="notice show-notice"></i></span>
                                                         <span>Bonuses</span>

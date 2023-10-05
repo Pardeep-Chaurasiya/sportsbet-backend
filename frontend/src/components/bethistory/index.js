@@ -314,25 +314,25 @@ export default class BetHistory extends React.Component {
                   <div className="filter-drop-down-header" onClick={this.showFilter}><span className="">Filter</span><span className={`icon-more icon-icon-arrow-down icon icon-show ${showFilterInputs ? 'icon-up' : "icon-hide"}`}></span></div>
                   <div className="filter-input-container" style={showFilterInputs ? { height: 'auto' } : { height: 0, display: 'none' }}>
                     <div className="input-container-flex">
-                      <div className="input-group" style={{ margin: '0 0 5px 0' }}>
-                        <span>Bet ID</span>
+                      {/* <div className="input-group" style={{ margin: '0 0 5px 0' }}>
+                         <span>Bet ID</span>
                         <div className="sportsbook-input-value" style={{ padding: '0', margin: '5px' }}>
                           <div className="sportsbook-search-input static">
                             <input autoComplete="off" placeholder="#" style={{ textAlign: 'unset', height: '36px' }} className="search-input ember-text-field ember-view" value={bet_id} onChange={(e) => { this.setBetID(e) }} ref={(el) => this.partialInput = el} />
                           </div>
                         </div>
-                      </div>
-                      <div className="input-group" style={{ margin: '0 0 5px 0' }} style={{ marginLeft: '10px' }}>
+                      </div> */}
+                      {/* <div className="input-group" style={{ margin: '0 0 5px 0' }} style={{ marginLeft: '10px' }}>
                         <span>Bet Type</span>
                         <select name="betType" value={type} onChange={(e) => { this.setBetType(e) }}>
                           <option value="-1">All</option>
                           <option value="1">Single</option>
                           <option value="2">Multiple</option>
-                          <option value="3">System</option>
+                          <option value="3">System</option> 
                           <option value="4">Chain</option>
                         </select>
                         <i className="icon-icon-arrow-down"></i>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="input-container-flex">
                       <div className="input-group">
@@ -347,7 +347,7 @@ export default class BetHistory extends React.Component {
                         </select>
                         <i className="icon-icon-arrow-down"></i>
                       </div>
-                      <div className="input-group" style={{ margin: '0 0 5px 0' }}>
+                      {/* <div className="input-group" style={{ margin: '0 0 5px 0' }}>
                         <span>Time Period</span>
                         <select name="date" value={period} onChange={(e) => { this.setPeriod(e) }} >
                           {
@@ -359,7 +359,7 @@ export default class BetHistory extends React.Component {
                           }
                         </select>
                         <i className="icon-icon-arrow-down"></i>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="input-group" style={{ margin: '0 0 5px 0' }}>
                       <span>Date Range</span>
@@ -379,64 +379,64 @@ export default class BetHistory extends React.Component {
                       <button className="search" onClick={() => { this.searchBetHistoryResult() }}><span>Show</span></button>
                     </div>
                   </div>
-                </div> 
+                </div>
               </div>
-              <div className="data" style={{ marginTop: '0' }}>
+              <div className="data" style={{ margin: '0' }}>
                 {
-                  // loadingHistory ?
-                  //   <BetHistoryLoader />
-                  //   : 
-                  bets_history.length ?
-                    bets_history.map((bet, i) => {
-                      var selections = [], b = { totalAmount: 0 }
-                      // b.totalAmount = (bet.bonus_bet_amount ? bet.bonus_bet_amount : "" + bet.Amount ? bet.Amount : "").toString()
-                      // Object.keys(bet.events).forEach((evt) => {
-                      //   selections.push(bet.events[evt])
-                      // })
-                      return (
-                        // <div key={bet.id}>
-                        //   <div className="bet-details" onClick={() => { this.openSelection(bet, selections) }}>
-                        //     <div className="bet-info-1">
-                        //       <div>
-                        //         <div className={`type cms-jcon-${this.betType[bet.type].toLowerCase()}`}><span style={{ paddingLeft: '5px' }}>{this.betType[bet.type]}</span></div>
-                        //         <div className="id" onClick={() => bet.is_live && this.openLiveBetHistory(bet)} style={{ display: 'flex', alignItems: 'center' }}>{bet.id}
-                        //           {/* {bet.is_live &&<span className="game-is-live"></span>} */}
-                        //         </div>
-                        //       </div>
-                        //       <div>
-                        //         <div className={`state ${bet.status === 4 || bet.status === 5 ? 'icon-sb-success' : bet.status === 3 ? 'icon-sb-error-pu' : bet.status === 2 ? 'icon-sb-unsettled' : bet.status === 0 ? 'icon-sb-unsettled' : bet.status === 2 ? 'icon-sb-returned' : ''}`}
-                        //           style={{ lineHeight: bet.hasOwnProperty('cash_out') ? '2' : '' }}><span style={{ paddingLeft: '5px' }}>{this.betState[bet.status]}</span>
-                        //         </div>
-                        //         <div className="date">{moment(bet.date_time).format('ddd, D MMM YYYY')}</div>
-                        //       </div>
-                        //     </div>
-                        //     <div className="bet-info-2">
-                        //       <div>
-                        //         <div>Stake</div>
-                        //         <div>Odd</div>
-                        //       </div>
-                        //       <div>
-                        //         <div className="stake">{bet.amount}  {profile.currency}</div>
-                        //         <div className="odds">{bet.k}</div>
-                        //       </div>
-                        //     </div>
-                        //     {(bet.status == 0 || bet.payout > 0) && <div className="bet-info-3">
-                        //       <div>{bet.status == 0 ? <span style={{ display: 'block', lineHeight: '2' }}>Possible Win: </span> : <span style={{ display: 'block', lineHeight: '2' }}>Win: </span>}</div>
-                        //       <div className="win"><span style={{ display: 'block', lineHeight: '1' }}>{bet.payout > 0 ? bet.payout : bet.possible_win}  {profile.currency}</span></div>
-                        //     </div>}
-                        //     {bet.hasOwnProperty('cash_out') && <div className="bet-info-4" onClick={(e) => { e.stopPropagation(); this.attemptCashout(bet) }}>
-                        //       <span > Cashout</span><span className="" style={{ display: 'block', paddingLeft: '5px', width: 'auto', lineHeight: '1', marginRight: '5px' }}>{bet.cash_out} {profile.currency}</span>
-                        //     </div>}
+                  loadingHistory ?
+                    <BetHistoryLoader />
+                    :
+                    bets_history.length ?
+                      bets_history.map((bet, i) => {
+                        var selections = [], b = { totalAmount: 0 }
+                        // b.totalAmount = (bet.bonus_bet_amount ? bet.bonus_bet_amount : "" + bet.Amount ? bet.Amount : "").toString()
+                        // Object.keys(bet.events).forEach((evt) => {
+                        //   selections.push(bet.events[evt])
+                        // })
+                        return (
+                          <div key={bet.id} style={{ borderRadius: "5px" }}>
+                            <div className="bet-details" onClick={() => { this.openSelection(bet, selections) }}>
+                              <div className="bet-info-1">
+                                <div>
+                                  {/* <div className={`type cms-jcon-${this.betType[bet.type].toLowerCase()}`}><span style={{ paddingLeft: '5px' }}>{this.betType[bet.type]}</span></div> */}
+                                  <div className="id" onClick={() => bet.is_live && this.openLiveBetHistory(bet)} style={{ display: 'flex', alignItems: 'center' }}>{bet.id}
+                                    {/* {bet.is_live &&<span className="game-is-live"></span>} */}
+                                  </div>
+                                </div>
+                                <div>
+                                  <div className={`state ${bet.status === 4 || bet.status === 5 ? 'icon-sb-success' : bet.status === 3 ? 'icon-sb-error-pu' : bet.status === 2 ? 'icon-sb-unsettled' : bet.status === 0 ? 'icon-sb-unsettled' : bet.status === 2 ? 'icon-sb-returned' : ''}`}
+                                    style={{ lineHeight: bet.hasOwnProperty('cash_out') ? '2' : '' }}><span style={{ paddingLeft: '5px' }}>{this.betState[bet.status]}</span>
+                                  </div>
+                                  <div className="date">{moment(bet.date_time).format('ddd, D MMM YYYY')}</div>
+                                </div>
+                              </div>
+                              <div className="bet-info-2">
+                                <div>
+                                  <div>Stake</div>
+                                  <div>Odd</div>
+                                </div>
+                                <div>
+                                  <div className="stake">{bet.Amount}  {bet.currency}</div>
+                                  {/* <div className="odds">{bet.k}</div> */}
+                                </div>
+                              </div>
+                              {(bet.payout > 0) && <div className="bet-info-3">
+                                <div>{bet.status == 0 ? <span style={{ display: 'block', lineHeight: '2' }}>Possible Win: </span> : <span style={{ display: 'block', lineHeight: '2' }}>Win: </span>}</div>
+                                <div className="win"><span style={{ display: 'block', lineHeight: '1' }}>{bet.payout > 0 ? bet.payout : bet.possible_win}  {bet.currency}</span></div>
+                              </div>}
+                              <div className="bet-info-4" onClick={(e) => { e.stopPropagation(); this.attemptCashout(bet) }}>
+                                <span > Cashout</span><span className="" style={{ display: 'block', paddingLeft: '5px', width: 'auto', lineHeight: '1', marginRight: '5px' }}>{bet.cash_out} {bet.currency}</span>
+                              </div>
 
-                        //   </div>
-                        // </div>
-                        <div key={bet.id}>
-                          <h1>Amount : {bet.Amount}</h1>
-                          <h1>Total Price : {bet.TotalPrice}</h1>
-                        </div>
-                      )
-                    }) :
-                    <div className="empty-content"><span>No records found</span></div>
+                            </div>
+                          </div>
+                          // <div key={bet.id}>
+                          //   <h1>Amount : {bet.Amount}</h1>
+                          //   <h1>Total Price : {bet.TotalPrice}</h1>
+                          // </div>
+                        )
+                      }) :
+                      <div className="empty-content"><span>No records found</span></div>
                 }
               </div>
             </div>
