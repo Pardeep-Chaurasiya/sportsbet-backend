@@ -42,7 +42,6 @@ const register = async (req, res) => {
         .json({ message: "Mobile Number already register" });
     }
     const hashPassword = await bcrypt.hash(password, 10);
-    console.log(req.body, "bodyyyyyyyyyy");
     const user = await User.create({
       firstName,
       lastName,
@@ -86,7 +85,7 @@ const login = async (req, res) => {
     const AuthToken = await jwt.sign(
       { id: existUserEmail.id },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "2h" }
+      { expiresIn: "1d" }
     );
     const date = moment().format("MMMM Do YYYY, h:mm:ss ");
     return res.status(200).json({
@@ -95,7 +94,7 @@ const login = async (req, res) => {
       AuthToken,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(400).json({ message: error.message });
   }
 };
