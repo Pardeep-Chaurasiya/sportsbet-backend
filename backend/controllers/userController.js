@@ -42,7 +42,7 @@ const getUserProfile = async (req, res) => {
         ? null
         : `${process.env.Avatar_Base_URL}/${newuser.dataValues.avatar}`;
     const userData = await User.findOne({
-      attributes: ["firstName", "lastName", "email", "mobilenumber"],
+      attributes: ["firstName", "lastName", "email", "mobilenumber", "dialing_code"],
       where: { id: user.id },
     });
     return res.status(200).json({ newuser, userData });

@@ -134,6 +134,7 @@ export default class AccModal extends React.Component {
   }
   render() {
     const { modalOpen, type, tabType, showDepositDialog, showWithdrawalDialog, showClaimDialog, attempttingBonusClaim, attempttingBonusWithdraw } = this.props.sb_modal, { amount, depositWithdraw, claimData, amountEmpty } = this.state, { sportsbook, profile, sendRequest, dispatchLogout } = this.props, showStyles = { opacity: 1, pointerEvents: 'unset' }
+    console.log(profile, "banti");
     return (
 
       <div className={`sb-modal sb-modal-backdrop`} style={modalOpen ? { ...showStyles } : {}}>
@@ -235,8 +236,8 @@ export default class AccModal extends React.Component {
                     <div className="user">
                       <div className="avatar-container col-sm-2"><div className="user-avatar"></div></div>
                       <div className="number-id col-sm-10">
-                        <span className="number">{profile.nickname} </span>
-                        <span className="id">{profile.dialing_code}{profile.mobilenumber}</span>
+                        <span className="number">{profile.userData?.firstName} {profile.userdata?.lastName}</span>
+                        <span className="id">+{profile.userData?.dialing_code} {profile.userData?.mobilenumber}</span>
                         {/* <span className="id">ID: {profile.idnumber}</span> */}
                       </div>
                       <div onClick={this.closeModal} className="close uci-close"></div>
