@@ -46,6 +46,8 @@ const getUserProfile = async (req, res) => {
       where: { id: user.id },
       include: [{ model: UserProfile, as: "UserProfile" }],
     });
+    let updatedData = `${process.env.Avatar_Base_URL}/${userData.UserProfile.avatar}`;
+    userData.UserProfile.avatar = updatedData;
     return res.status(200).json({ userData });
   } catch (error) {
     console.error(error);
