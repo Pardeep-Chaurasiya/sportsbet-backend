@@ -35,17 +35,20 @@ const changePassword = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     const user = req.User;
-    const newuser = await UserProfile.findByPk(user.id);
-
-    newuser.avatar =
-      newuser.avatar == null
-        ? null
-        : `${process.env.Avatar_Base_URL}/${newuser.dataValues.avatar}`;
     const userData = await User.findOne({
-      attributes: ["firstName", "lastName", "email", "mobilenumber", "dialing_code"],
+      attributes: [
+        "firstName",
+        "lastName",
+        "email",
+        "mobilenumber",
+        "dialing_code",
+      ],
       where: { id: user.id },
+      include: [{ model: UserProfile, as: "UserProfile" }],
     });
-    return res.status(200).json({ newuser, userData });
+    let updatedData = `${process.env.Avatar_Base_URL}/${userData.UserProfile.avatar}`;
+    userData.UserProfile.avatar = updatedData;
+    return res.status(200).json({ userData });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -76,7 +79,6 @@ const updateUserProfile = async (req, res) => {
       },
       raw: true,
     });
-
     if (userAvatar.avatar) {
       const filePath = path.resolve("uploads", userAvatar.avatar);
       await fs.promises.unlink(filePath).catch(console.error);
