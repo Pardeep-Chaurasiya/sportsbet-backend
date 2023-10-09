@@ -2,6 +2,7 @@ const express = require("express");
 const userController = require("../controllers/userController");
 const joi_validator = require("../joi-validator/joi-userProfile-validation");
 const authMiddleware = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
 
 const router = express.Router();
 
@@ -20,6 +21,7 @@ router.get("/get-profile", authMiddleware, userController.getUserProfile);
 router.patch(
   "/update-profile",
   authMiddleware,
+  upload.single("avatar"),
   joi_validator.validateUpdateUserProfile,
   userController.updateUserProfile
 );

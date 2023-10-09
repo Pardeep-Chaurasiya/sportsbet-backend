@@ -52,6 +52,8 @@ const validateBetHistory = (req, res, next) => {
     startDate: Joi.date().required(),
     endDate: Joi.date().required(),
     range: Joi.number(),
+    status: Joi.string(),
+    currency: Joi.string(),
   });
 
   const { error, value } = schema.validate(req.body);

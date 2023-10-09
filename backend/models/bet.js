@@ -31,6 +31,8 @@ module.exports = (sequelize, DataTypes) => {
       Amount: { type: DataTypes.DECIMAL },
       rid: { type: DataTypes.INTEGER },
       isLive: { type: DataTypes.BOOLEAN },
+      status: { type: DataTypes.STRING, defaultValue: "WIN" },
+      currency: { type: DataTypes.STRING, defaultValue: "$" },
     },
     {
       sequelize,

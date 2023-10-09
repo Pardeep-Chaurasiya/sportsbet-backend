@@ -62,10 +62,6 @@ const createBet = async (req, res) => {
 const betHistory = async (req, res) => {
   const { startDate, endDate } = req.body;
 
-  const s = {
-    [Op.gte]: moment(startDate).startOf("day").format("YYYY-MM-DD h:mm:ss"),
-  };
-
   const user = req.User.id;
 
   try {
@@ -73,23 +69,19 @@ const betHistory = async (req, res) => {
       where: {
         userId: user,
         createdAt: {
-          [Op.gte]: moment(startDate)
-            .startOf("day")
-            .format("YYYY-MM-DD h:mm:ss"),
-          [Op.lte]: moment(endDate).endOf("day").format("YYYY-MM-DD h:mm:ss"),
+          [Op.gte]: moment(startDate).startOf("day").format(),
+          [Op.lte]: moment(endDate).endOf("day").format(),
         },
       },
       raw: true,
     });
-    const currency = "$";
+    console.log(history);
     let possible_win;
-    const status = "WIN";
     const payout = "123";
     const cash_out = "321";
 
     const updatedHistory = history.map((item) => ({
       ...item,
-      currency,
       possible_win: item.Amount * item.TotalPrice,
       payout,
       cash_out,

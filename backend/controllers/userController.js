@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const { UserProfile, User } = require("../models");
-
+const fs = require("fs");
+const path = require("path");
 // change password after login controller
 const changePassword = async (req, res) => {
   try {
@@ -34,15 +35,20 @@ const changePassword = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     const user = req.User;
-    const newuser = await UserProfile.findAll({
-      where: { userId: user.id },
-    });
     const userData = await User.findOne({
-      attributes: ["firstName", "lastName", "email", "mobilenumber", "dialing_code"],
+      attributes: [
+        "firstName",
+        "lastName",
+        "email",
+        "mobilenumber",
+        "dialing_code",
+      ],
       where: { id: user.id },
+      include: [{ model: UserProfile, as: "UserProfile" }],
     });
-
-    return res.status(200).json({ newuser, userData });
+    let updatedData = `${process.env.Avatar_Base_URL}/${userData.UserProfile.avatar}`;
+    userData.UserProfile.avatar = updatedData;
+    return res.status(200).json({ userData });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -66,6 +72,18 @@ const updateUserProfile = async (req, res) => {
       document_type,
     } = req.body;
 
+    const userAvatar = await UserProfile.findOne({
+      attributes: ["avatar"],
+      where: {
+        userId: req.User.id,
+      },
+      raw: true,
+    });
+    if (userAvatar.avatar) {
+      const filePath = path.resolve("uploads", userAvatar.avatar);
+      await fs.promises.unlink(filePath).catch(console.error);
+    }
+
     const updatedUser = await UserProfile.update(
       {
         gender: gender,
@@ -74,10 +92,10 @@ const updateUserProfile = async (req, res) => {
         nickname: nickname,
         address: address,
         idnumber: idnumber,
+        avatar: `${req.file.filename}`,
       },
       { where: { userId: req.User.id } }
     );
-
 
     const update = await User.update(
       {
@@ -87,7 +105,6 @@ const updateUserProfile = async (req, res) => {
       { where: { id: req.User.id } }
     );
 
-    console.log(updatedUser, update)
     if (updatedUser && update) {
       return res.status(200).json({
         message: "Profile updated successfully !",
@@ -100,7 +117,6 @@ const updateUserProfile = async (req, res) => {
     return res.status(500).json({
       success: false,
       error: error.message,
-      message: "user not register",
     });
   }
 };
