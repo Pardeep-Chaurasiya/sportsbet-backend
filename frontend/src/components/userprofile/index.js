@@ -96,7 +96,7 @@ export default class UserProfile extends React.Component {
 
         const $hash = calcMD5(`AuthToken${AuthToken}uid${uid}mobilenumber${phoneNumber}email${email}time${$time}${this.props.appState.$publicKey}`)
 
-        if (formEdited) $api.updateProfile(formData, this.onEditSucess.bind(this))
+        if (formEdited || this.state.AvatarImage) $api.updateProfile(formData, this.onEditSucess.bind(this))
         else {
             this.setState({ updatingInfo: false })
             makeToast('Noting to Update!', 5000)
@@ -190,6 +190,7 @@ export default class UserProfile extends React.Component {
                                                                     autoComplete="off"
                                                                     onChange={(e) => {
                                                                         const file = e.target.files[0];
+                                                                        this.setState({ image: file })
                                                                         this.setState({ AvatarImage: file.name });
 
 
