@@ -47,8 +47,11 @@ class Header extends React.Component {
     this.offsetTmz = [];
   }
   componentDidMount() {
-
-    this.requestAccount()
+const authToken=localStorage.getItem("authToken")
+if(authToken){
+  this.requestAccount()
+}
+    
     // console.log(moment.tz.names())
     for (var i in this.supportedTZ) {
       this.offsetTmz.push(
