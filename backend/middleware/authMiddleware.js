@@ -4,6 +4,7 @@ const { User } = require("../models");
 const secretKey = process.env.JWT_SECRET_KEY;
 
 const authMiddleware = async (req, res, next) => {
+  console.log("kuchbhi");
   try {
     const AuthToken = req.headers.authorization;
     if (!AuthToken && !AuthToken.startsWith("Bearer")) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { BetSlipNotification, OddsType, OddsSettings } from '../stateless'
-import { oddConvert, dataStorage, betModeChange, getCookie } from '../../common'
+import { oddConvert, dataStorage, betModeChange, getCookie, makeToast, clearToast } from '../../common'
 import { SPORTSBOOK_ANY, MODAL, RIDS_PUSH } from '../../actionReducers'
 import { allActionDucer } from '../../actionCreator'
 import { Transition } from 'react-spring/renderprops'
@@ -360,11 +360,11 @@ export default class Controls extends React.Component {
     const profile = this.props.profile
     let state = { betSelections: betSelections, betStake: isNaN(stake) ? 0 : stake }
     if (betSlipMode !== 1) {
-      let isLowBalance = (profile.bonus === '0.00' && parseFloat(profile.balance).toFixed(2) < stake) || (parseFloat(profile.bonus) > 0 && parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toFixed(2) < stake) ? true : false
+      let isLowBalance = (profile.Balance === '0.00' && parseFloat(profile.Balance).toFixed(2) < stake) || (parseFloat(profile.bonus) > 0 && parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toFixed(2) < stake) ? true : false
       if (isLowBalance && !lowBalance && this.props.appState.isLoggedIn) {
         state.showBetSlipNoty = isLowBalance
         state.lowBalance = isLowBalance
-        state.betSlipNotyMsg = profile.bonus === '0.00' ? <p className="lowbalance"><span trans="">Insufficient balance</span>  <a className="underline" onClick={this.deposit.bind(this)} trans="">Deposit</a> </p> : <p className="lowbalance"><span trans="">Insufficient bonus balance, consume bonus in order to use main balance</span> </p>
+        state.betSlipNotyMsg = profile.Balance === '0.00' ? <p className="lowbalance"><span trans="">Insufficient balance</span>  <a className="underline" onClick={this.deposit.bind(this)} trans="">Deposit</a> </p> : <p className="lowbalance"><span trans="">Insufficient bonus balance, consume bonus in order to use main balance</span> </p>
         state.betSlipNotyType = 'warning'
         this.isLowBalance()
       }
@@ -396,7 +396,7 @@ export default class Controls extends React.Component {
       const profile = this.props.profile
       let state = { betSelections: betSelections, betStake: isNaN(stake) ? 0 : stake }
       if (betSlipMode !== 1) {
-        let isLowBalance = (profile.bonus === '0.00' && parseFloat(profile.balance).toFixed(2) < stake) || (parseFloat(profile.bonus) > 0 && parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toFixed(2) < stake) ? true : false
+        let isLowBalance = (profile.bonus === '0.00' && parseFloat(profile.Balance).toFixed(2) < stake) || (parseFloat(profile.bonus) > 0 && parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toFixed(2) < stake) ? true : false
         if (isLowBalance && !lowBalance) {
           state.showBetSlipNoty = isLowBalance
           state.lowBalance = isLowBalance
@@ -422,9 +422,11 @@ export default class Controls extends React.Component {
       return value[1].conflicts.length > 0 || (value[1].initialPrice != null && value[1].price !== value[1].initialPrice) || (value[1].suspended !== void 0 && value[1].suspended == 1)
     })
   }
-  handleBetResponse({ data }) {
-    if (data && (data.data.result === 'OK' || 0 === data.data.result))
+  handleBetResponse({ data, status }) {
+    if (status === 200) {
       this.betSuccess(data)
+      makeToast("Bet created successfully", 6000)
+    }
     else { this.betFailed(data && data.data.details ? data.data.details.hasOwnProperty('api_code') ? data.data.details.api_code : data.data.result ? data.data.result : 50000 : 50000) }
   }
   betSuccess(data) {
@@ -470,7 +472,9 @@ export default class Controls extends React.Component {
 
   }
   placeBet() {
+
     let selectionArr = [], { betSelections, enableFreebet, freeBetStake, betMode, acceptMode, config, betStake, sys_bet_variant, oddType } = this.props.sportsbook, totalOdd = this.calculateTotalOdds(betSelections), dispatch = this.props.dispatch
+    console.log(betStake, "beti");
     if (Object.keys(betSelections).length > 0) {
       dispatch(allActionDucer(SPORTSBOOK_ANY, { betInprogress: true, betSuccess: false, betFailed: false, isOddChange: false }))
       Object.keys(betSelections).forEach((selected) => {
@@ -672,7 +676,7 @@ export default class Controls extends React.Component {
       dataStorage('betStake', Number.isNaN(stake) ? "" : stake)
     }
     if (betSlipMode !== 1) {
-      let moni = profile.bonus === '0.00' ? profile.balance : profile.games.split(',').includes('1') ? profile.bonus : profile.balance
+      let moni = profile.bonus === '0.00' ? profile.Balance : profile.games.split(',').includes('1') ? profile.bonus : profile.Balance
       stateData.lowBalance = betMode === 3 ? parseFloat(parseFloat(parseFloat(stake).toPrecision()) * parseFloat(parseFloat(sys_bet_variant.bets).toPrecision(12)) || 0) > parseFloat(parseFloat(moni).toPrecision()) ? true : false : parseFloat(parseFloat(moni).toPrecision(12)) < parseFloat(parseFloat(stake).toPrecision()) ? true : false
       if (stateData.lowBalance && !lowBalance && this.props.appState.isLoggedIn) {
         stateData.showBetSlipNoty = true
@@ -720,7 +724,7 @@ export default class Controls extends React.Component {
       dataStorage('betStake', Number.isNaN(stake) ? "" : stake)
     }
     if (betSlipMode !== 1) {
-      let moni = profile.bonus === '0.00' ? profile.balance : profile.games.split(',').includes('1') ? profile.bonus : profile.balance
+      let moni = profile.bonus === '0.00' ? profile.Balance : profile.games.split(',').includes('1') ? profile.bonus : profile.Balance
       stateData.lowBalance = betMode === 3 ? parseFloat(parseFloat(parseFloat(stake).toPrecision()) * parseFloat(parseFloat(sys_bet_variant.bets).toPrecision(12)) || 0) > parseFloat(parseFloat(moni).toPrecision()) ? true : false : parseFloat(parseFloat(moni).toPrecision(12)) < parseFloat(parseFloat(stake).toPrecision()) ? true : false
       if (stateData.lowBalance && !lowBalance) {
         stateData.showBetSlipNoty = true
@@ -954,6 +958,7 @@ export default class Controls extends React.Component {
 
       return
     })
+
     return (
       betlen > 0 && <div className={`controls betslip-floating-mode-container bottom-right ${!isLoggedIn ? 'guest' : ''} ${showFirsttime ? 'first-add-show' : ''} ${isBetSlipOpen || showFirsttime ? 'open' : ''} betslip-icon`} ref={(el) => { this.betslipbody = el }}>
         <div className={`floating-mode-inner ${showFirsttime ? 'quick' : ''}`}>
@@ -971,7 +976,7 @@ export default class Controls extends React.Component {
                   <div className="betslip-header-settings-container">
                     <div className="betslip-header-settings betslip-header" >
                       <div className="left">
-                        <div className="balance-block" style={{ fontWeight: '700' }}>{isLoggedIn && <span>{profile.currency} {(parseFloat(profile.balance) + parseFloat(profile.bonus)).toFixed(3)}</span>}</div>
+                        <div className="balance-block" style={{ fontWeight: '700' }}>{isLoggedIn && <span>{profile.currency} {(parseFloat(profile.Balance) + parseFloat(profile.bonus)).toFixed(3)}</span>}</div>
                       </div>
 
                       <div className="right" >
@@ -1298,14 +1303,25 @@ export default class Controls extends React.Component {
                                       }))} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
                                         Sign in to place bet</button>
                                       :
-                                      <button style={{ cursor: "pointer" }} onClick={() => { this.placeBet() }} className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`} disabled={(betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}> {
-                                        // betInprogress ?
-                                        //   <div className="no-results-container sb-spinner">
-                                        //     <span className="btn-preloader sb-preloader"></span>
-                                        //   </div>
-                                        // :
-                                        'Place Bet'
-                                      }</button>
+                                      <button
+                                        style={{ cursor: "pointer" }}
+                                        onClick={
+                                          profile.Balance >= this.props.sportsbook.betStake ?
+
+
+                                            () => { this.placeBet() }
+
+                                            : makeToast("Your Balance is less then Your bet stake")
+                                        }
+                                        className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}
+                                        disabled={(betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.Balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}> {
+                                          // betInprogress ?
+                                          //   <div className="no-results-container sb-spinner">
+                                          //     <span className="btn-preloader sb-preloader"></span>
+                                          //   </div>
+                                          // :
+                                          'Place Bet'
+                                        }</button>
                               }
                             </div>
                           </div>

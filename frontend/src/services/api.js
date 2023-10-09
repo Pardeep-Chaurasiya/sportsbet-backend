@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { errorHandler } from '../utils/index';
+
+import { makeToast } from '../common';
 class API {
     static instance = null
 
@@ -143,6 +145,7 @@ export class NewAPI {
 
         this.http = axios.create({
             baseURL: "http://159.65.156.19:4000/api",
+            // baseURL: "http://192.168.29.31:5000/api",
 
             headers: { 'Content-Type': 'application/json;charset=utf-8' },
             cancelToken: this.cancelToken.token
@@ -155,6 +158,21 @@ export class NewAPI {
             }
             return config
         })
+        this.http.interceptors.response.use(
+            (res) => {
+                return res
+            },
+            (error) => {
+                if (error.response && error.response.status === 401) {
+                    makeToast("Jwt Token Expired..", 6000)
+                    localStorage.removeItem("authToken")
+                    window.location.href = '/'
+                }
+                else {
+                    return error
+                }
+            }
+        )
     }
 
     static getInstance = () => {

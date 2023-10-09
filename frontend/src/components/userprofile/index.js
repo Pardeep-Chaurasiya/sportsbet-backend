@@ -15,21 +15,22 @@ export default class UserProfile extends React.Component {
         this.state = {
             formType: 1,
             showPass: false,
-            username: this.props.profile.newuser[0]?.nickname,
+            username: this.props.profile.userData?.UserProfile?.nickname,
             password: '',
             old_password: '',
+            image: this.props.profile?.userData?.UserProfile?.avatar,
             c_password: '',
             uid: getCookie('id'),
             AuthToken: localStorage.getItem('authToken'),
-            email: this.props.profile.userData.email,
-            firstname: this.props.profile.userData.firstName,
-            lastname: this.props.profile.userData.lastName,
-            phoneNumber: this.props.profile.userData.mobilenumber,
-            idnumber: this.props.profile.newuser[0]?.idnumber,
-            gender: this.props.profile.newuser[0]?.gender,
-            birth_date: this.props.profile.newuser[0]?.dob,
-            address: this.props.profile.newuser[0]?.address,
-            document_type: this.props.profile.newuser[0]?.document_type,
+            email: this.props.profile.userData?.email,
+            firstname: this.props.profile.userData?.firstName,
+            lastname: this.props.profile.userData?.lastName,
+            phoneNumber: this.props.profile.userData?.mobilenumber,
+            idnumber: this.props.profile?.userData?.UserProfile?.idnumber,
+            gender: this.props.profile?.userData?.UserProfile?.gender,
+            birth_date: this.props.profile?.userData?.UserProfile?.dob,
+            address: this.props.profile?.userData?.UserProfile?.address,
+            document_type: this.props.profile?.userData?.UserProfile?.document_type,
             formStep: 1,
             countdown: 60,
             canResend: false,
@@ -40,6 +41,7 @@ export default class UserProfile extends React.Component {
             firstnameEmpty: false,
             termsEmpty: false,
             passwordEmpty: false,
+            AvatarImage: ""
         }
         console.log(this.state, "statetstae");
         $api.setToken(this.state.AuthToken)
@@ -77,12 +79,24 @@ export default class UserProfile extends React.Component {
     }
     updateInfo() {
         this.setState({ updatingInfo: true })
-        const { username, phoneNumber, formEdited, birth_date, document_type, idnumber, uid, email, AuthToken, address, gender, firstname, lastname } = this.state, $time = moment().format('YYYY-MM-DD H:mm:ss')
-        let p = { idnumber: idnumber || '', address: address, gender: gender, nickname: username, firstName: firstname, lastName: lastname, document_type: document_type, dob: birth_date }
-        // if (birth_date !== '') p['birth_date'] = moment(birth_date).unix(); else p['birth_date'] = 0
+        const { username, phoneNumber, formEdited, birth_date, document_type, idnumber, uid, email, AuthToken, address, gender, firstname, lastname, image } = this.state, $time = moment().format('YYYY-MM-DD H:mm:ss')
+        let p = { avatar: this.state.image, idnumber: idnumber || '', address: address, gender: gender, nickname: username, firstName: firstname, lastName: lastname, document_type: document_type, dob: birth_date }
+        if (birth_date !== '') p['birth_date'] = moment(birth_date).unix(); else p['birth_date'] = 0
+        const formData = new FormData()
+        formData.append('avatar', this.state.image);
+        formData.append('idnumber', idnumber || '');
+        formData.append('address', address);
+        formData.append('gender', gender);
+        formData.append('nickname', username);
+        formData.append('firstName', firstname);
+        formData.append('lastName', lastname);
+        formData.append('document_type', document_type);
+        formData.append('dob', birth_date !== '' ? moment(birth_date).unix() : 0);
+        console.log([...formData], "formdata");
+
         const $hash = calcMD5(`AuthToken${AuthToken}uid${uid}mobilenumber${phoneNumber}email${email}time${$time}${this.props.appState.$publicKey}`)
 
-        if (formEdited) $api.updateProfile(p, this.onEditSucess.bind(this))
+        if (formEdited) $api.updateProfile(formData, this.onEditSucess.bind(this))
         else {
             this.setState({ updatingInfo: false })
             makeToast('Noting to Update!', 5000)
@@ -110,19 +124,22 @@ export default class UserProfile extends React.Component {
 
     }
     onEditSucess({ data, status }) {
+        console.log(data, 'gopi');
         if (status === 200) {
+
             const { username, phoneNumber, birth_date, document_type, idnumber, uid, email, address, gender } = this.state
-            this.props.dispatch(allActionDucer(PROFILE, { birth_date: birth_date !== '' ? moment(birth_date).unix() : 0, mobile: phoneNumber, uid: uid, idnumber: idnumber, address: address, email: email, gender: gender, nickname: username, document_type: document_type }))
+            this.props.dispatch(allActionDucer(PROFILE, { birth_date: birth_date !== '' ? moment(birth_date).unix() : 0, mobile: phoneNumber, uid: uid, idnumber: idnumber, address: address, email: email, gender: gender, nickname: username, document_type: document_type, image: this.state.image }))
         }
         this.setState({ edited: data.msg, updatingInfo: false, formEdited: false })
         console.log(data, 'update');
         makeToast(data.message, 5000)
     }
     render() {
+        console.log(this.state.AvatarImage, "avatarr");
         const { showPass, password, phoneNumber, email, username, c_password, updatingInfo, changingpass, phoneNumberEmpty,
             usernameEmpty,
             termsEmpty, firstnameEmpty, lastnameEmpty,
-            passwordEmpty, idnumber, birth_date, gender, address, document_type, old_password, lastname, firstname } = this.state, { backToMenuModal, formType, onClose } = this.props
+            passwordEmpty, idnumber, birth_date, gender, address, document_type, old_password, lastname, firstname, image } = this.state, { backToMenuModal, formType, onClose } = this.props
         return (
             <div className="section-content col-sm-12">
                 <div className="filter">
@@ -148,6 +165,57 @@ export default class UserProfile extends React.Component {
                                         <div data-step="sign-up" className="sb-login-step active ember-view">
                                             <div className="sb-login-form-wrapper">
                                                 <div className={`form ${formType !== 1 ? 'animated fadeOut' : 'fadeIn animated'}`} id="first-form">
+                                                    <div className="ember-view col-sm-12"><div className="form-group required">
+                                                        <div className="form-element empty">
+                                                            <div className="input-wrapper ">
+
+                                                                {/* <input
+                                                                    name="image"
+
+                                                                    type="file"
+                                                                    accept='image/'
+                                                                    autoComplete="off"
+                                                                    onChange={(e) => {
+                                                                        const file = e.target.files[0];
+                                                                        this.setState({ image: file })
+                                                                    }}
+                                                                    onFocus={(e) => onFormInputFocus(e)}
+                                                                    onBlur={(e) => onFormInputFocusLost(e)}
+                                                                />
+                                                                <span className={`placeholder ${image === '' && 'placeholder-inactive'}`}>Upload Image</span> */}
+                                                                <input
+                                                                    name="image"
+                                                                    type="file"
+                                                                    accept="image/*"
+                                                                    autoComplete="off"
+                                                                    onChange={(e) => {
+                                                                        const file = e.target.files[0];
+                                                                        this.setState({ AvatarImage: file.name });
+
+
+                                                                    }}
+                                                                    onFocus={(e) => onFormInputFocus(e)}
+                                                                    onBlur={(e) => onFormInputFocusLost(e)}
+                                                                    id="file-input" // Added an ID for easier JavaScript targeting
+                                                                    style={{ display: 'none' }} // Hide the default file input
+
+                                                                />
+                                                                <label htmlFor="file-input" className="file-input-label">
+                                                                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                                                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "24%", border: "0.1px solid grey", borderRadius: "2px", cursor: "pointer" }}>
+                                                                            <img src={this.state.image} alt="Image Icon" className="image-icon" />
+                                                                            <span className={`file-input-text ${this.state.image === '' && 'placeholder-inactive'}`}>
+                                                                                Change Avatar
+                                                                            </span>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
                                                     <div className="ember-view col-sm-12"><div className="form-group required">
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
@@ -180,6 +248,7 @@ export default class UserProfile extends React.Component {
                                                         </div>
                                                     </div>
                                                     </div>
+
                                                     <div className="ember-view col-sm-12"><div className="form-group required">
                                                         <div className="form-element empty">
                                                             <div className="input-wrapper ">
@@ -275,7 +344,7 @@ export default class UserProfile extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div >
                         :
                         <div className="sb-login-form-container sign-in">
                             <div style={{ width: "100%" }}>
