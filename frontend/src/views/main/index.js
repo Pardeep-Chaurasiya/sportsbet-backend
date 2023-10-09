@@ -292,6 +292,7 @@ export default class Main extends React.PureComponent {
     this.props.dispatch(appStateActionDucer(RIDS_PUSH, { ...this.rids }));
   }
   componentDidMount() {
+
     // this.handleConnectionChange();
     window.addEventListener(
       "visibilitychange",
@@ -316,6 +317,7 @@ export default class Main extends React.PureComponent {
       .addEventListener("scroll", this.headerScroll, true);
   }
   componentDidUpdate() {
+
     const activeView = this.props.sportsbook.activeView,
       socketState = null !== this.socket ? this.socket.getReadyState() : 10;
     if (
@@ -432,6 +434,7 @@ export default class Main extends React.PureComponent {
       this.socket.close();
   }
   getUserBalanceMain() {
+    $NewApi.getUserInfo({}, this.afterBalance.bind(this));
     const userId = getCookie("id"),
       authToken = getCookie("AuthToken"),
       email = getCookie("email"),
@@ -449,7 +452,7 @@ export default class Main extends React.PureComponent {
       },
       this.afterBalance.bind(this)
     );
-    $NewApi.getUserInfo({}, this.afterBalance.bind(this));
+
     this.getBalanceInterval = setInterval(() => {
       this.autoGetBalance();
     }, 5000);

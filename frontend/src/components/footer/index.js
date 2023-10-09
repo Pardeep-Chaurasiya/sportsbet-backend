@@ -117,19 +117,18 @@ export default class Footer extends React.Component {
                             appState.lang === "eng"
                               ? "ENGLISH"
                               : appState.lang === "fra"
-                              ? "FRANÇAIS"
-                              : appState.lang === "zhh"
-                              ? "中文"
-                              : ""
+                                ? "FRANÇAIS"
+                                : appState.lang === "zhh"
+                                  ? "中文"
+                                  : ""
                           }
                         ></span>
                         <i className="icon-icon-arrow-down"></i>
                       </div>
                       <ul className="custom-select-style custom-select-market-types">
                         <li
-                          className={`selected-lang ${
-                            appState.lang === "eng" && "current"
-                          }`}
+                          className={`selected-lang ${appState.lang === "eng" && "current"
+                            }`}
                           onClick={() =>
                             this.setLang({
                               cookieValue: "en-gb",
@@ -145,9 +144,8 @@ export default class Footer extends React.Component {
                           ></span>
                         </li>
                         <li
-                          className={`selected-lang ${
-                            appState.lang === "fra" && "current"
-                          }`}
+                          className={`selected-lang ${appState.lang === "fra" && "current"
+                            }`}
                           onClick={() =>
                             this.setLang({
                               cookieValue: "fr-fr",
@@ -162,9 +160,8 @@ export default class Footer extends React.Component {
                           ></span>
                         </li>
                         <li
-                          className={`selected-lang ${
-                            appState.lang === "zhh" && "current"
-                          }`}
+                          className={`selected-lang ${appState.lang === "zhh" && "current"
+                            }`}
                           onClick={() =>
                             this.setLang({
                               cookieValue: "zh-cn",
@@ -183,7 +180,7 @@ export default class Footer extends React.Component {
               <div className="footer-col" style={{ flex: "1 1 100%" }}>
                 <div
                   className="footer-col-content"
-                 
+
                 >
                   <div className="age-strict">
                     <strong>18+</strong>

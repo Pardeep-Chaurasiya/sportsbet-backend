@@ -134,7 +134,7 @@ export default class AccModal extends React.Component {
   }
   render() {
     const { modalOpen, type, tabType, showDepositDialog, showWithdrawalDialog, showClaimDialog, attempttingBonusClaim, attempttingBonusWithdraw } = this.props.sb_modal, { amount, depositWithdraw, claimData, amountEmpty } = this.state, { sportsbook, profile, sendRequest, dispatchLogout } = this.props, showStyles = { opacity: 1, pointerEvents: 'unset' }
-    console.log(profile, "banti");
+
     return (
 
       <div className={`sb-modal sb-modal-backdrop`} style={modalOpen ? { ...showStyles } : {}}>
@@ -234,10 +234,14 @@ export default class AccModal extends React.Component {
                 <div className="sb-modal-menu col-sm-12">
                   <div className="user-balance-section">
                     <div className="user">
-                      <div className="avatar-container col-sm-2"><div className="user-avatar"></div></div>
+                      <div className="avatar-container col-sm-2" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>{
+                        console.log(profile?.userData?.UserProfile?.avatar, "banti")
+                      }
+                        <img src={`${profile?.userData?.UserProfile?.avatar}`} style={{ height: "50px", width: "50px", borderRadius: "50%", cursor: "zoom-in" }} />
+                      </div>
                       <div className="number-id col-sm-10">
                         <span className="number">{profile.userData?.firstName} {profile.userdata?.lastName}</span>
-                        <span className="id">+{profile.userData?.dialing_code} {profile.userData?.mobilenumber}</span>
+                        <span className="id">+{profile.userData?.dialing_code}{profile.userData?.mobilenumber}</span>
                         {/* <span className="id">ID: {profile.idnumber}</span> */}
                       </div>
                       <div onClick={this.closeModal} className="close uci-close"></div>
@@ -245,7 +249,7 @@ export default class AccModal extends React.Component {
                     <div className="money">
                       <div className="main-balance">
                         <span>Main Balance</span>
-                        <span>{profile.currency} {profile.balance}</span>
+                        <span>  {profile.Balance}</span>
                       </div>
                       <div className="bonus-balance">
                         <span>Bonus Balance</span>
@@ -257,17 +261,17 @@ export default class AccModal extends React.Component {
                     <div className={tabType == 1 ? 'active' : ''} onClick={() => { this.showContent(1) }}> <span> Profile </span></div>
                     <div className={tabType == 2 ? 'active' : ''} onClick={() => { this.showContent(2) }}><span>Change Password</span></div>
                   </AccountMenuOption>
-                  <AccountMenuOption type={type} onExpand={this.changeTab} id={3} title={'Wallet'} icon={"icon-sb-wallet"} tabType={tabType}>
-                    <div className={tabType == 1 ? 'active' : ''} onClick={() => { this.showContent(1) }}> <span>Deposit </span>
-                    </div>
-                    <div className={tabType == 2 ? 'active' : ''} onClick={() => { this.showContent(2) }}><span>Withdrawal</span>
-                    </div>
-                    <div className={tabType == 2 ? 'active' : ''} onClick={() => { this.showContent(3) }}><span>Transactions</span>
-                    </div>
-                  </AccountMenuOption>
+                  {/* <AccountMenuOption type={type} onExpand={this.changeTab} id={3} title={'Wallet'} icon={"icon-sb-wallet"} tabType={tabType}>
+                  <div className={tabType == 1 ? 'active' : ''} onClick={() => { this.showContent(1) }}> <span>Deposit </span>
+                  </div>
+                  <div className={tabType == 2 ? 'active' : ''} onClick={() => { this.showContent(2) }}><span>Withdrawal</span>
+                  </div>
+                  <div className={tabType == 2 ? 'active' : ''} onClick={() => { this.showContent(3) }}><span>Transactions</span>
+                  </div>
+                </AccountMenuOption> */}
                   <AccountMenuOption type={type} onExpand={(id) => this.changeTab(id, 1)} id={2} title={'Bets History'} icon={"icon-sb-my-bets"} tabType={tabType} />
                   {/* <AccountMenuOption type={type} onExpand={(id)=>this.changeTab(id,1)} id={5} title={'Bonuses'} icon={"icon-sb-bonuses"} tabType={tabType}/> */}
-                  <AccountMenuOption type={type} onExpand={(id) => this.changeTab(id, 1)} id={6} title={'Help'} icon={"icon-sb-info"} tabType={tabType} />
+                  {/* <AccountMenuOption type={type} onExpand={(id) => this.changeTab(id, 1)} id={6} title={'Help'} icon={"icon-sb-info"} tabType={tabType} /> */}
 
 
                   {/* <div className={`menu-link-item ${type ===7 && 'active'}`} onClick={()=>this.changeTab(7)}>
@@ -287,22 +291,22 @@ export default class AccModal extends React.Component {
                   />
                   : type === 1 ?
                     <UserProfile backToMenuModal={this.backToMenuModal} changeForm={this.changeForm.bind(this)} dispatchLogout={dispatchLogout} onClose={this.closeModal} formType={tabType} />
-                    : type === 3 ?
-                      <Wallet depositSuccessDialog={this.depositSuccessDialog.bind(this)} backToMenuModal={this.backToMenuModal} changeForm={this.changeForm.bind(this)} dispatchLogout={dispatchLogout} onClose={this.closeModal} formType={tabType} />
-                      : type === 4 ?
-                        <Transactions backToMenuModal={this.backToMenuModal} changeForm={this.changeForm.bind(this)} dispatchLogout={dispatchLogout} onClose={this.closeModal} formType={tabType} />
-                        // :type===5?
-                        // <Bonuses backToMenuModal={this.backToMenuModal} changeForm={this.changeForm.bind(this)}attempttingBonusClaim={attempttingBonusClaim} attempttingBonusWithdraw={attempttingBonusWithdraw} showClaimDialog={this.claimDialog.bind(this)} dispatchLogout={dispatchLogout} onClose={this.closeModal} formType={tabType}/>
-                        : type === 6 ?
-                          <Help backToMenuModal={this.backToMenuModal} changeForm={this.changeForm.bind(this)} dispatchLogout={dispatchLogout} onClose={this.closeModal} formType={tabType} />
-                          : type === 7 ?
-                            <Help backToMenuModal={this.backToMenuModal} changeForm={this.changeForm.bind(this)} dispatchLogout={dispatchLogout} onClose={this.closeModal} formType={tabType} />
-                            : null}
+                    // : type === 3 ?
+                    //   <Wallet depositSuccessDialog={this.depositSuccessDialog.bind(this)} backToMenuModal={this.backToMenuModal} changeForm={this.changeForm.bind(this)} dispatchLogout={dispatchLogout} onClose={this.closeModal} formType={tabType} />
+                    : type === 4 ?
+                      <Transactions backToMenuModal={this.backToMenuModal} changeForm={this.changeForm.bind(this)} dispatchLogout={dispatchLogout} onClose={this.closeModal} formType={tabType} />
+                      // :type===5?
+                      // <Bonuses backToMenuModal={this.backToMenuModal} changeForm={this.changeForm.bind(this)}attempttingBonusClaim={attempttingBonusClaim} attempttingBonusWithdraw={attempttingBonusWithdraw} showClaimDialog={this.claimDialog.bind(this)} dispatchLogout={dispatchLogout} onClose={this.closeModal} formType={tabType}/>
+                      // : type === 6 ?
+                      //   <Help backToMenuModal={this.backToMenuModal} changeForm={this.changeForm.bind(this)} dispatchLogout={dispatchLogout} onClose={this.closeModal} formType={tabType} />
+                      //   : type === 7 ?
+                      // <Help backToMenuModal={this.backToMenuModal} changeForm={this.changeForm.bind(this)} dispatchLogout={dispatchLogout} onClose={this.closeModal} formType={tabType} />
+                      : null}
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div >
     )
   }
 }

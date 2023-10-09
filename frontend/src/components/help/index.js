@@ -8,12 +8,12 @@ import Deposit from '../../views/deposit'
 import BonusTerms from '../../views/bonus-terms'
 
 export const Help = (props) => {
-    const [formType, changeForm] = useState(1), {backToMenuModal,onClose} = props
+    const [formType, changeForm] = useState(1), { backToMenuModal, onClose } = props
     return (
         <div className="section-content col-sm-12">
             <div className="filter">
                 <div className="header">
-                <div onClick={() => { backToMenuModal() }} className="icon-icon-arrow-left back-btn"></div>
+                    <div onClick={() => { backToMenuModal() }} className="icon-icon-arrow-left back-btn"></div>
                     <div className="title" style={{ padding: '15px' }}>Help</div>
                 </div>
                 <div className="sorter">
@@ -31,7 +31,7 @@ export const Help = (props) => {
                     </div>
                 </div>
             </div>
-            <div style={{overflowY: 'auto' }}>
+            <div style={{ overflowY: 'auto' }}>
                 {
                     formType === 1 ?
                         <Promotions />

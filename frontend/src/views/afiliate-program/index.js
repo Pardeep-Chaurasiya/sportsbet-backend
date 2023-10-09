@@ -201,12 +201,11 @@ export default class Franchice extends React.Component {
                                           autoFocus={true}
                                           name="firstname"
                                           value={firstname}
-                                          className={`${
-                                            firstname !== "" &&
+                                          className={`${firstname !== "" &&
                                             !validateFullname(firstname)
-                                              ? "error animated pulse"
-                                              : ""
-                                          } ember-text-field ember-view`}
+                                            ? "error animated pulse"
+                                            : ""
+                                            } ember-text-field ember-view`}
                                           type="text"
                                           onChange={(e) =>
                                             this.onInputChange(e)
@@ -218,10 +217,9 @@ export default class Franchice extends React.Component {
                                           autoComplete="off"
                                         />
                                         <span
-                                          className={`placeholder ${
-                                            firstname === "" &&
+                                          className={`placeholder ${firstname === "" &&
                                             "placeholder-inactive"
-                                          }`}
+                                            }`}
                                         >
                                           First Name
                                         </span>
@@ -236,12 +234,11 @@ export default class Franchice extends React.Component {
                                         <input
                                           name="lastname"
                                           value={lastname}
-                                          className={`${
-                                            lastname !== "" &&
+                                          className={`${lastname !== "" &&
                                             !validateFullname(lastname)
-                                              ? "error animated pulse"
-                                              : ""
-                                          } ember-text-field ember-view`}
+                                            ? "error animated pulse"
+                                            : ""
+                                            } ember-text-field ember-view`}
                                           type="text"
                                           onChange={(e) =>
                                             this.onInputChange(e)
@@ -253,10 +250,9 @@ export default class Franchice extends React.Component {
                                           autoComplete="off"
                                         />
                                         <span
-                                          className={`placeholder ${
-                                            lastname === "" &&
+                                          className={`placeholder ${lastname === "" &&
                                             "placeholder-inactive"
-                                          }`}
+                                            }`}
                                         >
                                           Last Name
                                         </span>
@@ -271,11 +267,10 @@ export default class Franchice extends React.Component {
                                       <input
                                         name="email"
                                         value={email}
-                                        className={`${
-                                          email !== "" && !validateEmail(email)
-                                            ? "error animated pulse"
-                                            : ""
-                                        } ember-text-field ember-view`}
+                                        className={`${email !== "" && !validateEmail(email)
+                                          ? "error animated pulse"
+                                          : ""
+                                          } ember-text-field ember-view`}
                                         type="text"
                                         onChange={(e) => this.onInputChange(e)}
                                         onFocus={(e) => onFormInputFocus(e)}
@@ -283,9 +278,8 @@ export default class Franchice extends React.Component {
                                         autoComplete="off"
                                       />
                                       <span
-                                        className={`placeholder ${
-                                          email === "" && "placeholder-inactive"
-                                        }`}
+                                        className={`placeholder ${email === "" && "placeholder-inactive"
+                                          }`}
                                       >
                                         Email
                                       </span>
@@ -300,13 +294,12 @@ export default class Franchice extends React.Component {
                                       <input
                                         name="phoneNumber"
                                         value={phoneNumber}
-                                        className={`${
-                                          (phoneNumber !== "" &&
-                                            !validatePhone(phoneNumber)) ||
+                                        className={`${(phoneNumber !== "" &&
+                                          !validatePhone(phoneNumber)) ||
                                           phoneNumberEmpty
-                                            ? "error animated pulse"
-                                            : ""
-                                        } ember-text-field ember-view`}
+                                          ? "error animated pulse"
+                                          : ""
+                                          } ember-text-field ember-view`}
                                         type="text"
                                         onChange={(e) => this.onInputChange(e)}
                                         onFocus={(e) => onFormInputFocus(e)}
@@ -314,10 +307,9 @@ export default class Franchice extends React.Component {
                                         autoComplete="off"
                                       />
                                       <span
-                                        className={`placeholder ${
-                                          phoneNumber === "" &&
+                                        className={`placeholder ${phoneNumber === "" &&
                                           "placeholder-inactive"
-                                        }`}
+                                          }`}
                                       >
                                         Phone Number
                                       </span>
@@ -340,10 +332,9 @@ export default class Franchice extends React.Component {
                                         autoComplete="off"
                                       />
                                       <span
-                                        className={`placeholder ${
-                                          district === "" &&
+                                        className={`placeholder ${district === "" &&
                                           "placeholder-inactive"
-                                        }`}
+                                          }`}
                                       >
                                         District
                                       </span>
@@ -366,10 +357,9 @@ export default class Franchice extends React.Component {
                                         autoComplete="off"
                                       />
                                       <span
-                                        className={`placeholder ${
-                                          region === "" &&
+                                        className={`placeholder ${region === "" &&
                                           "placeholder-inactive"
-                                        }`}
+                                          }`}
                                       >
                                         Region
                                       </span>
@@ -393,10 +383,9 @@ export default class Franchice extends React.Component {
                                         autoComplete="off"
                                       />
                                       <span
-                                        className={`placeholder ${
-                                          address === "" &&
+                                        className={`placeholder ${address === "" &&
                                           "placeholder-inactive"
-                                        }`}
+                                          }`}
                                       >
                                         Address
                                       </span>
@@ -450,10 +439,9 @@ export default class Franchice extends React.Component {
                                         autoComplete="off"
                                       ></textarea>
                                       <span
-                                        className={`placeholder ${
-                                          details === "" &&
+                                        className={`placeholder ${details === "" &&
                                           "placeholder-inactive"
-                                        }`}
+                                          }`}
                                       >
                                         Tell Us something about it
                                       </span>

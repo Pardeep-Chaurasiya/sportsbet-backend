@@ -9,7 +9,7 @@ import API from '../../services/api'
 import { NewAPI } from '../../services/api'
 import { calcMD5 } from '../../utils/jsmd5'
 import moment from 'moment';
-import { setCookie } from '../../common'
+import { makeToast, setCookie } from '../../common'
 const $api = NewAPI.getInstance()
 export default class AccVerifyModal extends React.Component {
   constructor(props) {
@@ -95,9 +95,11 @@ export default class AccVerifyModal extends React.Component {
     }
     else this.props.dispatch(allActionDucer(MODAL, { attemptingPassReset: false, resetHasError: true, resetErrorMSG: data.msg }))
   }
-  onAccountCreated({ data }) {
-    if (data.status === 200) {
+  onAccountCreated({ data, status }) {
 
+    if (status === 200) {
+      makeToast("User Register successfully", 6000)
+      this.changeFormType({ formType: "login" })
       let date = new Date();
       date.setTime(date.getTime() + (0.5 * 24 * 60 * 60 * 1000));
       this.props.dispatch(allActionDucer(PROFILE, data.data))
@@ -118,7 +120,7 @@ export default class AccVerifyModal extends React.Component {
 
       localStorage.setItem('authToken', data.AuthToken)
       this.dispatchLoginData()
-      alert("Login successfully ..")
+      makeToast("Login successfully", 6000)
 
       let date = new Date();
       date.setTime(date.getTime() + (0.5 * 24 * 60 * 60 * 1000));

@@ -30,8 +30,8 @@ class Header extends React.Component {
       showRecaptcha: false,
       time: "",
       showFullInput: false,
-      web3: null,
-      balance: 'Loading...',
+      Balance: 0,
+
     };
     this.openModal = this.openModal.bind(this);
     this.logOut = this.logOut.bind(this);
@@ -47,6 +47,8 @@ class Header extends React.Component {
     this.offsetTmz = [];
   }
   componentDidMount() {
+
+    this.requestAccount()
     // console.log(moment.tz.names())
     for (var i in this.supportedTZ) {
       this.offsetTmz.push(
@@ -58,6 +60,7 @@ class Header extends React.Component {
     }
     this.setTime();
   }
+
   componentWillUnmount() {
     clearInterval(this.timeInterval);
     clearTimeout(this.animationTimeout);
@@ -153,7 +156,16 @@ class Header extends React.Component {
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         })
-        console.log(accounts, "accountss")
+        const account = accounts[0];
+        const balance = await window.ethereum.request({
+          method: "eth_getBalance", params: [account, "latest"]
+        })
+        const wei = parseInt(balance, 16);
+        const eth = (wei / Math.pow(10, 18)) + 10
+        this.setState({ Balance: eth })
+        console.log(this.state.Balance, "anu");
+        this.props.dispatch(allActionDucer(PROFILE, { Balance: this.state.Balance }))
+
 
       } catch (error) {
         console.log(error, "error");
@@ -390,12 +402,37 @@ class Header extends React.Component {
                     <div tabIndex={0} className="user-account-buttons">
                       <div className="balance">
                         {(
-                          parseFloat(profile.balance) +
+                          parseFloat(profile.Balance) +
                           parseFloat(profile.bonus)
                         ).toFixed(3)}{" "}
                         {profile.currency}
                       </div>
-                      <div className="user-avatar"></div>
+                      {
+                        profile?.userData?.UserProfile?.avatar ?
+                          <div
+                            style=
+                            {{
+                              position: "relative",
+                              display: "block",
+                              width: "39px",
+                              backgroundSize: " 100% 100%",
+                              borderRadius: "100%",
+                              cursor: "pointer",
+
+                              flexShrink: 0,
+                              position: "absolute",
+                              right: "-30px",
+                              height: "38px",
+                              border: " 1px solid #08b981"
+                            }}>
+
+                            <img src={`${profile?.userData?.UserProfile?.avatar}`} style={{ height: "38px", width: "38px", borderRadius: "50%" }} />
+
+                          </div> :
+                          <div className="user-avatar" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                          </div>
+                      }
+
                       <div className="user-account-menu">
                         <ul>
                           <li onClick={() => this.openModal(1)}>

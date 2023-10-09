@@ -21,8 +21,8 @@ export default class Bonuses extends React.Component {
       AuthToken: getCookie('AuthToken'),
       currentPage: 1,
       formType: 4,
-      opened:null,
-      attempttingBonusWithdraw:false
+      opened: null,
+      attempttingBonusWithdraw: false
     }
     this.getBetHistory = this.getBetHistory.bind(this)
     this.onDateChangeF = this.onDateChangeF.bind(this)
@@ -51,8 +51,8 @@ export default class Bonuses extends React.Component {
     //   this.getBetHistory(p);
     //  }
   }
-  showBonusDetails(id){
-    this.setState(prevState=>({opened:prevState.opened ===id? null : id}))
+  showBonusDetails(id) {
+    this.setState(prevState => ({ opened: prevState.opened === id ? null : id }))
   }
   reloadHistory() {
     this.setState({ reloadHistory: !0, loadingHistory: !0 })
@@ -121,15 +121,15 @@ export default class Bonuses extends React.Component {
   }
   claimBonus(bonus) {
     const { uid } = this.state, $time = moment().format('YYYY-MM-DD H:mm:ss'),
-    $hash = calcMD5(`uid${uid}bid${bonus.Id}time${$time}${this.props.appState.$publicKey}`)
-    let p = {type:1, bid: bonus.Id,isCash:bonus.isCash, uid: uid, time: $time, hash: $hash }
+      $hash = calcMD5(`uid${uid}bid${bonus.Id}time${$time}${this.props.appState.$publicKey}`)
+    let p = { type: 1, bid: bonus.Id, isCash: bonus.isCash, uid: uid, time: $time, hash: $hash }
     this.props.showClaimDialog(p)
 
   }
-  withdrawBonus(){
+  withdrawBonus() {
     const { uid } = this.state, $time = moment().format('YYYY-MM-DD H:mm:ss'),
       $hash = calcMD5(`uid${uid}time${$time}${this.props.appState.$publicKey}`)
-    let p = { uid: uid, time: $time, hash: $hash,type:2 }
+    let p = { uid: uid, time: $time, hash: $hash, type: 2 }
     this.props.showClaimDialog(p)
   }
   setBetID(e) {
@@ -167,105 +167,105 @@ export default class Bonuses extends React.Component {
     }
   }
   render() {
-    const config = this.props.config, { loadingHistory, bonusHistory, bonusList,opened} = this.state, { backToMenuModal,onClose, formType,attempttingBonusClaim ,attempttingBonusWithdraw} = this.props
+    const config = this.props.config, { loadingHistory, bonusHistory, bonusList, opened } = this.state, { backToMenuModal, onClose, formType, attempttingBonusClaim, attempttingBonusWithdraw } = this.props
 
     return (
       <div className="section-content col-sm-12">
 
         <div className="filter">
           <div className="header">
-          <div onClick={() => { backToMenuModal() }} className="icon-icon-arrow-left back-btn"></div>
-            <div className="title" style={{ padding: '15px' }}>Bonuses 
-           <div className="filter-input-container">
+            <div onClick={() => { backToMenuModal() }} className="icon-icon-arrow-left back-btn"></div>
+            <div className="title" style={{ padding: '15px' }}>Bonuses
+              <div className="filter-input-container">
 
-            <div className="input-group" style={{ margin: '0 0 5px 5px' }}>
-              <div style={{ height: '38px' }}></div>
-              <button className="search" style={{ width: '150px', position: 'relative' }} onClick={this.withdrawBonus.bind(this)}>
-                {attempttingBonusWithdraw ?
-                  <div className="no-results-container sb-spinner">
-                    <span className="btn-preloader sb-preloader"></span>
-                  </div>
-                  :
-                  <span>Withdraw Bonus</span>}</button>
-            </div>
-          </div></div></div>
+                <div className="input-group" style={{ margin: '0 0 5px 5px' }}>
+                  <div style={{ height: '38px' }}></div>
+                  <button className="search" style={{ width: '150px', position: 'relative' }} onClick={this.withdrawBonus.bind(this)}>
+                    {attempttingBonusWithdraw ?
+                      <div className="no-results-container sb-spinner">
+                        <span className="btn-preloader sb-preloader"></span>
+                      </div>
+                      :
+                      <span>Withdraw Bonus</span>}</button>
+                </div>
+              </div></div></div>
           <div className="sorter">
             <div className={formType == 1 ? 'active' : ''} onClick={() => { this.changeForm(1) }}> <span>Bonus </span>
             </div>
             <div className={formType == 4 ? 'active' : ''} onClick={() => { this.changeForm(4) }}><span>Bonus History</span>
             </div>
           </div>
-         
+
 
         </div>
         {
-          formType === 1  ?
-            <div style={{overflow:'auto'}}>
-              <table className="" style={{marginBottom:10}}>
-                <thead className="lt-head" style={{backgroundColor:"#1a7051",color:'#fff'}}>
+          formType === 1 ?
+            <div style={{ overflow: 'auto' }}>
+              <table className="" style={{ marginBottom: 10 }}>
+                <thead className="lt-head" style={{ backgroundColor: "#1a7051", color: '#fff' }}>
                   <tr>
-                    <th rowSpan="2" colSpan="1" width="30%" draggable="false"className="lt-column align-left is-hideable ember-view">  Bonus Name</th>
+                    <th rowSpan="2" colSpan="1" width="30%" draggable="false" className="lt-column align-left is-hideable ember-view">  Bonus Name</th>
                     <th rowSpan="2" colSpan="1" draggable="false" className="lt-column align-center is-hideable ember-view">  Game Type</th>
                   </tr>
                   <tr></tr>
                 </thead>
               </table>
               {
-                bonusList.map((bonus,ind)=>{
-                  let bonusGames = bonus.Games.split(',').map((game)=>{return game === '1'? ' Sports Booking ' :game==='2' ? ' Slot Games ': game ==='3'? ' Roulette':''})
-                  return(
-                      <div key={ind} className="tse-scroll-content ember-view" style={{overflowY:'auto'}}>  
+                bonusList.map((bonus, ind) => {
+                  let bonusGames = bonus.Games.split(',').map((game) => { return game === '1' ? ' Sports Booking ' : game === '2' ? ' Slot Games ' : game === '3' ? ' Roulette' : '' })
+                  return (
+                    <div key={ind} className="tse-scroll-content ember-view" style={{ overflowY: 'auto' }}>
                       <div className="tse-content scrollable-content">
                         <div className="lt-inline lt-head"></div>
 
                         <table className="">
                           <tbody className="lt-body">
-                            <tr colSpan="1" className={`lt-row is-expandable ember-view ${opened === bonus.Id && 'is-expanded'}`} onClick={()=>this.showBonusDetails(bonus.Id)}>
+                            <tr colSpan="1" className={`lt-row is-expandable ember-view ${opened === bonus.Id && 'is-expanded'}`} onClick={() => this.showBonusDetails(bonus.Id)}>
                               <td width="30%" className="lt-cell align-left ember-view">{bonus.Name}</td>
-                             
+
                               <td className="lt-cell align-center ember-view">
                                 <div className="bonus-status ember-view">{bonusGames.join(',')}</div>
                               </td>
                             </tr>
 
-                            <tr className="lt-row lt-expanded-row" style={{display: opened !== bonus.Id && 'none'}}>
+                            <tr className="lt-row lt-expanded-row" style={{ display: opened !== bonus.Id && 'none' }}>
                               <td colSpan="2">
                                 <div className="bonus-expanded-row ember-view">
-                                <div className="bet-details col-sm-12">
-                                <div className="bet-info-1">
-                                  <div>
-                                    <div><span>Starting Date:</span></div>
-                                    <div>Ending Date:</div>
-                                    <div>Min / Max Deposit</div>
-                                  </div>
-                                  <div>
-                                  <div className="id">{bonus.StartDate}</div>
-                                  <div className="stake">{bonus.EndDate}</div>
-                                  <div className="stake"><span>{bonus.LimitMinAmount}</span> / <span>{bonus.LimitMaxAmount}</span></div>
-                                  </div>
-                                </div>
-                                <div className="bet-info-2">
-                                  <div>
-                                    <div>Bonus Validity</div>
-                                  </div>
-                                  <div>
-                                  <div className={`type`}><span>{bonus.BonusValidity} day(s)</span></div>
-                                  </div>
-                                </div>
-                                <div className="bet-info-2">
-                                  <div className="input-group" style={{width:'100%'}}>
-                                  <button className="search" style={{ width: '100%', position: 'relative' }} onClick={()=>this.claimBonus(bonus)}>
+                                  <div className="bet-details col-sm-12">
+                                    <div className="bet-info-1">
+                                      <div>
+                                        <div><span>Starting Date:</span></div>
+                                        <div>Ending Date:</div>
+                                        <div>Min / Max Deposit</div>
+                                      </div>
+                                      <div>
+                                        <div className="id">{bonus.StartDate}</div>
+                                        <div className="stake">{bonus.EndDate}</div>
+                                        <div className="stake"><span>{bonus.LimitMinAmount}</span> / <span>{bonus.LimitMaxAmount}</span></div>
+                                      </div>
+                                    </div>
+                                    <div className="bet-info-2">
+                                      <div>
+                                        <div>Bonus Validity</div>
+                                      </div>
+                                      <div>
+                                        <div className={`type`}><span>{bonus.BonusValidity} day(s)</span></div>
+                                      </div>
+                                    </div>
+                                    <div className="bet-info-2">
+                                      <div className="input-group" style={{ width: '100%' }}>
+                                        <button className="search" style={{ width: '100%', position: 'relative' }} onClick={() => this.claimBonus(bonus)}>
                                           {attempttingBonusClaim ?
                                             <div className="no-results-container sb-spinner">
                                               <span className="btn-preloader sb-preloader"></span>
                                             </div>
                                             :
                                             <span>CLAIM BONUS</span>}</button>
+                                      </div>
+
+                                    </div>
                                   </div>
-                                 
                                 </div>
-                              </div>
-                              </div>
 
                               </td>
                             </tr>
@@ -279,7 +279,7 @@ export default class Bonuses extends React.Component {
 
 
                       </div>
-                      </div>
+                    </div>
                   )
                 })
               }
@@ -308,8 +308,8 @@ export default class Bonuses extends React.Component {
                                     <div>Bonus Amount</div>
                                   </div>
                                   <div>
-                                  <div className="id">{history.Bid}</div>
-                                  <div className="stake">{history.BonusAmount}  </div>
+                                    <div className="id">{history.Bid}</div>
+                                    <div className="stake">{history.BonusAmount}  </div>
                                   </div>
                                 </div>
                                 <div className="bet-info-2">
@@ -319,9 +319,9 @@ export default class Bonuses extends React.Component {
                                     <div>Bonus Status</div>
                                   </div>
                                   <div>
-                                  <div className={`type`}><span style={{ paddingLeft: '5px' }}>{history.RealAmount} {this.props.profile.currency}</span></div>
-                                  <div className="date">{moment(history.ExpirationDate).format('ddd, D MMM YYYY')}</div>
-                                  <div className={`state`}><span style={{ paddingLeft: '5px' }}>{history.Status}</span></div>
+                                    <div className={`type`}><span style={{ paddingLeft: '5px' }}>{history.RealAmount} {this.props.profile.currency}</span></div>
+                                    <div className="date">{moment(history.ExpirationDate).format('ddd, D MMM YYYY')}</div>
+                                    <div className={`state`}><span style={{ paddingLeft: '5px' }}>{history.Status}</span></div>
                                   </div>
                                 </div>
                               </div>

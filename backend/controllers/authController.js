@@ -86,7 +86,7 @@ const login = async (req, res) => {
     const AuthToken = await jwt.sign(
       { id: existUserEmail.id },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "2h" }
+      { expiresIn: "1m" }
     );
     const date = moment().format("MMMM Do YYYY, h:mm:ss ");
     return res.status(200).json({

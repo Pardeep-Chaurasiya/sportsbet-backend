@@ -112,8 +112,8 @@ export default class BetHistory extends React.Component {
       where = where
     } else where = {
       range: -1,
-      startDate: moment(moment().unix() - 3600 * 24).format('YYYY-MM-DD'),
-      endDate: moment().format('YYYY-MM-DD'),
+      startDate: moment().startOf("day").format(),
+      endDate: moment().endOf("day").format(),
     }
     // const userId = getCookie('id'), authToken = getCookie('AuthToken'), email = getCookie('email'), $time = moment().format('YYYY-MM-DD H:mm:ss'), hash =
     //   calcMD5(`AuthToken${authToken}uid${userId}email${email}time${$time}${this.props.appState.$publicKey}`);
@@ -286,6 +286,9 @@ export default class BetHistory extends React.Component {
         bets.push(bets_history.bets[key])
       })
     }
+
+
+
     return (
 
       <div className="section-content col-sm-12">
@@ -393,6 +396,10 @@ export default class BetHistory extends React.Component {
                         // Object.keys(bet.events).forEach((evt) => {
                         //   selections.push(bet.events[evt])
                         // })
+
+                        const dateString = bet.createdAt;
+                        const dateObject = moment(dateString);
+                        const createdAtBet = dateObject.format('DD-MM-YYYY hh:mm A');
                         return (
                           <div key={bet.id} style={{ borderRadius: "5px" }}>
                             <div className="bet-details" onClick={() => { this.openSelection(bet, selections) }}>
@@ -407,7 +414,7 @@ export default class BetHistory extends React.Component {
                                   <div className={`state ${bet.status === 4 || bet.status === 5 ? 'icon-sb-success' : bet.status === 3 ? 'icon-sb-error-pu' : bet.status === 2 ? 'icon-sb-unsettled' : bet.status === 0 ? 'icon-sb-unsettled' : bet.status === 2 ? 'icon-sb-returned' : ''}`}
                                     style={{ lineHeight: bet.hasOwnProperty('cash_out') ? '2' : '' }}><span style={{ paddingLeft: '5px' }}>{this.betState[bet.status]}</span>
                                   </div>
-                                  <div className="date">{moment(bet.date_time).format('ddd, D MMM YYYY')}</div>
+                                  <div className="date">createdAt: {createdAtBet}</div>
                                 </div>
                               </div>
                               <div className="bet-info-2">
@@ -424,7 +431,7 @@ export default class BetHistory extends React.Component {
                                 <div>{bet.status == 0 ? <span style={{ display: 'block', lineHeight: '2' }}>Possible Win: </span> : <span style={{ display: 'block', lineHeight: '2' }}>Win: </span>}</div>
                                 <div className="win"><span style={{ display: 'block', lineHeight: '1' }}>{bet.payout > 0 ? bet.payout : bet.possible_win}  {bet.currency}</span></div>
                               </div>}
-                              <div className="bet-info-4" onClick={(e) => { e.stopPropagation(); this.attemptCashout(bet) }}>
+                              <div className="bet-info-4" >
                                 <span > Cashout</span><span className="" style={{ display: 'block', paddingLeft: '5px', width: 'auto', lineHeight: '1', marginRight: '5px' }}>{bet.cash_out} {bet.currency}</span>
                               </div>
 
@@ -465,7 +472,7 @@ export default class BetHistory extends React.Component {
                         <div>{opened_bet.status == 0 ? <span style={{ display: 'block', lineHeight: '2' }}>Possible Win: </span> : <span style={{ display: 'block', lineHeight: '2' }}>Win: </span>}</div>
                         <div className="win"><span style={{ display: 'block', lineHeight: '1' }}>{opened_bet.payout > 0 ? opened_bet.payout : opened_bet.possible_win}  {profile.currency}</span></div>
                       </div>}
-                      {opened_bet.hasOwnProperty('cash_out') && <div className="bet-info-4" onClick={(e) => { e.stopPropagation(); this.attemptCashout(opened_bet) }}>
+                      {opened_bet.hasOwnProperty('cash_out') && <div className="bet-info-4" >
                         <span > Cashout</span><span className="" style={{ display: 'block', paddingLeft: '5px', width: 'auto', lineHeight: '1', marginRight: '5px' }}>{opened_bet.cash_out} {profile.currency}</span>
                       </div>}
                     </div>

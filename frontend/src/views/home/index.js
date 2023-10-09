@@ -247,7 +247,7 @@ export default class Home extends React.Component {
                                             <HomepageEvents history={history} data={liveNowData} betSelections={betSelections} oddType={oddType} addEventToSelection={addEventToSelection} is_live={true} onEventClick={loadMarkets} />
                                         }
                                     </div>
-                                    <div className="top-events">
+                                    {/* <div className="top-events">
 
                                     </div>
                                     <div className="events-container home-casino">
@@ -291,7 +291,7 @@ export default class Home extends React.Component {
                                                 <div className="swiper-button-next"><NextSlide nextSlide={this.slideNext.bind(this)} /></div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <Controls unsubscribe={unsubscribe}
                                     subscribeToSelection={subscribeToSelection}
