@@ -20,6 +20,7 @@ import {
   updateBrowserHistoryState,
   setCookie,
   dataStorage,
+  makeToast,
 } from "../../common";
 import { withRouter } from "react-router-dom";
 import { Transition } from "react-spring/renderprops";
@@ -45,21 +46,14 @@ class Header extends React.Component {
     this.recaptch_value = null;
     this.supportedTZ = ["Africa/Accra"];
     this.offsetTmz = [];
+
   }
   componentDidMount() {
-<<<<<<< HEAD
-const authToken=localStorage.getItem("authToken")
-if(authToken){
-  this.requestAccount()
-}
-    
-=======
 
-    const authToken = localStorage.getItem("authToken")
-    if (authToken) {
-      this.requestAccount()
-    }
->>>>>>> 884698c65b84bf052a8666ad60a2f6d0695403eb
+
+
+
+
     // console.log(moment.tz.names())
     for (var i in this.supportedTZ) {
       this.offsetTmz.push(
@@ -78,6 +72,9 @@ if(authToken){
   }
   logOut() {
     this.props.dispatchLogout();
+  }
+  walletlogOut() {
+    localStorage.removeItem("walletAddress")
   }
   onFormInputFocus() {
     this.setState({ showFullInput: true });
@@ -168,6 +165,7 @@ if(authToken){
           method: "eth_requestAccounts",
         })
         const account = accounts[0];
+        console.log(account, "account");
         const balance = await window.ethereum.request({
           method: "eth_getBalance", params: [account, "latest"]
         })
@@ -175,8 +173,9 @@ if(authToken){
         const eth = (wei / Math.pow(10, 18)) + 10
         this.setState({ Balance: eth })
         console.log(this.state.Balance, "anu");
-        this.props.dispatch(allActionDucer(PROFILE, { Balance: this.state.Balance }))
-
+        this.props.dispatch(allActionDucer(PROFILE, { Balance: this.state.Balance, metamaskAddress: account }))
+        localStorage.setItem("walletAddress", account);
+        makeToast("metamask connected successfully", 4000)
 
       } catch (error) {
         console.log(error, "error");
@@ -269,6 +268,7 @@ if(authToken){
     } = this.props,
 
       { time, showRecaptcha, showFullInput } = this.state,
+
 
       searchGame = (event) => {
         var d = {},
@@ -369,7 +369,9 @@ if(authToken){
       });
 
     }
-    console.log(appState.isLoggedIn, "loggedin");
+    console.log(this.state, "state");
+    console.log(profile, "profile");
+
     return (
       <div
         className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
@@ -378,7 +380,7 @@ if(authToken){
         <div className="header-body bg-primary">
           <div className="header-inner">
             <div className="header-row main">
-              <div className="header-col left">
+              <div className="header-col left websiteName">
                 <div className="brand">
                   {/* <div className="brand-name"></div> */}
                   <div className="brand-logo">
@@ -393,7 +395,7 @@ if(authToken){
               </div>
               <div className="header-col right">
                 <div className="nav-controls">
-                  {!appState.isLoggedIn ? (
+                  {!localStorage.getItem("walletAddress") && !appState.isLoggedIn ? (
                     <React.Fragment>
                       <div
 
@@ -407,6 +409,16 @@ if(authToken){
                         onClick={() => this.openFormModal("register")}
                       >
                         <button style={{ backgroundColor: "green", borderRadius: "5px" }}>Register</button>
+                      </div>
+                      <div
+
+                        onClick={() =>
+                          this.requestAccount()
+                        }
+                      >
+                        <button style={{ backgroundColor: "orange", borderRadius: "5px", border: "0px", color: "black", padding: "3px 5px", cursor: "pointer", fontWeight: 100 }}>
+                          Connect Wallet
+                        </button>
                       </div>
                     </React.Fragment>
                   ) : (
@@ -446,26 +458,31 @@ if(authToken){
 
                       <div className="user-account-menu">
                         <ul>
-                          <li onClick={() => this.openModal(1)}>
-                            <span className="profile-icon icon-sb-edit-profile"></span>
-                            <span>Profile</span>
-                          </li>
+                          {
+                            appState.isLoggedIn &&
+                            <li onClick={() => this.openModal(1)}>
+                              <span className="profile-icon icon-sb-edit-profile"></span>
+                              <span>Profile</span>
+                            </li>
+                          }
+
                           <li onClick={() => this.openModal(2, 1)}>
                             <span className="profile-icon icon-sb-my-bets"></span>
                             <span>Bets History</span>
                           </li>
                           <li onClick={() => {
                             // this.openModal(3, 1)
-                            this.requestAccount()
+
                           }}>
                             <span className="profile-icon icon-sb-deposit"></span>
-                            <span>Deposit</span>
+                            <span>Bet(Deposit)</span>
                           </li>
-                          {/* <li onClick={() => this.openModal(3, 2)}>
+                          <li onClick={() => { }}>
                             <span className="profile-icon icon-sb-wallet"></span>
                             <span>Withdrawal</span>
                           </li>
-                          <li onClick={() => this.openModal(3, 3)}>
+
+                          {/* <li onClick={() => this.openModal(3, 3)}>
                             <span className="profile-icon icon-sb-my-bets"></span>
                             <span>Transactions</span>
                           </li> */}
@@ -477,19 +494,34 @@ if(authToken){
                                                         <span className="profile-icon icon-sb-messages"></span>
                                                         <span>Messages</span>
                                                     </li> */}
-                          <li onClick={() => this.openModal(1, 2)}>
-                            <span className="profile-icon icon-sb-edit-profile"></span>
-                            <span>Change Password</span>
-                          </li>
-                          <li onClick={this.logOut} className="logout">
-                            <span className="profile-icon icon-sb-log-out"></span>
-                            <span>Log out</span>
-                          </li>
+                          {
+                            appState.isLoggedIn &&
+                            <li onClick={() => this.openModal(1, 2)}>
+                              <span className="profile-icon icon-sb-edit-profile"></span>
+                              <span>Change Password</span>
+                            </li>
+                          }
+                          {
+                            appState.isLoggedIn &&
+                            <li onClick={this.logOut} className="logout">
+                              <span className="profile-icon icon-sb-log-out"></span>
+                              <span>Log out</span>
+                            </li>
+                          }
+                          {
+                            localStorage.getItem("walletAddress") &&
+                            <li onClick={this.walletlogOut} className="logout">
+                              <span className="profile-icon icon-sb-log-out"></span>
+                              <span>Log out</span>
+                            </li>
+                          }
+
                         </ul>
                       </div>
                     </div>
                   )}
                   <div
+                    style={{ marginLeft: "20px" }}
                     className="hambarger-menu"
                     onClick={() =>
                       this.props.dispatch(
@@ -802,7 +834,7 @@ if(authToken){
             </div>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }

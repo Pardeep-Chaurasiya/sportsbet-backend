@@ -244,7 +244,7 @@ export default class AccModal extends React.Component {
                         <span className="id">+{profile.userData?.dialing_code}{profile.userData?.mobilenumber}</span>
                         {/* <span className="id">ID: {profile.idnumber}</span> */}
                       </div>
-                      <div onClick={this.closeModal} className="close uci-close"></div>
+                      <div onClick={this.closeModal} className="close uci-close" style={{ cursor: "pointer" }}></div>
                     </div>
                     <div className="money">
                       <div className="main-balance">

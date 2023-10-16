@@ -4574,7 +4574,37 @@ input[type="radio"] {
   color: #fff;
   background: #65b5c2;
 }
-
+/* gopi================================================================================================================ */
+.sport-header.crossfire.select,
+.sport-header.crossfire.hover,
+.promotion .events-container .sport.crossfire.active {
+  color: #fff;
+  background: #4e0008;
+}
+.sport-header.mma.select,
+.sport-header.mma.hover,
+.promotion .events-container .sport.mma.active {
+  color: #fff;
+  background: #868686;
+}
+.sport-header.australianfootball.select,
+.sport-header.australianfootball.hover,
+.promotion .events-container .sport.australianfootball.active {
+  color: #fff;
+  background: #0b614b;
+}
+.sport-header.boxing.select,
+.sport-header.boxing.hover,
+.promotion .events-container .sport.boxing.active {
+  color: #fff;
+  background: #2a8c4c;
+}
+.sport-header.cricket.select,
+.sport-header.cricket.hover,
+.promotion .events-container .sport.cricket.active {
+  color: #fff;
+  background: #fe9800;
+}
 .sport-header.waterpolo.select,
 .sport-header.waterpolo.hover,
 .promotion .events-container .sport.waterpolo.active {

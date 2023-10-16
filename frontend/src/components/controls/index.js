@@ -1296,7 +1296,7 @@ export default class Controls extends React.Component {
                                         </div>
                                         : 'Accept Odds changes!'
                                     }</button>
-                                    : !isLoggedIn && betlen ?
+                                    : !isLoggedIn && betlen && !localStorage.getItem("walletAddress") ?
                                       <button onClick={() => this.props.dispatch(allActionDucer(MODAL, {
                                         accVerifyOpen: true,
                                         formType: 'login'

@@ -158,6 +158,7 @@ export class NewAPI {
             }
             return config
         })
+
         this.http.interceptors.response.use(
             (res) => {
                 return res

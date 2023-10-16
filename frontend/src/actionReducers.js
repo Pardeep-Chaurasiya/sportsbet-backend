@@ -58,7 +58,8 @@ const initialStates = {
     bonus: 0,
     games: "",
     member_type: null,
-    Balance: 0
+    Balance: 0,
+    walletAddress: ""
   },
   sportsBook: {
     appTheme: "light",
