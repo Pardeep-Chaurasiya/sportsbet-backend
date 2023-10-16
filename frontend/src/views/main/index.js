@@ -60,6 +60,8 @@ import DrawerMenu from "../../containers/drawer";
 import ScrollToTop from "../../components/scrolltotop";
 import { PaymentSuccess } from "../payment/success";
 import { PaymentFailed } from "../payment/failed";
+export const Web3Context = React.createContext();
+
 const $api = API.getInstance();
 const $NewApi = NewAPI.getInstance();
 export default class Main extends React.PureComponent {
@@ -70,6 +72,9 @@ export default class Main extends React.PureComponent {
       isInternetAvail: true,
       windowActive: true,
       inactiveTimedout: false,
+      web3: null,
+      accounts: null,
+      netId: null,
     };
     this.lang = props.appState.lang;
     this.language_cookie = null;
@@ -291,6 +296,7 @@ export default class Main extends React.PureComponent {
     this.rids[21].callback = this.userFreeBets.bind(this);
     this.props.dispatch(appStateActionDucer(RIDS_PUSH, { ...this.rids }));
   }
+
   componentDidMount() {
 
     // this.handleConnectionChange();
@@ -433,6 +439,17 @@ export default class Main extends React.PureComponent {
       socketState !== WebSocket.CLOSING &&
       this.socket.close();
   }
+  setWeb3 = (web3) => {
+    this.setState({ web3 });
+  };
+
+  setAccounts = (accounts) => {
+    this.setState({ accounts });
+  };
+
+  setNetId = (netId) => {
+    this.setState({ netId });
+  };
   getUserBalanceMain() {
     $NewApi.getUserInfo({}, this.afterBalance.bind(this));
     const userId = getCookie("id"),
@@ -4935,209 +4952,220 @@ export default class Main extends React.PureComponent {
   }
 
   render() {
-    const { isInternetAvail } = this.state;
+    const { isInternetAvail, web3, accounts, netId } = this.state;
     return (
-      <Router>
-        <div className="main-container">
-          {isInternetAvail ? (
-            this.props.appState.isLoggedIn ? (
-              <AccModal
-                dispatchLogout={this.logoutUser.bind(this)}
-                sendRequest={this.sendRequest}
-              />
+      <Web3Context.Provider
+        value={{
+          web3,
+          setWeb3: this.setWeb3,
+          accounts,
+          setAccounts: this.setAccounts,
+          netId,
+          setNetId: this.setNetId,
+        }}
+      >
+        <Router>
+          <div className="main-container">
+            {isInternetAvail ? (
+              this.props.appState.isLoggedIn ? (
+                <AccModal
+                  dispatchLogout={this.logoutUser.bind(this)}
+                  sendRequest={this.sendRequest}
+                />
+              ) : (
+                <FormModal
+                  getBalance={this.getUserBalanceMain}
+                  dispatchLogin={this.getUserBalanceMain.bind(this)}
+                />
+              )
             ) : (
-              <FormModal
-                getBalance={this.getUserBalanceMain}
-                dispatchLogin={this.getUserBalanceMain.bind(this)}
-              />
-            )
-          ) : (
-            <ConnectionLost />
-          )}
-          <DrawerMenu />
-          <div className="main-body">
-            <div className="body-contents" id="body-contents">
-              <Header
-                loadGames={this.loadGames}
-                sendRequest={this.sendRequest}
-                validate={this.validate}
-                dispatchLogout={this.logoutUser.bind(this)}
-              />
-              <div className="dynamic-content">
-                <ScrollToTop>
-                  <Switch>
-                    <Route
-                      exact
-                      path="/"
-                      render={(props) => (
-                        <Home
-                          {...props}
-                          loadHomeData={this.loadHomeData.bind(this)}
-                          getEvents={this.getEvents}
-                          addEventToSelection={this.addEventToSelection}
-                          loadGames={this.loadGames}
-                          loadMarkets={this.loadMarkets}
-                          sendRequest={this.sendRequest}
-                          unsubscribe={this.unsubscribe}
-                          subscribeToSelection={this.subscribeToSelection.bind(
-                            this
-                          )}
-                          handleBetResponse={this.handleBetResponse}
-                          retrieve={this.getEvents}
-                          getBetslipFreebets={this.getBetslipFreebets.bind(
-                            this
-                          )}
-                          bulkUnsubscribe={this.bulkUnsubscribe}
-                        />
-                      )}
-                    />
-
-                    <Route
-                      path="/sports"
-                      render={(props) => (
-                        <SportsBook
-                          {...props}
-                          getEvents={this.getEvents}
-                          addEventToSelection={this.addEventToSelection}
-                          loadGames={this.loadGames}
-                          loadMarkets={this.loadMarkets}
-                          sendRequest={this.sendRequest}
-                          unsubscribe={this.unsubscribe}
-                          handleBetResponse={this.handleBetResponse}
-                          subscribeToSelection={this.subscribeToSelection.bind(
-                            this
-                          )}
-                          retrieve={this.getEvents}
-                          getBetslipFreebets={this.getBetslipFreebets.bind(
-                            this
-                          )}
-                          bulkUnsubscribe={this.bulkUnsubscribe}
-                          loadLiveGames={this.loadLiveGames}
-                          loadPrematchGames={this.loadPrematchGames}
-                          loadLiveOverviewGames={this.loadLiveOverviewGames.bind(
-                            this
-                          )}
-                          loadMultiviewLiveGames={this.loadMultiviewLiveGames.bind(
-                            this
-                          )}
-                        />
-                      )}
-                    />
-                    <Route path="/virtual">
-                      <Virtual
-                        bulkUnsubscribe={this.bulkUnsubscribe}
-                        lang={this.lang}
-                        socket={this.socket}
-                        reconnect={this.connectSocket.bind(this)}
+              <ConnectionLost />
+            )}
+            <DrawerMenu />
+            <div className="main-body">
+              <div className="body-contents" id="body-contents">
+                <Header
+                  loadGames={this.loadGames}
+                  sendRequest={this.sendRequest}
+                  validate={this.validate}
+                  dispatchLogout={this.logoutUser.bind(this)}
+                />
+                <div className="dynamic-content">
+                  <ScrollToTop>
+                    <Switch>
+                      <Route
+                        exact
+                        path="/"
+                        render={(props) => (
+                          <Home
+                            {...props}
+                            loadHomeData={this.loadHomeData.bind(this)}
+                            getEvents={this.getEvents}
+                            addEventToSelection={this.addEventToSelection}
+                            loadGames={this.loadGames}
+                            loadMarkets={this.loadMarkets}
+                            sendRequest={this.sendRequest}
+                            unsubscribe={this.unsubscribe}
+                            subscribeToSelection={this.subscribeToSelection.bind(
+                              this
+                            )}
+                            handleBetResponse={this.handleBetResponse}
+                            retrieve={this.getEvents}
+                            getBetslipFreebets={this.getBetslipFreebets.bind(
+                              this
+                            )}
+                            bulkUnsubscribe={this.bulkUnsubscribe}
+                          />
+                        )}
                       />
-                    </Route>
-                    <Route path="/roulette">
-                      <Roulette
-                        bulkUnsubscribe={this.bulkUnsubscribe}
-                        lang={this.lang}
-                      />
-                    </Route>
-                    <Route
-                      path="/slot-games"
-                      render={(props) => (
-                        <SlotGames
-                          {...props}
-                          addEventToSelection={this.addEventToSelection}
-                          loadGames={this.loadGames}
-                          loadMarkets={this.loadMarkets}
-                          sendRequest={this.sendRequest}
-                          unsubscribe={this.unsubscribe}
-                          subscribeToSelection={this.subscribeToSelection.bind(
-                            this
-                          )}
-                          retrieve={this.getEvents}
-                          getBetslipFreebets={this.getBetslipFreebets.bind(
-                            this
-                          )}
-                          loadData={this.loadPrematchGames}
-                          bulkUnsubscribe={this.bulkUnsubscribe}
-                        />
-                      )}
-                    />
-                    <Route
-                      path="/news"
-                      render={(props) => (
-                        <News
-                          {...props}
-                          addEventToSelection={this.addEventToSelection}
-                          loadGames={this.loadGames}
-                          loadMarkets={this.loadMarkets}
-                          sendRequest={this.sendRequest}
-                          unsubscribe={this.unsubscribe}
-                          subscribeToSelection={this.subscribeToSelection.bind(
-                            this
-                          )}
-                          retrieve={this.getEvents}
-                          getBetslipFreebets={this.getBetslipFreebets.bind(
-                            this
-                          )}
-                          loadData={this.loadPrematchGames}
-                          bulkUnsubscribe={this.bulkUnsubscribe}
-                        />
-                      )}
-                    />
-                    <Route path="/about-us" render={() => <AboutUs />} />
-                    <Route path="/contact-us" render={() => <ContacttUs />} />
-                    <Route
-                      path="/betting-rules"
-                      render={() => <BettingRules />}
-                    />
-                    <Route path="/bonus-terms" render={() => <BonusTerms />} />
-                    <Route path="/deposits" render={() => <Deposit />} />
-                    <Route path="/withdrawals" render={() => <Withdrawal />} />
-                    <Route
-                      path="/responsible-gaming"
-                      render={() => <ResponsibleGaming />}
-                    />
-                    <Route path="/faq" render={() => <Faq />} />
-                    <Route path="/promotions" render={() => <Promotions />} />
-                    <Route
-                      path="/general-terms-and-conditions"
-                      render={() => <TNC />}
-                    />
-                    <Route
-                      path="/privacy-policy"
-                      render={() => <PrivacyPolicy />}
-                    />
-                    <Route
-                      path="/cookies-policy"
-                      render={() => <CookiesPolicy />}
-                    />
-                    <Route
-                      path="/afiliate-program"
-                      render={() => <Franchice />}
-                    />
-                    <Route
-                      path="/careers"
-                      render={(props) => <Careers {...props} />}
-                    />
 
-                    <Route
-                      path="/payment/success"
-                      render={(props) => <PaymentSuccess {...props} />}
-                    />
-                    <Route
-                      path="/payment/cancel"
-                      render={(props) => <PaymentFailed {...props} />}
-                    />
-                    <Route path="*" render={() => <PageNotFound />} />
-                  </Switch>
-                </ScrollToTop>
+                      <Route
+                        path="/sports"
+                        render={(props) => (
+                          <SportsBook
+                            {...props}
+                            getEvents={this.getEvents}
+                            addEventToSelection={this.addEventToSelection}
+                            loadGames={this.loadGames}
+                            loadMarkets={this.loadMarkets}
+                            sendRequest={this.sendRequest}
+                            unsubscribe={this.unsubscribe}
+                            handleBetResponse={this.handleBetResponse}
+                            subscribeToSelection={this.subscribeToSelection.bind(
+                              this
+                            )}
+                            retrieve={this.getEvents}
+                            getBetslipFreebets={this.getBetslipFreebets.bind(
+                              this
+                            )}
+                            bulkUnsubscribe={this.bulkUnsubscribe}
+                            loadLiveGames={this.loadLiveGames}
+                            loadPrematchGames={this.loadPrematchGames}
+                            loadLiveOverviewGames={this.loadLiveOverviewGames.bind(
+                              this
+                            )}
+                            loadMultiviewLiveGames={this.loadMultiviewLiveGames.bind(
+                              this
+                            )}
+                          />
+                        )}
+                      />
+                      <Route path="/virtual">
+                        <Virtual
+                          bulkUnsubscribe={this.bulkUnsubscribe}
+                          lang={this.lang}
+                          socket={this.socket}
+                          reconnect={this.connectSocket.bind(this)}
+                        />
+                      </Route>
+                      <Route path="/roulette">
+                        <Roulette
+                          bulkUnsubscribe={this.bulkUnsubscribe}
+                          lang={this.lang}
+                        />
+                      </Route>
+                      <Route
+                        path="/slot-games"
+                        render={(props) => (
+                          <SlotGames
+                            {...props}
+                            addEventToSelection={this.addEventToSelection}
+                            loadGames={this.loadGames}
+                            loadMarkets={this.loadMarkets}
+                            sendRequest={this.sendRequest}
+                            unsubscribe={this.unsubscribe}
+                            subscribeToSelection={this.subscribeToSelection.bind(
+                              this
+                            )}
+                            retrieve={this.getEvents}
+                            getBetslipFreebets={this.getBetslipFreebets.bind(
+                              this
+                            )}
+                            loadData={this.loadPrematchGames}
+                            bulkUnsubscribe={this.bulkUnsubscribe}
+                          />
+                        )}
+                      />
+                      <Route
+                        path="/news"
+                        render={(props) => (
+                          <News
+                            {...props}
+                            addEventToSelection={this.addEventToSelection}
+                            loadGames={this.loadGames}
+                            loadMarkets={this.loadMarkets}
+                            sendRequest={this.sendRequest}
+                            unsubscribe={this.unsubscribe}
+                            subscribeToSelection={this.subscribeToSelection.bind(
+                              this
+                            )}
+                            retrieve={this.getEvents}
+                            getBetslipFreebets={this.getBetslipFreebets.bind(
+                              this
+                            )}
+                            loadData={this.loadPrematchGames}
+                            bulkUnsubscribe={this.bulkUnsubscribe}
+                          />
+                        )}
+                      />
+                      <Route path="/about-us" render={() => <AboutUs />} />
+                      <Route path="/contact-us" render={() => <ContacttUs />} />
+                      <Route
+                        path="/betting-rules"
+                        render={() => <BettingRules />}
+                      />
+                      <Route path="/bonus-terms" render={() => <BonusTerms />} />
+                      <Route path="/deposits" render={() => <Deposit />} />
+                      <Route path="/withdrawals" render={() => <Withdrawal />} />
+                      <Route
+                        path="/responsible-gaming"
+                        render={() => <ResponsibleGaming />}
+                      />
+                      <Route path="/faq" render={() => <Faq />} />
+                      <Route path="/promotions" render={() => <Promotions />} />
+                      <Route
+                        path="/general-terms-and-conditions"
+                        render={() => <TNC />}
+                      />
+                      <Route
+                        path="/privacy-policy"
+                        render={() => <PrivacyPolicy />}
+                      />
+                      <Route
+                        path="/cookies-policy"
+                        render={() => <CookiesPolicy />}
+                      />
+                      <Route
+                        path="/afiliate-program"
+                        render={() => <Franchice />}
+                      />
+                      <Route
+                        path="/careers"
+                        render={(props) => <Careers {...props} />}
+                      />
+
+                      <Route
+                        path="/payment/success"
+                        render={(props) => <PaymentSuccess {...props} />}
+                      />
+                      <Route
+                        path="/payment/cancel"
+                        render={(props) => <PaymentFailed {...props} />}
+                      />
+                      <Route path="*" render={() => <PageNotFound />} />
+                    </Switch>
+                  </ScrollToTop>
+                </div>
+                <Footer
+                  activeView={this.props.sportsbook.activeView}
+                  appState={this.props.appState}
+                  dispatch={this.props.dispatch}
+                />
               </div>
-              <Footer
-                activeView={this.props.sportsbook.activeView}
-                appState={this.props.appState}
-                dispatch={this.props.dispatch}
-              />
             </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </Web3Context.Provider>
     );
   }
 }

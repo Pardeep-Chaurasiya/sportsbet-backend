@@ -1289,7 +1289,7 @@ export default class Controls extends React.Component {
                                       : 'Accept changes and place bets!'
                                   }</button> :
                                   isOddChange ?
-                                    <button onClick={(e) => { this.onOddsSettingsChange({ target: { value: 2 } }); this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, { isOddChange: false })) }} className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`} disabled={(betSlipMode === 2 && isLoggedIn && lowBalance && !enableFreebet) || (betStake === 0 && !enableFreebet) || betInprogress}> {
+                                    <button style={{ cursor: "pointer" }} onClick={(e) => { this.onOddsSettingsChange({ target: { value: 2 } }); this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, { isOddChange: false })) }} className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`} disabled={(betSlipMode === 2 && isLoggedIn && lowBalance && !enableFreebet) || (betStake === 0 && !enableFreebet) || betInprogress}> {
                                       betInprogress ?
                                         <div className="no-results-container sb-spinner">
                                           <span className="btn-preloader sb-preloader"></span>
@@ -1297,11 +1297,8 @@ export default class Controls extends React.Component {
                                         : 'Accept Odds changes!'
                                     }</button>
                                     : !isLoggedIn && betlen && !localStorage.getItem("walletAddress") ?
-                                      <button onClick={() => this.props.dispatch(allActionDucer(MODAL, {
-                                        accVerifyOpen: true,
-                                        formType: 'login'
-                                      }))} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
-                                        Sign in to place bet</button>
+                                      <button style={{ cursor: "pointer" }} onClick={this.betslipToggleView} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
+                                        Sign in to place bet or connect to wallet</button>
                                       :
                                       <button
                                         style={{ cursor: "pointer" }}
@@ -1311,7 +1308,7 @@ export default class Controls extends React.Component {
 
                                             () => { this.placeBet() }
 
-                                            : makeToast("Your Balance is less then Your bet stake")
+                                            : makeToast("Your Balance is less then Your bet stake", 6000)
                                         }
                                         className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}
                                         disabled={(betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.Balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}> {
