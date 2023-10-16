@@ -170,7 +170,7 @@ class Header extends React.Component {
           method: "eth_getBalance", params: [account, "latest"]
         })
         const wei = parseInt(balance, 16);
-        const eth = (wei / Math.pow(10, 18)) + 10
+        const eth = (wei / Math.pow(10, 18))
         this.setState({ Balance: eth })
         console.log(this.state.Balance, "anu");
         this.props.dispatch(allActionDucer(PROFILE, { Balance: this.state.Balance, metamaskAddress: account }))
