@@ -1303,12 +1303,15 @@ export default class Controls extends React.Component {
                                       <button
                                         style={{ cursor: "pointer" }}
                                         onClick={
-                                          profile.Balance >= this.props.sportsbook.betStake ?
+                                          // profile.Balance >= this.props.sportsbook.betStake ?
 
 
-                                            () => { this.placeBet() }
+                                          () => {
+                                            this.placeBet()
+                                            this.removeAllBetSelections()
+                                          }
 
-                                            : makeToast("Your Balance is less then Your bet stake", 6000)
+                                          // : makeToast("Your Balance is less then Your bet stake", 6000)
                                         }
                                         className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}
                                         disabled={(betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.Balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}> {

@@ -205,6 +205,8 @@ class Header extends React.Component {
 
       const accounts = await web3.eth.getAccounts();
       setAccounts(accounts);
+      localStorage.setItem("walletAddress", accounts);
+      makeToast("metamask connected successfully", 4000)
     } catch (error) {
       console.error('Error connecting to the wallet:', error);
     }

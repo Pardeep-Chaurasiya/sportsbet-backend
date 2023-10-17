@@ -441,14 +441,17 @@ export default class Main extends React.PureComponent {
   }
   setWeb3 = (web3) => {
     this.setState({ web3 });
+    console.log(this.state.web3, "web3333");
   };
 
   setAccounts = (accounts) => {
     this.setState({ accounts });
+    console.log(this.state.accounts, "Acccccc");
   };
 
   setNetId = (netId) => {
     this.setState({ netId });
+    console.log(this.state.netId, "netIdddd");
   };
   getUserBalanceMain() {
     $NewApi.getUserInfo({}, this.afterBalance.bind(this));
