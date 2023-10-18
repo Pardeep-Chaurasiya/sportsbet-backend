@@ -35,10 +35,10 @@ export default class SportsBook extends React.Component {
   componentWillUnmount() {
     this.props.dispatch(allActionDucer(RESET, {}));
   }
-  componentDidUpdate() {}
+  componentDidUpdate() { }
   render() {
     const { activeSport, activeCompetition, activeRegion, appTheme } =
-        this.props.sportsbook,
+      this.props.sportsbook,
       {
         loadLiveGames,
         loadPrematchGames,

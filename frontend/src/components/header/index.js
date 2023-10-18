@@ -8,7 +8,8 @@ import { allActionDucer } from "../../actionCreator";
 import { PROFILE } from "../../actionReducers";
 import ReCAPTCHA from "react-google-recaptcha";
 
-import { Web3Context } from "../../views/main";
+
+import { Web3Context } from "../../App";
 
 
 
@@ -217,8 +218,10 @@ class Header extends React.Component {
       this.setState({ searchingTicket: true });
       var val = this.searchTicketInput.value,
         rval = this.recaptchaValue.value;
+
       if (val !== "" && rval !== "") {
         this.props.validate(val, rval, this.showCheckResult.bind(this));
+
         this.searchTicketInput.value = "";
         this.recaptchaValue.value = "";
       }
@@ -275,10 +278,12 @@ class Header extends React.Component {
         searchingTicket: false,
       })
     );
+
     window.grecaptcha.reset();
     this.setState({ showRecaptcha: false });
   }
   render() {
+
     const {
       appState,
       profile,
@@ -399,10 +404,13 @@ class Header extends React.Component {
     }
 
 
+
     return (
       <Web3Context.Consumer>
         {
           (props) => {
+            console.log(props.web3, props.accounts, props.netId, "controls")
+
             return (
               <div
                 className={`header-container ${this.props.casinoMode.playMode && "fullscreen"

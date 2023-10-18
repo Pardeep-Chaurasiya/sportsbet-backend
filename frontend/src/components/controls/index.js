@@ -9,6 +9,7 @@ import { calcMD5 } from "../../utils/jsmd5";
 import API from "../../services/api";
 import { NewAPI } from '../../services/api'
 import { BetVirtualKeyboard } from '../sportsbook-virtual-keyboard'
+import { Web3Context } from '../../App'
 const $api = NewAPI.getInstance();
 export default class Controls extends React.Component {
 
@@ -960,87 +961,93 @@ export default class Controls extends React.Component {
     })
 
     return (
-      betlen > 0 && <div className={`controls betslip-floating-mode-container bottom-right ${!isLoggedIn ? 'guest' : ''} ${showFirsttime ? 'first-add-show' : ''} ${isBetSlipOpen || showFirsttime ? 'open' : ''} betslip-icon`} ref={(el) => { this.betslipbody = el }}>
-        <div className={`floating-mode-inner ${showFirsttime ? 'quick' : ''}`}>
-          {!isBetSlipOpen && <div className="betslip-opener-container" onClick={this.betslipToggleView}>
-            <span className="text"> BETSLIP</span>
-            <span className="bets-count">{betlen}</span>
-          </div>}
-          <div className="betslip-element-container">
-            <div className="floating-mode-overlay"></div>
-            <div className="close-betslip"></div>
-            <div className="betslip-element">
-              <div className="ember-view">
-                <div className="betslip-container">
+      betlen > 0 &&
+      <Web3Context.Consumer>
+        {
+          (props) => {
+            console.log(props.web3, props.accounts, props.netId, "controls")
+            return (
+              <div className={`controls betslip-floating-mode-container bottom-right ${!isLoggedIn ? 'guest' : ''} ${showFirsttime ? 'first-add-show' : ''} ${isBetSlipOpen || showFirsttime ? 'open' : ''} betslip-icon`} ref={(el) => { this.betslipbody = el }}>
+                <div className={`floating-mode-inner ${showFirsttime ? 'quick' : ''}`}>
+                  {!isBetSlipOpen && <div className="betslip-opener-container" onClick={this.betslipToggleView}>
+                    <span className="text"> BETSLIP</span>
+                    <span className="bets-count">{betlen}</span>
+                  </div>}
+                  <div className="betslip-element-container">
+                    <div className="floating-mode-overlay"></div>
+                    <div className="close-betslip"></div>
+                    <div className="betslip-element">
+                      <div className="ember-view">
+                        <div className="betslip-container">
 
-                  <div className="betslip-header-settings-container">
-                    <div className="betslip-header-settings betslip-header" >
-                      <div className="left">
-                        <div className="balance-block" style={{ fontWeight: '700' }}>{isLoggedIn && <span>{profile.currency} {(parseFloat(profile.Balance) + parseFloat(profile.bonus)).toFixed(3)}</span>}</div>
-                      </div>
+                          <div className="betslip-header-settings-container">
+                            <div className="betslip-header-settings betslip-header" >
+                              <div className="left">
+                                <div className="balance-block" style={{ fontWeight: '700' }}>{isLoggedIn && <span>{profile.currency} {(parseFloat(profile.Balance) + parseFloat(profile.bonus)).toFixed(3)}</span>}</div>
+                              </div>
 
-                      <div className="right" >
-                        <div className="settings-icon-container icon" onClick={this.openBetslipSettings}>
+                              <div className="right" >
+                                {/* <div className="settings-icon-container icon" onClick={this.openBetslipSettings}>
                           <span className={`icon-icon-settings rotate ${showBetslipSettings && 'down'}`}></span>
-                        </div>
-                        <div className="settings-icon-container icon" onClick={this.betslipToggleView}>
-                          <span className={`${showFirsttime ? 'icon-icon-arrow-down' : 'icon-icon-close-x'} remove-icon-betslip`}></span>
-                        </div>
-                      </div>
-                    </div>
-
-
-                  </div>
-
-                  <div className="betslip-header betslip-header-settings">
-                    <div className="betslip-title" style={{ padding: !isLoggedIn && '10px' }}></div>
-                  </div>
-
-                  <div className={`liquid-container`} >
-
-                    <div className="liquid-child" style={{ top: "0px", left: "0px" }}>
-                      {showBetslipSettings && <div className={`betslip-settings`}>
-                        <OddsType onChange={this.onOddsTypeChange} value={oddType} />
-                        {isLoggedIn && <OddsSettings onChange={this.onOddsSettingsChange} value={acceptMode} title={'Automatically accept odds.'} />}
-                      </div>}
-
-                    </div>
-
-
-                  </div>
-
-                  <div className="betslip-body">
-                    {
-                      betSlipMode === 2 && betlen >= 1 && isLoggedIn && authUser.has_free_bets === true && freeBets.length &&
-                      <div className="betslip-settings-container">
-                        <div className="quick-bet-setting">
-                          <span>{enableFreebet ? 'Free Bet is ON' : 'Free Bet available'}</span>
-
-                          <label className="sb-on-off-button">
-                            <input onChange={(e) => { this.useFreeBet(e) }} type="checkbox" checked={enableFreebet} />
-                            <span>
-                              <span className="icon-sb-pause off"></span>
-                            </span>
-                          </label>
-                        </div>
-                        <div className="liquid-container ember-view">
-                          {
-                            enableFreebet ?
-                              <div className="liquid-child ember-view" style={{ top: "0px", left: "0px" }}>
-                                <div className="betslip-quick-bet-container open">
-                                  <OddsSettings onChange={this.setFreeBetStake.bind(this)} customInput={freeBets} value={freeBetStake} title={'Choose Stake'} />
+                        </div> */}
+                                <div className="settings-icon-container icon" onClick={this.betslipToggleView}>
+                                  <span className={`${showFirsttime ? 'icon-icon-arrow-down' : 'icon-icon-close-x'} remove-icon-betslip`}></span>
                                 </div>
                               </div>
-                              : null}
-                        </div>
-                      </div>
-                    }
-                    {
-                      betlen > 0 ?
-                        <React.Fragment>
-                          <div className="betslip-tabs">
-                            <div className="betslip-panel">
-                              {/* <select onChange={(e) => this.changeBetMode(e)} value={betMode}>
+                            </div>
+
+
+                          </div>
+
+                          <div className="betslip-header betslip-header-settings">
+                            <div className="betslip-title" style={{ padding: !isLoggedIn && '10px' }}></div>
+                          </div>
+
+                          <div className={`liquid-container`} >
+
+                            <div className="liquid-child" style={{ top: "0px", left: "0px" }}>
+                              {showBetslipSettings && <div className={`betslip-settings`}>
+                                <OddsType onChange={this.onOddsTypeChange} value={oddType} />
+                                {isLoggedIn && <OddsSettings onChange={this.onOddsSettingsChange} value={acceptMode} title={'Automatically accept odds.'} />}
+                              </div>}
+
+                            </div>
+
+
+                          </div>
+
+                          <div className="betslip-body">
+                            {
+                              betSlipMode === 2 && betlen >= 1 && isLoggedIn && authUser.has_free_bets === true && freeBets.length &&
+                              <div className="betslip-settings-container">
+                                <div className="quick-bet-setting">
+                                  <span>{enableFreebet ? 'Free Bet is ON' : 'Free Bet available'}</span>
+
+                                  <label className="sb-on-off-button">
+                                    <input onChange={(e) => { this.useFreeBet(e) }} type="checkbox" checked={enableFreebet} />
+                                    <span>
+                                      <span className="icon-sb-pause off"></span>
+                                    </span>
+                                  </label>
+                                </div>
+                                <div className="liquid-container ember-view">
+                                  {
+                                    enableFreebet ?
+                                      <div className="liquid-child ember-view" style={{ top: "0px", left: "0px" }}>
+                                        <div className="betslip-quick-bet-container open">
+                                          <OddsSettings onChange={this.setFreeBetStake.bind(this)} customInput={freeBets} value={freeBetStake} title={'Choose Stake'} />
+                                        </div>
+                                      </div>
+                                      : null}
+                                </div>
+                              </div>
+                            }
+                            {
+                              betlen > 0 ?
+                                <React.Fragment>
+                                  <div className="betslip-tabs">
+                                    <div className="betslip-panel">
+                                      {/* <select onChange={(e) => this.changeBetMode(e)} value={betMode}>
                                 <option value="1">Single</option>
                                 <option disabled={betlen < 2} value="2" >Multiple</option>
                                 <option disabled={betlen < 3 || betlen > 16} value="3">System</option>
@@ -1055,326 +1062,337 @@ export default class Controls extends React.Component {
                                   }
                                 </select>
                               } */}
-                              <div className="clear-all" onClick={() => this.removeAllBetSelections()}>
-                                <span>Remove All</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="betslip-matches">
-                            <div className="betslip-matches-bagger">
-                              {
-                                newSelection.map((selection) => {
-                                  return (
-                                    <div key={selection.marketId} className="betslip-match-info">
-                                      <div className="sb-bet-body ">
+                                      <div className="clear-all" onClick={() => this.removeAllBetSelections()}>
+                                        <span>Remove All</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="betslip-matches">
+                                    <div className="betslip-matches-bagger">
+                                      {
+                                        newSelection.map((selection) => {
+                                          return (
+                                            <div key={selection.marketId} className="betslip-match-info">
+                                              <div className="sb-bet-body ">
 
-                                        <div className="betslip-match-info-teams-block">
-                                          <div className="betslip-match-left-block col-sm-10">
-                                            <div className="betslip-match-teams">
-                                              {selection.conflicts.length > 0 && <div className="betslip-match-details-block col-sm-1"><i className="icon-sb-error" ></i></div>}
-                                              <span className={`teams col-sm-${selection.conflicts.length > 0 ? '11' : '12'}`}>{selection.title}</span>
-                                            </div>
-                                          </div>
+                                                <div className="betslip-match-info-teams-block">
+                                                  <div className="betslip-match-left-block col-sm-10">
+                                                    <div className="betslip-match-teams">
+                                                      {selection.conflicts.length > 0 && <div className="betslip-match-details-block col-sm-1"><i className="icon-sb-error" ></i></div>}
+                                                      <span className={`teams col-sm-${selection.conflicts.length > 0 ? '11' : '12'}`}>{selection.title}</span>
+                                                    </div>
+                                                  </div>
 
-                                          <div className="betslip-match-right-block col-sm-2" style={{ display: 'flex' }}>
-                                            <div tabIndex="0" id={selection.marketId} className="betslip-match-details-block" onFocus={(e) => this.showMatchDetails(e, { ...selection.gamePointer, title: selection.title })} onBlur={this.hideMatchDetails}><i className="icon-icon-info" data-details-info="" ></i>
-                                            </div>
-                                            <div className="betslip-match-remove" onClick={() => this.removeGameFromBets(selection.marketId)}>
-                                              <span className="icon-icon-close-x remove-icon-betslip"></span>
-                                            </div>
-                                          </div>
-                                        </div>
+                                                  <div className="betslip-match-right-block col-sm-2" style={{ display: 'flex' }}>
+                                                    <div tabIndex="0" id={selection.marketId} className="betslip-match-details-block" onFocus={(e) => this.showMatchDetails(e, { ...selection.gamePointer, title: selection.title })} onBlur={this.hideMatchDetails}><i className="icon-icon-info" data-details-info="" ></i>
+                                                    </div>
+                                                    <div className="betslip-match-remove" onClick={() => this.removeGameFromBets(selection.marketId)}>
+                                                      <span className="icon-icon-close-x remove-icon-betslip"></span>
+                                                    </div>
+                                                  </div>
+                                                </div>
 
-                                        <div className="sb-bet-info">
-                                          {selection.suspended ?
-                                            <div className="sb-event-overlay suspended">
-                                              <div className="sb-event-overlay-info suspended-container">
-                                                <div className="suspended-container-part">
-                                                  <span className="sb-event-overlay-icon icon-icon-locked-stream"></span>
-                                                  <span className="sb-event-overlay-title">Suspended</span>
+                                                <div className="sb-bet-info">
+                                                  {selection.suspended ?
+                                                    <div className="sb-event-overlay suspended">
+                                                      <div className="sb-event-overlay-info suspended-container">
+                                                        <div className="suspended-container-part">
+                                                          <span className="sb-event-overlay-icon icon-icon-locked-stream"></span>
+                                                          <span className="sb-event-overlay-title">Suspended</span>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    : null
+                                                  }
+                                                  <div className="sb-bet-info-content">
+                                                    <span className="betslip-match-market-type">{selection.marketName} {selection.marketBase}</span>
+                                                    <span className="betslip-match-old-coeficiente">
+                                                      <span className="betslip-match-old-coeficiente">
+                                                        {selection.initialPrice !== selection.price ? <span>{oddConvert({
+                                                          main: {
+                                                            decimalFormatRemove3Digit: 0,
+                                                            notLockedOddMinValue: null,
+                                                            roundDecimalCoefficients: 3,
+                                                            showCustomNameForFractionalFormat: null,
+                                                            specialOddFormat: null,
+                                                            useLadderForFractionalFormat: 0
+                                                          }, env: { oddFormat: null }
+                                                        }, { mathCuttingFunction: () => { } })(selection.initialPrice, oddType)}</span> : null}
+                                                      </span>
+                                                    </span>
+                                                  </div>
+
+                                                  <div className="sb-bet-info-content">
+                                                    <span className="betslip-match-event">
+                                                      {selection.pick} {selection.pick === 'W1' || selection.pick === 'W2' ? ' - ' + selection.pick.replace(/Team 1/gi, selection.team1Name).replace(/Team 2/gi, selection.team2Name).replace(/w1/gi, selection.team1Name).replace(/w2/gi, selection.team2Name) : ''}
+                                                    </span>
+                                                    <span className="betslip-match-coeficiente">
+                                                      <span>{oddConvert({
+                                                        main: {
+                                                          decimalFormatRemove3Digit: 0,
+                                                          notLockedOddMinValue: null,
+                                                          roundDecimalCoefficients: 3,
+                                                          showCustomNameForFractionalFormat: null,
+                                                          specialOddFormat: null,
+                                                          useLadderForFractionalFormat: 0
+                                                        }, env: { oddFormat: null }
+                                                      }, { mathCuttingFunction: () => { } })(selection.price, oddType)}</span>
+                                                    </span>
+                                                  </div>
+                                                  {betMode === 1 && !enableFreebet &&
+                                                    <div className="sb-bet-input-block stake-text keyboard-close">
+                                                      <div className="stake-text ">
+                                                        <span>
+                                                          Stake
+                                                        </span>
+
+                                                      </div>
+                                                      <div className="sb-input-inner-label">
+                                                        {/* <BetVirtualKeyboard onSetStake={this.setSingleBetStake} onClear={this.onClearSingle} onFocus={this.onFocus} onFocusLost={this.onFocusLost} value={selection.singleStake} id={selection.gameId}/> */}
+                                                        <input placeholder="0" type="number" value={selection.singleStake} onChange={(e) => this.setSingleBetStake(selection.marketId, e)} id="singlebetStake" autoComplete='off' />
+                                                      </div>
+
+                                                    </div>
+                                                  }
+                                                  {selection.booking_id && betSlipMode === 1 &&
+                                                    <div className="sb-bet-input-block booking-id-text">
+                                                      <div className="booking-text">
+                                                        <span>
+                                                          Booking ID:
+                                                        </span>
+
+                                                      </div>
+
+                                                      <div className="booking-id">
+                                                        <span>{selection.booking_id}</span>
+                                                      </div>
+                                                      <div className="print-btn" onClick={() => { this.printBookingTicket() }}><span className="print-icon"></span></div>
+                                                    </div>
+                                                  }
+                                                  {betMode === 1 && betlen === 1 ?
+
+                                                    <div className="sb-bet-result  ">
+                                                      <div className="sb-bet-return top-border ">
+                                                        <span>Possible Win:</span>
+                                                        <span className="possible-win">{selection.singleStake !== "" ? (selection.singleStake * selection.price).toFixed(2) : enableFreebet ? selection.price * freeBetStake.amount : 0}</span>
+                                                      </div>
+                                                    </div>
+                                                    : null}
                                                 </div>
                                               </div>
                                             </div>
-                                            : null
-                                          }
-                                          <div className="sb-bet-info-content">
-                                            <span className="betslip-match-market-type">{selection.marketName} {selection.marketBase}</span>
-                                            <span className="betslip-match-old-coeficiente">
-                                              <span className="betslip-match-old-coeficiente">
-                                                {selection.initialPrice !== selection.price ? <span>{oddConvert({
-                                                  main: {
-                                                    decimalFormatRemove3Digit: 0,
-                                                    notLockedOddMinValue: null,
-                                                    roundDecimalCoefficients: 3,
-                                                    showCustomNameForFractionalFormat: null,
-                                                    specialOddFormat: null,
-                                                    useLadderForFractionalFormat: 0
-                                                  }, env: { oddFormat: null }
-                                                }, { mathCuttingFunction: () => { } })(selection.initialPrice, oddType)}</span> : null}
-                                              </span>
-                                            </span>
-                                          </div>
+                                          )
+                                        })
+                                      }
+                                    </div>
 
-                                          <div className="sb-bet-info-content">
-                                            <span className="betslip-match-event">
-                                              {selection.pick} {selection.pick === 'W1' || selection.pick === 'W2' ? ' - ' + selection.pick.replace(/Team 1/gi, selection.team1Name).replace(/Team 2/gi, selection.team2Name).replace(/w1/gi, selection.team1Name).replace(/w2/gi, selection.team2Name) : ''}
-                                            </span>
-                                            <span className="betslip-match-coeficiente">
-                                              <span>{oddConvert({
-                                                main: {
-                                                  decimalFormatRemove3Digit: 0,
-                                                  notLockedOddMinValue: null,
-                                                  roundDecimalCoefficients: 3,
-                                                  showCustomNameForFractionalFormat: null,
-                                                  specialOddFormat: null,
-                                                  useLadderForFractionalFormat: 0
-                                                }, env: { oddFormat: null }
-                                              }, { mathCuttingFunction: () => { } })(selection.price, oddType)}</span>
-                                            </span>
-                                          </div>
-                                          {betMode === 1 && !enableFreebet &&
-                                            <div className="sb-bet-input-block stake-text keyboard-close">
-                                              <div className="stake-text ">
-                                                <span>
-                                                  Stake
-                                                </span>
 
-                                              </div>
-                                              <div className="sb-input-inner-label">
-                                                {/* <BetVirtualKeyboard onSetStake={this.setSingleBetStake} onClear={this.onClearSingle} onFocus={this.onFocus} onFocusLost={this.onFocusLost} value={selection.singleStake} id={selection.gameId}/> */}
-                                                <input placeholder="0" type="number" value={selection.singleStake} onChange={(e) => this.setSingleBetStake(selection.marketId, e)} id="singlebetStake" autoComplete='off' />
-                                              </div>
+                                    <div className="betslip-matches-total-info">
+                                      <div className="betslip-match-info-footer">
+                                        {(betlen > 1 && betSlipMode === 2 && !enableFreebet) || (betSlipMode === 1 && betlen > 1) ?
+                                          <div className="sb-bet-input-block stake-text">
+                                            <span>
+                                              Stake {betMode === 1 || betMode === 3 ? 'Per Bet' : ''}
+                                            </span>
+                                            <div className="sb-input-inner-label">
+                                              <input id="betStake" placeholder="0" type="number" onChange={(e) => this.setBetStake(e)} autoComplete='off' />
 
                                             </div>
+                                          </div> : null}
+                                        <div id="ember1599" className="ember-view"></div>
+
+                                        <div className="sb-bet-result">
+                                          {
+                                            !showFirsttime && <React.Fragment>
+                                              {(betMode === 1 || betMode === 3) &&
+                                                <div className="sb-bet-return">
+                                                  <span className="number-of-bets">Number of Bets:</span>
+                                                  <span className="count-of-bets">{this.getTotalBets()}</span>
+                                                </div>
+                                              }
+                                              {betMode === 2 &&
+                                                <div className="sb-bet-return total">
+                                                  <span>Total Odds: </span>
+                                                  <span>{oddConvert({
+                                                    main: {
+                                                      decimalFormatRemove3Digit: 0,
+                                                      notLockedOddMinValue: null,
+                                                      roundDecimalCoefficients: 3,
+                                                      showCustomNameForFractionalFormat: null,
+                                                      specialOddFormat: null,
+                                                      useLadderForFractionalFormat: 0
+                                                    }, env: { oddFormat: null }
+                                                  }, { mathCuttingFunction: () => { } })(totalOdds, oddType)}</span>
+                                                </div>
+                                              }
+
+                                              <div className="sb-bet-return">
+                                                <span>Total Stake:</span>
+
+
+                                                {
+                                                  enableFreebet ?
+                                                    <span>{freeBetStake.amount}</span>
+                                                    : <span>{this.getTotalStake().toString().replace(/\d(?=(\d{3})+\.)/g, '$&,')}</span>
+
+                                                }
+                                              </div>
+
+                                              <div className="sb-bet-return top-border">
+                                                <span>{betMode !== 1 ? 'Possible ' : 'Total '} Win:</span>
+                                                <span className="possible-win">{betMode === 3 ? (this.sys_bet_result.win).toString().replace(/\d(?=(\d{3})+\.)/g, '$&,') : betMode === 4 ? Number.parseFloat(chainWinning).toFixed(2).toString().replace(/\d(?=(\d{3})+\.)/g, '$&,') : this.getPossibleWinAmount()}</span>
+                                              </div>
+                                            </React.Fragment>
+                                            // :
+                                            // <div className="quick-bet-setting" style={{display:'flex',justifyContent:'flex-end'}}>
+                                            // <span style={{marginRight:'10px'}}>Save Stake</span>
+
+                                            // <label className="sb-on-off-button">
+                                            //   <input onChange={(e) => { this.useQuickBet(e) }} type="checkbox" />
+                                            //   <span>
+                                            //     <span className="icon-sb-pause off"></span>
+                                            //   </span>
+                                            // </label>
+                                            // </div>
                                           }
-                                          {selection.booking_id && betSlipMode === 1 &&
-                                            <div className="sb-bet-input-block booking-id-text">
-                                              <div className="booking-text">
-                                                <span>
-                                                  Booking ID:
-                                                </span>
-
+                                          {selectionBonusPercentage > 0 && enableEventSeletionBonus && betSlipMode === 2 &&
+                                            <React.Fragment>
+                                              <div className="sb-bet-return bonus">
+                                                <span>Bonus Percentage:</span>
+                                                <span className="possible-win">{selectionBonusPercentage} </span>
                                               </div>
 
-                                              <div className="booking-id">
-                                                <span>{selection.booking_id}</span>
+                                              <div className="sb-bet-return bonus">
+                                                <span>Accumulator Bonus:</span>
+                                                <span className="possible-win">{parseFloat((totalOdds * this.getTotalStake()) * (selectionBonusPercentage / 100), 10).toFixed(2).toString().replace(/\d(?=(\d{3})+\.)/g, '$&,')} </span>
                                               </div>
-                                              <div className="print-btn" onClick={() => { this.printBookingTicket() }}><span className="print-icon"></span></div>
-                                            </div>
+                                            </React.Fragment>
                                           }
-                                          {betMode === 1 && betlen === 1 ?
-
-                                            <div className="sb-bet-result  ">
-                                              <div className="sb-bet-return top-border ">
-                                                <span>Possible Win:</span>
-                                                <span className="possible-win">{selection.singleStake !== "" ? (selection.singleStake * selection.price).toFixed(2) : enableFreebet ? selection.price * freeBetStake.amount : 0}</span>
-                                              </div>
+                                          {(selectionBonusPercentage > 0 && enableEventSeletionBonus && betSlipMode === 2) || enableFreebet ?
+                                            <div className="sb-bet-return bonus">
+                                              <span>Total Win:</span>
+                                              <span className="possible-win">{this.getTotalWinAmount(selectionBonusPercentage)} </span>
                                             </div>
                                             : null}
                                         </div>
                                       </div>
                                     </div>
-                                  )
-                                })
-                              }
-                            </div>
+                                    {
+                                      bookingNumber !== null && betSlipMode === 1 && betMode !== 1 ?
+                                        <div className="booking-id-block">
+                                          <div className="text"><span>{bookingNumber !== 1 ? 'Booking ID: ' : ''} </span><span>{bookingNumber !== 1 ? bookingNumber : null}</span></div>
+                                          <div className="print-btn" onClick={() => { this.printBookingTicket() }}><span className="print-icon"></span></div>
+                                        </div>
+                                        : null
+                                    }
+                                    <div className="betBtn-container">
+
+                                      {
+
+                                        betFailed && isOddChange ?
+                                          <button onClick={(e) => { this.onOddsSettingsChange({ target: { value: 2 } }); this.placeBet() }} className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`} disabled={(betSlipMode === 2 && isLoggedIn && lowBalance && !enableFreebet) || (betStake === 0 && !enableFreebet) || betInprogress}> {
+                                            betInprogress ?
+                                              <div className="no-results-container sb-spinner">
+                                                <span className="btn-preloader sb-preloader"></span>
+                                              </div>
+                                              : 'Accept changes and place bets!'
+                                          }</button> :
+                                          isOddChange ?
+                                            <button style={{ cursor: "pointer" }} onClick={(e) => { this.onOddsSettingsChange({ target: { value: 2 } }); this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, { isOddChange: false })) }} className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`} disabled={(betSlipMode === 2 && isLoggedIn && lowBalance && !enableFreebet) || (betStake === 0 && !enableFreebet) || betInprogress}> {
+                                              betInprogress ?
+                                                <div className="no-results-container sb-spinner">
+                                                  <span className="btn-preloader sb-preloader"></span>
+                                                </div>
+                                                : 'Accept Odds changes!'
+                                            }</button>
+                                            : !isLoggedIn && betlen && !localStorage.getItem("walletAddress") ?
+                                              <button style={{ cursor: "pointer" }} onClick={this.betslipToggleView} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
+                                                Sign in to place bet or connect to wallet</button>
+                                              :
+                                              <button
+                                                style={{ cursor: "pointer" }}
+                                                onClick={
+                                                  // profile.Balance >= this.props.sportsbook.betStake ?
 
 
-                            <div className="betslip-matches-total-info">
-                              <div className="betslip-match-info-footer">
-                                {(betlen > 1 && betSlipMode === 2 && !enableFreebet) || (betSlipMode === 1 && betlen > 1) ?
-                                  <div className="sb-bet-input-block stake-text">
-                                    <span>
-                                      Stake {betMode === 1 || betMode === 3 ? 'Per Bet' : ''}
-                                    </span>
-                                    <div className="sb-input-inner-label">
-                                      <input id="betStake" placeholder="0" type="number" onChange={(e) => this.setBetStake(e)} autoComplete='off' />
+                                                  () => {
+                                                    this.placeBet()
+                                                    this.removeAllBetSelections()
+                                                  }
+
+                                                  // : makeToast("Your Balance is less then Your bet stake", 6000)
+                                                }
+                                                className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}
+                                                disabled={(betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.Balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}> {
+                                                  // betInprogress ?
+                                                  //   <div className="no-results-container sb-spinner">
+                                                  //     <span className="btn-preloader sb-preloader"></span>
+                                                  //   </div>
+                                                  // :
+                                                  'Place Bet'
+                                                }</button>
+
+                                      }
+
 
                                     </div>
-                                  </div> : null}
-                                <div id="ember1599" className="ember-view"></div>
-
-                                <div className="sb-bet-result">
-                                  {
-                                    !showFirsttime && <React.Fragment>
-                                      {(betMode === 1 || betMode === 3) &&
-                                        <div className="sb-bet-return">
-                                          <span className="number-of-bets">Number of Bets:</span>
-                                          <span className="count-of-bets">{this.getTotalBets()}</span>
-                                        </div>
-                                      }
-                                      {betMode === 2 &&
-                                        <div className="sb-bet-return total">
-                                          <span>Total Odds: </span>
-                                          <span>{oddConvert({
-                                            main: {
-                                              decimalFormatRemove3Digit: 0,
-                                              notLockedOddMinValue: null,
-                                              roundDecimalCoefficients: 3,
-                                              showCustomNameForFractionalFormat: null,
-                                              specialOddFormat: null,
-                                              useLadderForFractionalFormat: 0
-                                            }, env: { oddFormat: null }
-                                          }, { mathCuttingFunction: () => { } })(totalOdds, oddType)}</span>
-                                        </div>
-                                      }
-
-                                      <div className="sb-bet-return">
-                                        <span>Total Stake:</span>
-                                        {
-                                          enableFreebet ?
-                                            <span>{freeBetStake.amount}</span>
-                                            : <span>{this.getTotalStake().toString().replace(/\d(?=(\d{3})+\.)/g, '$&,')}</span>
-
-                                        }
-                                      </div>
-
-                                      <div className="sb-bet-return top-border">
-                                        <span>{betMode !== 1 ? 'Possible ' : 'Total '} Win:</span>
-                                        <span className="possible-win">{betMode === 3 ? (this.sys_bet_result.win).toString().replace(/\d(?=(\d{3})+\.)/g, '$&,') : betMode === 4 ? Number.parseFloat(chainWinning).toFixed(2).toString().replace(/\d(?=(\d{3})+\.)/g, '$&,') : this.getPossibleWinAmount()}</span>
-                                      </div>
-                                    </React.Fragment>
-                                    // :
-                                    // <div className="quick-bet-setting" style={{display:'flex',justifyContent:'flex-end'}}>
-                                    // <span style={{marginRight:'10px'}}>Save Stake</span>
-
-                                    // <label className="sb-on-off-button">
-                                    //   <input onChange={(e) => { this.useQuickBet(e) }} type="checkbox" />
-                                    //   <span>
-                                    //     <span className="icon-sb-pause off"></span>
-                                    //   </span>
-                                    // </label>
-                                    // </div>
-                                  }
-                                  {selectionBonusPercentage > 0 && enableEventSeletionBonus && betSlipMode === 2 &&
-                                    <React.Fragment>
-                                      <div className="sb-bet-return bonus">
-                                        <span>Bonus Percentage:</span>
-                                        <span className="possible-win">{selectionBonusPercentage} </span>
-                                      </div>
-
-                                      <div className="sb-bet-return bonus">
-                                        <span>Accumulator Bonus:</span>
-                                        <span className="possible-win">{parseFloat((totalOdds * this.getTotalStake()) * (selectionBonusPercentage / 100), 10).toFixed(2).toString().replace(/\d(?=(\d{3})+\.)/g, '$&,')} </span>
-                                      </div>
-                                    </React.Fragment>
-                                  }
-                                  {(selectionBonusPercentage > 0 && enableEventSeletionBonus && betSlipMode === 2) || enableFreebet ?
-                                    <div className="sb-bet-return bonus">
-                                      <span>Total Win:</span>
-                                      <span className="possible-win">{this.getTotalWinAmount(selectionBonusPercentage)} </span>
-                                    </div>
-                                    : null}
+                                  </div>
+                                </React.Fragment>
+                                :
+                                <div className="betslip-empty guest">
+                                  <span>No bets have been selected. To bet, please click on the respective result.</span>
                                 </div>
-                              </div>
-                            </div>
-                            {
-                              bookingNumber !== null && betSlipMode === 1 && betMode !== 1 ?
-                                <div className="booking-id-block">
-                                  <div className="text"><span>{bookingNumber !== 1 ? 'Booking ID: ' : ''} </span><span>{bookingNumber !== 1 ? bookingNumber : null}</span></div>
-                                  <div className="print-btn" onClick={() => { this.printBookingTicket() }}><span className="print-icon"></span></div>
-                                </div>
-                                : null
                             }
-                            <div className="betBtn-container">
-
-                              {
-
-                                betFailed && isOddChange ?
-                                  <button onClick={(e) => { this.onOddsSettingsChange({ target: { value: 2 } }); this.placeBet() }} className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`} disabled={(betSlipMode === 2 && isLoggedIn && lowBalance && !enableFreebet) || (betStake === 0 && !enableFreebet) || betInprogress}> {
-                                    betInprogress ?
-                                      <div className="no-results-container sb-spinner">
-                                        <span className="btn-preloader sb-preloader"></span>
-                                      </div>
-                                      : 'Accept changes and place bets!'
-                                  }</button> :
-                                  isOddChange ?
-                                    <button style={{ cursor: "pointer" }} onClick={(e) => { this.onOddsSettingsChange({ target: { value: 2 } }); this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, { isOddChange: false })) }} className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`} disabled={(betSlipMode === 2 && isLoggedIn && lowBalance && !enableFreebet) || (betStake === 0 && !enableFreebet) || betInprogress}> {
-                                      betInprogress ?
-                                        <div className="no-results-container sb-spinner">
-                                          <span className="btn-preloader sb-preloader"></span>
-                                        </div>
-                                        : 'Accept Odds changes!'
-                                    }</button>
-                                    : !isLoggedIn && betlen && !localStorage.getItem("walletAddress") ?
-                                      <button style={{ cursor: "pointer" }} onClick={this.betslipToggleView} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
-                                        Sign in to place bet or connect to wallet</button>
-                                      :
-                                      <button
-                                        style={{ cursor: "pointer" }}
-                                        onClick={
-                                          // profile.Balance >= this.props.sportsbook.betStake ?
-
-
-                                          () => {
-                                            this.placeBet()
-                                            this.removeAllBetSelections()
-                                          }
-
-                                          // : makeToast("Your Balance is less then Your bet stake", 6000)
-                                        }
-                                        className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}
-                                        disabled={(betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.Balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}> {
-                                          // betInprogress ?
-                                          //   <div className="no-results-container sb-spinner">
-                                          //     <span className="btn-preloader sb-preloader"></span>
-                                          //   </div>
-                                          // :
-                                          'Place Bet'
-                                        }</button>
-                              }
-                            </div>
                           </div>
-                        </React.Fragment>
-                        :
-                        <div className="betslip-empty guest">
-                          <span>No bets have been selected. To bet, please click on the respective result.</span>
+                          <Transition
+                            items={showBetSlipNoty}
+                            from={{ transform: 'translate3d(0,-40px,0)', opacity: 0 }}
+                            enter={{ opacity: 1, transform: 'translate3d(0,0px,0)' }}
+                            leave={{ opacity: 0, transform: 'translate3d(0,-40px,0)' }}>
+
+                            {showBetSlipNoty =>
+                              showBetSlipNoty &&
+                              (props => <BetSlipNotification style={props} message={betSlipNotyMsg} type={betSlipNotyType} canNotify={showBetSlipNoty} onClose={this.hideNoty} />)
+                            }
+                          </Transition>
+
                         </div>
-                    }
+                      </div>
+                    </div>
                   </div>
-                  <Transition
-                    items={showBetSlipNoty}
-                    from={{ transform: 'translate3d(0,-40px,0)', opacity: 0 }}
-                    enter={{ opacity: 1, transform: 'translate3d(0,0px,0)' }}
-                    leave={{ opacity: 0, transform: 'translate3d(0,-40px,0)' }}>
-
-                    {showBetSlipNoty =>
-                      showBetSlipNoty &&
-                      (props => <BetSlipNotification style={props} message={betSlipNotyMsg} type={betSlipNotyType} canNotify={showBetSlipNoty} onClose={this.hideNoty} />)
-                    }
-                  </Transition>
-
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {
-          showMatchDetails && <div id="match-details-betslip" className="betslip-match-details left ember-view" style={
-            {
-              top: details.top + 'px',
-              left: details.left + 'px',
-              opacity: 1
-            }
-          }>
-            <div className={`${details.match.sport.toLowerCase()} sb-sport-background fill sport-header sport-border`}>
-              <i className="sb-sport-icon icon-sport-soccer"></i>
-              <span>{details.match.sport}</span>
-            </div>
+                {
+                  showMatchDetails && <div id="match-details-betslip" className="betslip-match-details left ember-view" style={
+                    {
+                      top: details.top + 'px',
+                      left: details.left + 'px',
+                      opacity: 1
+                    }
+                  }>
+                    <div className={`${details.match.sport.toLowerCase()} sb-sport-background fill sport-header sport-border`}>
+                      <i className="sb-sport-icon icon-sport-soccer"></i>
+                      <span>{details.match.sport}</span>
+                    </div>
 
-            <div className="betslip-match-details-body">
-              <div>
-                <span>{details.match.competion}</span>
+                    <div className="betslip-match-details-body">
+                      <div>
+                        <span>{details.match.competion}</span>
+                      </div>
+                      <div>
+                        <span>Not Started</span>
+                      </div>
+                      <div>
+                        {details.match.title}
+                      </div>
+                    </div></div>
+                }
               </div>
-              <div>
-                <span>Not Started</span>
-              </div>
-              <div>
-                {details.match.title}
-              </div>
-            </div></div>
+
+            )
+          }
         }
-      </div>
+      </Web3Context.Consumer>
+
     )
 
   }
