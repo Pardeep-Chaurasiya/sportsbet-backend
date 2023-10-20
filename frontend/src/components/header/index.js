@@ -10,6 +10,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 
 import { Web3Context } from "../../App";
+import { NetIdMessage, NETID } from "../../config";
+
 
 
 
@@ -81,7 +83,7 @@ class Header extends React.Component {
     this.props.dispatchLogout();
   }
   walletlogOut() {
-    localStorage.removeItem("walletAddress")
+
   }
   onFormInputFocus() {
     this.setState({ showFullInput: true });
@@ -195,9 +197,9 @@ class Header extends React.Component {
 
 
     try {
-      console.log("sdf");
+
       const web3 = await getWeb3();
-      console.log("dfg");
+
       setWeb3(web3);
       console.log(web3, "df");
       const netId = await web3.eth.net.getId();
@@ -206,8 +208,9 @@ class Header extends React.Component {
 
       const accounts = await web3.eth.getAccounts();
       setAccounts(accounts);
-      localStorage.setItem("walletAddress", accounts);
+
       makeToast("metamask connected successfully", 4000)
+
     } catch (error) {
       console.error('Error connecting to the wallet:', error);
     }
@@ -282,6 +285,7 @@ class Header extends React.Component {
     window.grecaptcha.reset();
     this.setState({ showRecaptcha: false });
   }
+
   render() {
 
     const {
@@ -409,7 +413,7 @@ class Header extends React.Component {
       <Web3Context.Consumer>
         {
           (props) => {
-            console.log(props.web3, props.accounts, props.netId, "controls")
+
 
             return (
               <div
@@ -434,8 +438,23 @@ class Header extends React.Component {
                       </div>
                       <div className="header-col right">
                         <div className="nav-controls">
-                          {!localStorage.getItem("walletAddress") && !appState.isLoggedIn ? (
+                          {!props.web3 && !appState.isLoggedIn ? (
                             <React.Fragment>
+                              <div>
+
+                                {
+                                  props.web3 ? (
+                                    props.netId && NETID !== props.netId
+                                      ?
+                                      (
+                                        makeToast(NetIdMessage, 4000)
+                                      )
+                                      : null
+                                  )
+                                    : null
+
+                                }
+                              </div>
                               <div
 
                                 className="login"
@@ -548,8 +567,8 @@ class Header extends React.Component {
                                     </li>
                                   }
                                   {
-                                    localStorage.getItem("walletAddress") &&
-                                    <li onClick={this.walletlogOut} className="logout">
+                                    props.web3 &&
+                                    <li onClick={this.walletlogOut(props.setWeb3, props.setNetId, props.setAccounts)} className="logout">
                                       <span className="profile-icon icon-sb-log-out"></span>
                                       <span>Log out</span>
                                     </li>

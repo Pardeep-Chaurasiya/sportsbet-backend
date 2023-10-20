@@ -13,9 +13,7 @@ class App extends React.Component {
     };
   }
   componentDidMount() {
-    if (localStorage.getItem("walletAddress")) {
 
-    }
   }
   setWeb3 = (web3) => {
     this.setState({ web3 });
@@ -32,7 +30,7 @@ class App extends React.Component {
     console.log(this.state.netId, "netIdddd");
   };
   render() {
-    console.log(this.state.web3, this.state.accounts, this.state.netId, "state")
+
     return (
       <Web3Context.Provider
         value={{

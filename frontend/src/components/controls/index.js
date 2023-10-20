@@ -836,6 +836,7 @@ export default class Controls extends React.Component {
     const { showFirsttime } = this.props.sportsbook
     this.setState(prevState => ({ isBetSlipOpen: showFirsttime ? false : !prevState.isBetSlipOpen }))
     this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, { showBetslipSettings: false, animation: false, showFirsttime: showFirsttime ? false : showFirsttime }))
+
   }
   onOddsTypeChange(e) {
     let oddType = this.props.sportsbook.oddType, type = e.target.value
@@ -965,7 +966,7 @@ export default class Controls extends React.Component {
       <Web3Context.Consumer>
         {
           (props) => {
-            console.log(props.web3, props.accounts, props.netId, "controls")
+
             return (
               <div className={`controls betslip-floating-mode-container bottom-right ${!isLoggedIn ? 'guest' : ''} ${showFirsttime ? 'first-add-show' : ''} ${isBetSlipOpen || showFirsttime ? 'open' : ''} betslip-icon`} ref={(el) => { this.betslipbody = el }}>
                 <div className={`floating-mode-inner ${showFirsttime ? 'quick' : ''}`}>
@@ -1305,7 +1306,7 @@ export default class Controls extends React.Component {
                                                 </div>
                                                 : 'Accept Odds changes!'
                                             }</button>
-                                            : !isLoggedIn && betlen && !localStorage.getItem("walletAddress") ?
+                                            : !isLoggedIn && betlen && !props.web3 ?
                                               <button style={{ cursor: "pointer" }} onClick={this.betslipToggleView} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
                                                 Sign in to place bet or connect to wallet</button>
                                               :
