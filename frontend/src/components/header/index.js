@@ -32,6 +32,8 @@ import {
 import { withRouter } from "react-router-dom";
 import { Transition } from "react-spring/renderprops";
 import getWeb3 from "../../web3/getweb3";
+
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -58,11 +60,6 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-
-
-
-
-
     // console.log(moment.tz.names())
     for (var i in this.supportedTZ) {
       this.offsetTmz.push(
@@ -79,15 +76,19 @@ class Header extends React.Component {
     clearInterval(this.timeInterval);
     clearTimeout(this.animationTimeout);
   }
+
   logOut() {
     this.props.dispatchLogout();
   }
+
   walletlogOut() {
 
   }
+
   onFormInputFocus() {
     this.setState({ showFullInput: true });
   }
+
   onFormInputFocusLost(e) {
     if (Object.keys(this.props.searchData).length === 0)
       this.setState({ showFullInput: false });
@@ -99,17 +100,20 @@ class Header extends React.Component {
       this.setState({ showFullInput: false });
     }
   }
+
   setOddType(t) {
     let oddType = this.props.oddType;
     if (t !== oddType)
       this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, { oddType: t }));
     dataStorage("odds_format", t);
   }
+
   changeTheme(theme) {
     let appTheme = this.props.appTheme;
     if (theme !== appTheme)
       this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, { appTheme: theme }));
   }
+
   openModal(contentType = null, tab = null) {
     this.props.dispatch(
       allActionDucer(MODAL, {
@@ -119,20 +123,24 @@ class Header extends React.Component {
       })
     );
   }
+
   openFormModal(contentType) {
     this.props.dispatch(
       allActionDucer(MODAL, { accVerifyOpen: true, formType: contentType })
     );
   }
+
   setTime() {
     this.timeInterval = setInterval(() => {
       this.setState({ time: moment.tz(this.supportedTZ[0]).format("H:mm:ss") });
     }, 1000);
   }
+
   setRecaptchaValue(e) {
     e.persist();
     this.recaptch_value = e.target.value;
   }
+
   clearTicketResult() {
     if (this.searchTicketInput && this.recaptchaValue) {
       this.props.dispatch(
@@ -143,6 +151,7 @@ class Header extends React.Component {
       );
     }
   }
+
   openSearchedGame(competition, region, sport, game = null) {
     // console.log(competition,region,sport,game)
     const activeView = this.props.activeView,
@@ -193,9 +202,8 @@ class Header extends React.Component {
   //     alert("metamask not detected")
   //   }
   // }
+
   connectWallet = async (setWeb3, setNetId, setAccounts) => {
-
-
     try {
 
       const web3 = await getWeb3();
@@ -230,11 +238,13 @@ class Header extends React.Component {
       }
     }
   }
+
   valChange(e) {
     let val = e.target.value;
     if (val !== "") this.setState({ showRecaptcha: true });
     else this.setState({ showRecaptcha: false });
   }
+
   setLang(langData) {
     if (this.props.appState.lang !== langData.sysValue) {
       this.props.dispatch(allActionDucer(LANG, { lang: langData.sysValue }));
@@ -246,6 +256,7 @@ class Header extends React.Component {
       });
     }
   }
+
   openBetslipSettings() {
     this.props.dispatch(
       allActionDucer(SPORTSBOOK_ANY, {
@@ -259,6 +270,7 @@ class Header extends React.Component {
       this.props.dispatch(allActionDucer(SPORTSBOOK_ANY, { animation: false }));
     });
   }
+
   clearSearch() {
     if (this.searchInput) {
       this.searchInput.value = "";
@@ -272,6 +284,7 @@ class Header extends React.Component {
       );
     }
   }
+
   showCheckResult(data) {
     this.props.dispatch(
       allActionDucer(SPORTSBOOK_ANY, {
@@ -407,14 +420,10 @@ class Header extends React.Component {
 
     }
 
-
-
     return (
       <Web3Context.Consumer>
         {
           (props) => {
-
-
             return (
               <div
                 className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
