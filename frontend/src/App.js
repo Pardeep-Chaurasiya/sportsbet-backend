@@ -1,7 +1,6 @@
-
-import React from 'react';
-import './App.css';
-import Main from './containers/main';
+import React from "react";
+import "./App.css";
+import Main from "./containers/main";
 export const Web3Context = React.createContext();
 class App extends React.Component {
   constructor(props) {
@@ -12,9 +11,8 @@ class App extends React.Component {
       netId: null,
     };
   }
-  componentDidMount() {
+  componentDidMount() {}
 
-  }
   setWeb3 = (web3) => {
     this.setState({ web3 });
     console.log(this.state.web3, "web3333");
@@ -29,8 +27,8 @@ class App extends React.Component {
     this.setState({ netId });
     console.log(this.state.netId, "netIdddd");
   };
-  render() {
 
+  render() {
     return (
       <Web3Context.Provider
         value={{
@@ -44,7 +42,7 @@ class App extends React.Component {
       >
         <Main />
       </Web3Context.Provider>
-    )
+    );
   }
 }
 

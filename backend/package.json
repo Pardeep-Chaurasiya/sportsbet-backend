@@ -29,7 +29,8 @@
     "sequelize": "^6.33.0",
     "sequelize-cli": "^6.6.1",
     "twilio": "^4.17.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "web3-token": "^1.0.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

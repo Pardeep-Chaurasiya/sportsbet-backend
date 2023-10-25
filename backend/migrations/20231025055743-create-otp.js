@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Bets", {
+    await queryInterface.createTable("OTPs", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,23 +18,15 @@ module.exports = {
           as: "userId",
         },
       },
-      tournamentId: {
-        type: Sequelize.INTEGER,
+      otp: {
+        type: Sequelize.STRING,
         allowNull: false,
-        references: {
-          model: "Tournaments",
-          key: "id",
-          as: "tournamentId",
+        validate: {
+          notEmpty: true,
         },
       },
-      command: { type: Sequelize.STRING },
-      BetType: { type: Sequelize.INTEGER },
-      AcceptMode: { type: Sequelize.INTEGER },
-      Source: { type: Sequelize.INTEGER },
-      TotalPrice: { type: Sequelize.DECIMAL },
-      Amount: { type: Sequelize.DECIMAL },
-      rid: { type: Sequelize.INTEGER },
-      isLive: { type: Sequelize.BOOLEAN },
+      isUsed: { type: Sequelize.BOOLEAN, defaultValue: false },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -46,6 +38,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Bets");
+    await queryInterface.dropTable("OTPs");
   },
 };

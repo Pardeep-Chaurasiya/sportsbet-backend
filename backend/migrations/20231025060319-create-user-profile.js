@@ -24,6 +24,7 @@ module.exports = {
       idnumber: { type: Sequelize.STRING },
       nickname: { type: Sequelize.STRING, unique: true },
       document_type: { type: Sequelize.STRING },
+      avatar: { type: Sequelize.STRING },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
