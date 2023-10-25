@@ -13,7 +13,7 @@ const walletTokenhMiddleware = async (req, res, next) => {
       const Token = token.split(" ")[1];
 
       const { address, body } = await Web3Token.verify(Token);
-      req.UserWallet = { address, Token };
+      req.UserWallet = { address, Token, body };
       next();
     }
   } catch (error) {
