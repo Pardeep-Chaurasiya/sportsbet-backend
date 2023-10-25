@@ -210,6 +210,11 @@ class Header extends React.Component {
 
       const accounts = await web3.eth.getAccounts();
       setAccounts(accounts);
+      if (web3) {
+        makeToast("metamask connected successfully", 4000);
+
+      }
+
       const walletId = accounts[0];
       console.log(web3, accounts[0], "sdfafdasdfasdfdasfasfafafafafaf");
       const Token = localStorage.getItem("walletToken");
@@ -298,8 +303,7 @@ class Header extends React.Component {
   onLoginSuccess({ data, status }) {
     if (status === 200) {
       // localStorage.setItem('authToken', data.AuthToken)
-      makeToast("metamask connected successfully", 4000);
-      makeToast("Login successfully", 6000);
+      makeToast("Login with wallet successfully", 6000);
     }
     // else {
     //   console.log(status, "status");
