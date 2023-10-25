@@ -10,8 +10,6 @@ import API from "../../services/api";
 import { NewAPI } from '../../services/api'
 import { BetVirtualKeyboard } from '../sportsbook-virtual-keyboard'
 import { Web3Context } from '../../App'
-import DepositorERC20ABI from '../../abi/DepositorERC20ABI'
-import { NETID, DepositorERC20, DepositDecimals } from '../../config'
 
 
 const $api = NewAPI.getInstance();
@@ -476,34 +474,6 @@ export default class Controls extends React.Component {
       }, 5000);
     }
 
-  }
-
-  depositToContract(web3, accounts, _netId) {
-    let selectionArr = [], { betSelections, betStake } = this.props.sportsbook, totalOdd = this.calculateTotalOdds(betSelections), dispatch = this.props.dispatch
-
-    if (!web3) {
-      return alert("Please connect wallet")
-    }
-
-    if (Number(_netId) !== NETID) {
-      return alert(`Please switch network to ${NETID}`)
-    }
-
-    const contract = new web3.eth.Contract(DepositorERC20ABI, DepositorERC20)
-
-    Object.keys(betSelections).forEach((selected) => {
-      let eventDetails = {}
-      eventDetails["MatchId"] = betSelections[selected].gamePointer.game;
-      eventDetails["MatchName"] = betSelections[selected].title;
-
-      selectionArr.push(eventDetails)
-    })
-
-    contract.methods.deposit(
-      String(Number(betStake * 10 ** DepositDecimals).toFixed()),
-      selectionArr[0].MatchName,
-      String(selectionArr[0].MatchId)
-    ).send({ from: accounts[0] })
   }
 
   placeBet() {
@@ -1352,7 +1322,6 @@ export default class Controls extends React.Component {
                                                   () => {
                                                     this.placeBet()
                                                     this.removeAllBetSelections()
-                                                    this.depositToContract(props.web3, props.accounts, props.netId)
                                                   }
 
                                                   // : makeToast("Your Balance is less then Your bet stake", 6000)
