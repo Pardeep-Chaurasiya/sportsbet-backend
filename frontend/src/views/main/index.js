@@ -319,9 +319,23 @@ export default class Main extends React.PureComponent {
     document
       .getElementsByTagName("body")[0]
       .addEventListener("scroll", this.headerScroll, true);
+
+
+    setInterval(() => {
+      const tokenData = JSON.parse(localStorage.getItem("walletToken"));
+      if (tokenData) {
+        const { timestamp } = tokenData;
+        const currentTime = Date.now();
+        const twentyFourHoursInMilliseconds = 24 * 60 * 60 * 1000;
+
+        if (currentTime - timestamp >= twentyFourHoursInMilliseconds) {
+          // Token has expired, remove it from local storage
+          localStorage.removeItem("walletToken");
+        }
+      }
+    }, 3600000); // 1 hour
   }
   componentDidUpdate() {
-
     const activeView = this.props.sportsbook.activeView,
       socketState = null !== this.socket ? this.socket.getReadyState() : 10;
     if (

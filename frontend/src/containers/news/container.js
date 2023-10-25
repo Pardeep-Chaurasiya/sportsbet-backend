@@ -1,19 +1,19 @@
-import React from 'react'
-import {connect} from 'react-redux'
+
+import { connect } from 'react-redux'
 import component from '../../views/news'
 
 
 const mapStateToProps = (state, ownProps) => {
     return {
         sportsbook: state.sportsbook,
-        appState:state.appState
+        appState: state.appState
     }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return{
-        dispatch:dispatch,
+    return {
+        dispatch: dispatch,
         ownProps
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(component)
+export default connect(mapStateToProps, mapDispatchToProps)(component)

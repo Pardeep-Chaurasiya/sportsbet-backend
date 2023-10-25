@@ -7,7 +7,7 @@ import Market from '../market'
 import { allActionDucer } from '../../actionCreator'
 import { SPORTSBOOK_ANY, RIDS_PUSH } from '../../actionReducers'
 import LiveGamePreview from '../livePreview'
-import Controls from '../../containers/controls'
+
 
 export default class GameView extends React.Component {
   constructor(props) {
@@ -135,8 +135,8 @@ export default class GameView extends React.Component {
     this.props.history.goBack()
   }
   render() {
-    const { activeNav, sport, competition, region, showRelated } = this.state, { activeGame, loadMarket, activeView, activeSport, activeGameSuspended, betSelections, oddType, marketData, data } = this.props.sportsbook, { addEventToSelection, clearUpdate, getBetslipFreebets, retrieve, validate, unsubscribe, subscribeToSelection, sendRequest } = this.props
-    let marketDataArr = [], marketDataGrouping = [], marketGroups = [], relatedGames = []
+    const { activeNav, sport, competition, region, showRelated } = this.state, { activeGame, loadMarket, activeView, activeSport, activeGameSuspended, betSelections, oddType, marketData } = this.props.sportsbook, { addEventToSelection, clearUpdate } = this.props
+    let marketDataArr = [], marketDataGrouping = [], marketGroups = []
     for (let data in marketData) {
       if (marketData[data]) {
         var name = marketData[data].name, groupID = marketData[data].group_id
@@ -226,11 +226,11 @@ export default class GameView extends React.Component {
                     </div> */}
                     {
                       activeGame && activeGame.stats ?
-                        activeSport.id == 1 ?
+                        activeSport.id === 1 ?
                           <StatsBannerSoccer activeSport={activeSport} activeGame={activeGame} loadMarket={loadMarket} />
-                          : activeSport.id == 3 ?
+                          : activeSport.id === 3 ?
                             <StatsBannerBasketBall activeSport={activeSport} activeGame={activeGame} loadMarket={loadMarket} />
-                            : activeSport.id == 4 ?
+                            : activeSport.id === 4 ?
                               <StatsBannerTennis activeSport={activeSport} activeGame={activeGame} loadMarket={loadMarket} />
                               : <StatsBannerGeneric activeSport={activeSport} activeGame={activeGame} loadMarket={loadMarket} />
                         : null
@@ -275,7 +275,7 @@ export default class GameView extends React.Component {
 
                 <div className="market-event-container">
                   <div className={`scrollable`}>
-                    {activeView == "Live" ?
+                    {activeView === "Live" ?
                       <div className="sb-game-markets-game-info">
                         <i className="icon-icon-info"></i>
                         <span className="game-info-text">{activeGame ? activeGame.text_info : null} {activeGame.add_info_name ? " | " + activeGame.add_info_name : ''}</span>
@@ -285,14 +285,14 @@ export default class GameView extends React.Component {
 
                     <div>
                       <div className="events-nav mobile-markets-scroll-area">
-                        <div {...{ className: `events-nav-item ${activeNav == 0 ? 'active' : null}`, onClick: () => activeNav != 0 ? this.sortByGroups(0) : null }}>
+                        <div {...{ className: `events-nav-item ${activeNav === 0 ? 'active' : null}`, onClick: () => activeNav !== 0 ? this.sortByGroups(0) : null }}>
                           <div className="active-market-type"></div>
                           <span className="market-type-name">All</span>
                         </div>
                         {
                           marketGroups.map((group, id) => {
                             return (
-                              <div key={group.id} {...{ className: `events-nav-item ${activeNav == group.id ? 'active' : null}`, onClick: () => activeNav != group.id ? this.sortByGroups(group.id) : null }}>
+                              <div key={group.id} {...{ className: `events-nav-item ${activeNav === group.id ? 'active' : null}`, onClick: () => activeNav !== group.id ? this.sortByGroups(group.id) : null }}>
                                 <div className="active-market-type"></div>
                                 <span className="market-type-name">{group.name}</span>
                               </div>

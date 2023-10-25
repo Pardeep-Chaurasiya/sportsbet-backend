@@ -1,5 +1,5 @@
 import React from 'react'
-import * as $ from 'jquery'
+
 import 'jquery-ui/ui/widgets/datepicker'
 import moment from 'moment-timezone'
 import { onFormInputFocus, onFormInputFocusLost, makeToast, getCookie } from '../../common'

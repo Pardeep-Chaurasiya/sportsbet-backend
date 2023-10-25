@@ -225,7 +225,7 @@ export default class LiveGamePreview extends React.Component {
                                                         {
 
                                                             activeGame && activeGame.last_event ?
-                                                                <div className={`sb-animation ${activeSport.id !== 3 ? EventIDToNameMap[activeGame.last_event.type_id] ? EventIDToNameMap[activeGame.last_event.type_id].toLowerCase() : '' : ''} ${activeGame && (activeGame.last_event.type_id === '3' && activeGame.last_event.side === 2) ? 'reverse' : ''} ${activeGame && activeGame.last_event.type_id === '20' ? 'half-block' : ''} ${activeGame && activeGame.last_event.type_id === '1' ? 'highlight-animation' : ''}${activeSport.id === 3 ? 'attack' : ''} ${activeGame ? stringReplacer(activeGame.last_event.type_id === '327' || activeGame.last_event.type_id === '328' || activeGame.last_event.type_id === '329' || activeGame.last_event.type_id === '320' ? stringReplacer(activeGame.info.pass_team, [/team1/g, /team2/g], ['home', 'away']) : activeGame.last_event.side, [/1/g, /2/g, /0/g], ['home', 'away', activeGame.last_event.type_id == '20' ? 'away' : '']) : ''} ${activeSport.id === 4 && activeGame ? (activeGame.last_event.type_id === '206') ? 'left' : '' : ''} ${activeSport.id === 4 && activeGame ? (activeGame.last_event.type_id === '205') ? 'change1' : '' : ''} ${activeSport.id === 3 ? 'in-possession' : ''}`}>
+                                                                <div className={`sb-animation ${activeSport.id !== 3 ? EventIDToNameMap[activeGame.last_event.type_id] ? EventIDToNameMap[activeGame.last_event.type_id].toLowerCase() : '' : ''} ${activeGame && (activeGame.last_event.type_id === '3' && activeGame.last_event.side === 2) ? 'reverse' : ''} ${activeGame && activeGame.last_event.type_id === '20' ? 'half-block' : ''} ${activeGame && activeGame.last_event.type_id === '1' ? 'highlight-animation' : ''}${activeSport.id === 3 ? 'attack' : ''} ${activeGame ? stringReplacer(activeGame.last_event.type_id === '327' || activeGame.last_event.type_id === '328' || activeGame.last_event.type_id === '329' || activeGame.last_event.type_id === '320' ? stringReplacer(activeGame.info.pass_team, [/team1/g, /team2/g], ['home', 'away']) : activeGame.last_event.side, [/1/g, /2/g, /0/g], ['home', 'away', activeGame.last_event.type_id === '20' ? 'away' : '']) : ''} ${activeSport.id === 4 && activeGame ? (activeGame.last_event.type_id === '206') ? 'left' : '' : ''} ${activeSport.id === 4 && activeGame ? (activeGame.last_event.type_id === '205') ? 'change1' : '' : ''} ${activeSport.id === 3 ? 'in-possession' : ''}`}>
                                                                     {
                                                                         activeGame && ((activeSport.id === 1 && activeGame.last_event.type_id === '21') || (activeSport.id === 1 && activeGame.last_event.type_id === '326') || activeSport.id === 3) && <div className="inner">
                                                                             <div className="animated-block"></div>
@@ -233,7 +233,7 @@ export default class LiveGamePreview extends React.Component {
                                                                     }
                                                                     {
                                                                         this.state.playSound ?
-                                                                            activeGame && (activeSport.id === 1 || activeSport.id === 3 || activeSport.id === 4) && (activeGame.last_event.type_id === '1' || activeGame.last_event.type_id == '21' || activeGame.last_event.type_id == '3'
+                                                                            activeGame && (activeSport.id === 1 || activeSport.id === 3 || activeSport.id === 4) && (activeGame.last_event.type_id === '1' || activeGame.last_event.type_id === '21' || activeGame.last_event.type_id === '3'
                                                                                 || activeGame.last_event.type_id === '2' || activeGame.last_event.type_id === '206' || activeGame.last_event.type_id === '207') ?
                                                                                 <LiveEventSound type_id={activeGame.last_event.type_id} alias={activeSport.alias} /> : null : null
                                                                     }
@@ -258,7 +258,7 @@ export default class LiveGamePreview extends React.Component {
                                                                                 </div>
                                                                             </div>
                                                                             : null}
-                                                                    {activeSport.id === 4 && activeGame.last_event.type_id == '206' ?
+                                                                    {activeSport.id === 4 && activeGame.last_event.type_id === '206' ?
                                                                         <div className="ball-container">
                                                                             <div className="ball"></div>
                                                                         </div>
@@ -418,7 +418,7 @@ export default class LiveGamePreview extends React.Component {
                                                                         <div className="left">
                                                                             {(activeSport.id === 1 && activeGame.last_event.type_id === '3') ? <i className="icon-icon-cards-yellowred" style={{ color: 'rgb(217, 171, 31)', borderRadius: '4px', marginRight: '5px', fontSize: '19px' }}></i>
                                                                                 : (activeSport.id === 1 && activeGame.last_event.type_id === '2') ? <i className="icon-icon-cards-yellowred" style={{ color: 'rgb(209, 25, 31)', borderRadius: '4px', marginRight: '5px', fontSize: '19px' }}></i> : null}
-                                                                            {(activeSport.id == 1 && activeGame.last_event.type_id === '4') ?
+                                                                            {(activeSport.id === 1 && activeGame.last_event.type_id === '4') ?
                                                                                 <img src="https://static.betconstruct.me/assets/images/game-statistics/corner.svg" alt="corner"></img>
                                                                                 : (activeSport.id === 1 && activeGame.last_event.type_id === '6') ?
                                                                                     <img src="https://static.betconstruct.me/assets/images/game-statistics/substitution.svg" alt="Substitution"></img> :

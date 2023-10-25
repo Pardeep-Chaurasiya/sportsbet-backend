@@ -61,9 +61,9 @@ class Header extends React.Component {
     for (var i in this.supportedTZ) {
       this.offsetTmz.push(
         this.supportedTZ[i] +
-          " (GMT " +
-          moment.tz(this.supportedTZ[i]).format("Z") +
-          ")"
+        " (GMT " +
+        moment.tz(this.supportedTZ[i]).format("Z") +
+        ")"
       );
     }
     this.setTime();
@@ -78,7 +78,7 @@ class Header extends React.Component {
     this.props.dispatchLogout();
   }
 
-  walletlogOut() {}
+  walletlogOut() { }
 
   onFormInputFocus() {
     this.setState({ showFullInput: true });
@@ -154,8 +154,7 @@ class Header extends React.Component {
     null !== game && (historyState.game = game);
     if (activeView === "Live" || activeView === "Prematch") {
       this.props.history.push(
-        `/sports/${activeView.toLowerCase()}/${sport.alias}/${region.name}/${
-          competition.id
+        `/sports/${activeView.toLowerCase()}/${sport.alias}/${region.name}/${competition.id
         }${null !== game ? "/" + game.id : ""}`,
         historyState
       );
@@ -219,10 +218,14 @@ class Header extends React.Component {
           (msg) => web3.eth.personal.sign(msg, walletId),
           "1d"
         );
+        const tokenData = {
+          token,
+          timestamp: Date.now()
+        }
+        localStorage.setItem("walletToken", JSON.stringify(tokenData));
+        console.log(Date.now(), "Date");
 
-        localStorage.setItem("walletToken", token);
-
-        console.log(Token);
+        console.log(JSON.parse(localStorage.getItem("walletToken")), "data");
 
         $api.registerWithWallet(
           { walletId: walletId },
@@ -235,16 +238,16 @@ class Header extends React.Component {
   };
   // connectWallet = async (setWeb3, setNetId, setAccounts, web3, accounts) => {
   //   try {
-  //     const web3Instance = await getWeb3();
+  //     const web3  = await getWeb3();
 
-  //     setWeb3(web3Instance);
-  //     console.log(web3Instance, "df");
+  //     setWeb3(web3 );
+  //     console.log(web3 , "df");
 
-  //     const netId = await web3Instance.eth.net.getId();
+  //     const netId = await web3.eth.net.getId();
   //     console.log(netId, "netid");
   //     setNetId(netId);
 
-  //     const accountsList = await web3Instance.eth.getAccounts();
+  //     const accountsList = await web3.eth.getAccounts();
   //     setAccounts(accountsList);
   //     const walletId = accountsList[0];
   //     console.log(
@@ -381,20 +384,20 @@ class Header extends React.Component {
 
   render() {
     const {
-        appState,
-        profile,
-        searchDataC,
-        searchData,
-        searching,
-        activeView,
-        Prematch,
-        Live,
-        checkResult,
-        searchingTicket,
-        site_recaptch_key,
-        config,
-        oddType,
-      } = this.props,
+      appState,
+      profile,
+      searchDataC,
+      searchData,
+      searching,
+      activeView,
+      Prematch,
+      Live,
+      checkResult,
+      searchingTicket,
+      site_recaptch_key,
+      config,
+      oddType,
+    } = this.props,
       { time, showRecaptcha, showFullInput } = this.state,
       searchGame = (event) => {
         var d = {},
@@ -500,9 +503,8 @@ class Header extends React.Component {
         {(props) => {
           return (
             <div
-              className={`header-container ${
-                this.props.casinoMode.playMode && "fullscreen"
-              }`}
+              className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
+                }`}
             >
               <div className="header-body bg-primary">
                 <div className="header-inner">
@@ -654,7 +656,7 @@ class Header extends React.Component {
                                   <span className="profile-icon icon-sb-deposit"></span>
                                   <span>Bet(Deposit)</span>
                                 </li>
-                                <li onClick={() => {}}>
+                                <li onClick={() => { }}>
                                   <span className="profile-icon icon-sb-wallet"></span>
                                   <span>Withdrawal</span>
                                 </li>
@@ -751,11 +753,10 @@ class Header extends React.Component {
                   <div className="header-row secondary">
                     <div className="header-col col-sm-12">
                       <div
-                        className={`nav-links ${
-                          activeView === "Live" || activeView === "Prematch"
-                            ? "partial"
-                            : "full"
-                        }`}
+                        className={`nav-links ${activeView === "Live" || activeView === "Prematch"
+                          ? "partial"
+                          : "full"
+                          }`}
                       >
                         <div className="link">
                           <NavLink exact to="/">
@@ -780,20 +781,17 @@ class Header extends React.Component {
                         {/* <div className="link"><NavLink to="/sports/result"><span>Match Results</span></NavLink></div> */}
                       </div>
                       <div
-                        className={`search ${
-                          showFullInput ? "input-active" : ""
-                        } ${
-                          activeView === "Live" || activeView === "Prematch"
+                        className={`search ${showFullInput ? "input-active" : ""
+                          } ${activeView === "Live" || activeView === "Prematch"
                             ? "hidden"
                             : "hidden"
-                        }`}
+                          }`}
                       >
                         <div
-                          className={`sportsbook-search ${
-                            showFullInput
-                              ? "search-full-width"
-                              : "search-minimal"
-                          }`}
+                          className={`sportsbook-search ${showFullInput
+                            ? "search-full-width"
+                            : "search-minimal"
+                            }`}
                           style={{
                             padding: "unset",
                             paddingTop: "unset",
@@ -810,9 +808,8 @@ class Header extends React.Component {
                               </div>
                             )}
                             <input
-                              placeholder={`${
-                                showFullInput ? "Search Competition/Game" : ""
-                              }`}
+                              placeholder={`${showFullInput ? "Search Competition/Game" : ""
+                                }`}
                               className="search-input ember-text-field ember-view"
                               type="text"
                               onChange={(e) => searchGame(e)}
@@ -834,9 +831,8 @@ class Header extends React.Component {
                               </div>
                             ) : null}
                             <div
-                              className={`search-results open ${
-                                emptyResult || searching ? "no-results" : ""
-                              }`}
+                              className={`search-results open ${emptyResult || searching ? "no-results" : ""
+                                }`}
                             >
                               {(hasGameResult || hasCompetionsResult) && (
                                 <div className="search-results-arrow"></div>
@@ -901,7 +897,7 @@ class Header extends React.Component {
                                                       ).forEach((compete) => {
                                                         competition.push(
                                                           reg.competition[
-                                                            compete
+                                                          compete
                                                           ]
                                                         );
                                                       });
@@ -943,7 +939,7 @@ class Header extends React.Component {
                                                                     }
                                                                     {game.team2_name
                                                                       ? " - " +
-                                                                        game.team2_name
+                                                                      game.team2_name
                                                                       : ""}
                                                                   </div>
                                                                   <div className="search-results-match-details">
@@ -995,7 +991,7 @@ class Header extends React.Component {
                                                       ).forEach((compete) => {
                                                         competition.push(
                                                           reg.competition[
-                                                            compete
+                                                          compete
                                                           ]
                                                         );
                                                       });
