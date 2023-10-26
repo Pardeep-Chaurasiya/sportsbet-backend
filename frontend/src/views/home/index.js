@@ -30,8 +30,8 @@ export default class Home extends React.Component {
             30,
             60
         ]
-        $api.getBanners({ bid: 3 }, this.fBanners.bind(this), this.onError.bind(this))
-        $api.getBanners({ bid: 1 }, this.bannersResult.bind(this), this.onError.bind(this))
+        // $api.getBanners({ bid: 3 }, this.fBanners.bind(this), this.onError.bind(this))
+        // $api.getBanners({ bid: 1 }, this.bannersResult.bind(this), this.onError.bind(this))
     }
     componentDidMount() {
         this.CasinoSwiper = new Swiper('.swiper-container-casino');

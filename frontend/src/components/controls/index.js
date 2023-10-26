@@ -1311,7 +1311,7 @@ export default class Controls extends React.Component {
                                             }</button>
                                             : !isLoggedIn && betlen && !props.web3 ?
                                               <button style={{ cursor: "pointer" }} onClick={this.betslipToggleView} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
-                                                Sign in to place bet or connect to wallet</button>
+                                                First connect to wallet</button>
                                               :
                                               <button
                                                 style={{ cursor: "pointer" }}
