@@ -146,7 +146,6 @@ export class NewAPI {
     this.http = axios.create({
       // baseURL: "http://159.65.156.19:4000/api",
       baseURL: "https://mm-w3-bet-api.ai42.zone/api",
-      // baseURL: "http://localhost:5000/api",
 
       headers: { "Content-Type": "application/json;charset=utf-8" },
       cancelToken: this.cancelToken.token,
@@ -155,7 +154,6 @@ export class NewAPI {
     this.http.interceptors.request.use((config) => {
       // const token = localStorage.getItem("walletToken");
       const tokenData = JSON.parse(localStorage.getItem("walletToken"));
-
       if (this.isLoggedIn || tokenData) {
         config.headers.common["Authorization"] = "Bearer " + tokenData.token;
       }

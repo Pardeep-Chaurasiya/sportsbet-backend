@@ -24,7 +24,7 @@ const registerWithWallet = async (req, res) => {
         walletToken: Token,
       });
 
-      return res.json({
+      return res.status(201).json({
         success: true,
         message: "User Registered Successfully with WalletId",
       });
