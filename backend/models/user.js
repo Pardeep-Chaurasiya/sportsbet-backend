@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       source: { type: DataTypes.INTEGER },
       dialing_code: { type: DataTypes.STRING, allowNull: false },
       mobilenumber: { type: DataTypes.STRING, allowNull: false, unique: true },
-      virtualBalance: { type: DataTypes.INTEGE },
+      virtualBalance: { type: DataTypes.INTEGER },
     },
     {
       sequelize,

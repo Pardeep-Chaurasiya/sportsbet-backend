@@ -145,35 +145,35 @@ export class NewAPI {
 
     this.http = axios.create({
       // baseURL: "http://159.65.156.19:4000/api",
-      //   baseURL: "https://mm-w3-bet-api.ai42.zone/api",
-      baseURL: "http://localhost:5000/api",
+        baseURL: "https://mm-w3-bet-api.ai42.zone/api",
 
       headers: { "Content-Type": "application/json;charset=utf-8" },
       cancelToken: this.cancelToken.token,
     });
     console.log(this.http, "httttpppppppppp");
     this.http.interceptors.request.use((config) => {
-      const token = localStorage.getItem("walletToken");
-      if (this.isLoggedIn || token) {
-        config.headers.common["Authorization"] = "Bearer " + token;
+      // const token = localStorage.getItem("walletToken");
+      const tokenData = JSON.parse(localStorage.getItem("walletToken"));
+      if (this.isLoggedIn || tokenData) {
+        config.headers.common["Authorization"] = "Bearer " + tokenData.token;
       }
       return config;
     });
 
-    this.http.interceptors.response.use(
-      (res) => {
-        return res;
-      },
-      (error) => {
-        if (error.response && error.response.status === 401) {
-          makeToast("Jwt Token Expired..", 6000);
-          localStorage.removeItem("authToken");
-          window.location.href = "/";
-        } else {
-          return error;
-        }
-      }
-    );
+    // this.http.interceptors.response.use(
+    //   (res) => {
+    //     return res;
+    //   },
+    //   (error) => {
+    //     if (error.response && error.response.status === 401) {
+    //       makeToast("Jwt Token Expired..", 6000);
+    //       localStorage.removeItem("authToken");
+    //       window.location.href = "/";
+    //     } else {
+    //       return error;
+    //     }
+    //   }
+    // );
   }
 
   static getInstance = () => {

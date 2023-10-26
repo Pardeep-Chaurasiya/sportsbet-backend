@@ -3,6 +3,7 @@ const Joi = require("joi");
 const validateRegistration = (req, res, next) => {
   const schema = Joi.object({
     firstName: Joi.string().required(),
+    virtualBalance: Joi.number(),
     lastName: Joi.string().allow(null, ""),
     email: Joi.string().email().required(),
     password: Joi.string()
@@ -14,6 +15,7 @@ const validateRegistration = (req, res, next) => {
     CPassword: Joi.string()
       .pattern(/^[a-zA-Z0-9]{5,30}$/)
       .required(),
+
   });
 
   const { error, value } = schema.validate(req.body);
