@@ -478,15 +478,16 @@ export default class Controls extends React.Component {
 
   placeBet() {
     let selectionArr = [], { betSelections, enableFreebet, freeBetStake, betMode, acceptMode, config, betStake, sys_bet_variant, oddType } = this.props.sportsbook, totalOdd = this.calculateTotalOdds(betSelections), dispatch = this.props.dispatch
-    console.log(betStake, "beti");
+    console.log(betSelections, "beti");
     if (Object.keys(betSelections).length > 0) {
       dispatch(allActionDucer(SPORTSBOOK_ANY, { betInprogress: true, betSuccess: false, betFailed: false, isOddChange: false }))
       Object.keys(betSelections).forEach((selected) => {
         let eventDetails = {}
         eventDetails["SelectionId"] = betSelections[selected].eventId;
-        eventDetails["SelectionName"] = betSelections[selected].pick;
+        eventDetails["SelectionName"] = `${betSelections[selected].pick}${betSelections[selected].marketBase ? `(${betSelections[selected].marketBase})` : ""}`;
         eventDetails["MarketTypeId"] = betSelections[selected].marketId;
         eventDetails["MarketName"] = betSelections[selected].marketName;
+        console.log(betSelections[selected].pick, "selection");
         eventDetails["MatchId"] = betSelections[selected].gamePointer.game;
         eventDetails["MatchName"] = betSelections[selected].title;
         eventDetails["RegionId"] = betSelections[selected].gamePointer.regionId;
@@ -922,6 +923,7 @@ export default class Controls extends React.Component {
       if (betSelections[sele].price >= 1.3)
         qualifiedSelectionCount += 1
       newSelection.push(betSelections[sele])
+
       if (min_variant < betlen) {
         let opts = 0, nf = this.factorial(betlen), rf = this.factorial(min_variant), nrf = this.factorial(betlen - min_variant)
         opts = nf / (rf * nrf)
@@ -994,7 +996,7 @@ export default class Controls extends React.Component {
                                 {/* <div className="settings-icon-container icon" onClick={this.openBetslipSettings}>
                           <span className={`icon-icon-settings rotate ${showBetslipSettings && 'down'}`}></span>
                         </div> */}
-                                <div className="settings-icon-container icon" onClick={this.betslipToggleView}>
+                                <div className="settings-icon-container icon" onClick={() => this.removeAllBetSelections()}>
                                   <span className={`${showFirsttime ? 'icon-icon-arrow-down' : 'icon-icon-close-x'} remove-icon-betslip`}></span>
                                 </div>
                               </div>
@@ -1047,6 +1049,9 @@ export default class Controls extends React.Component {
                               </div>
                             }
                             {
+                              betlen > 1 && this.removeAllBetSelections()
+                            }
+                            {
                               betlen > 0 ?
                                 <React.Fragment>
                                   <div className="betslip-tabs">
@@ -1066,9 +1071,9 @@ export default class Controls extends React.Component {
                                   }
                                 </select>
                               } */}
-                                      <div className="clear-all" onClick={() => this.removeAllBetSelections()}>
+                                      {/* <div className="clear-all" onClick={() => this.removeAllBetSelections()}>
                                         <span>Remove All</span>
-                                      </div>
+                                      </div> */}
                                     </div>
                                   </div>
                                   <div className="betslip-matches">
@@ -1193,7 +1198,7 @@ export default class Controls extends React.Component {
 
                                     <div className="betslip-matches-total-info">
                                       <div className="betslip-match-info-footer">
-                                        {(betlen > 1 && betSlipMode === 2 && !enableFreebet) || (betSlipMode === 1 && betlen > 1) ?
+                                        {/* {(betlen > 1 && betSlipMode === 2 && !enableFreebet) || (betSlipMode === 1 && betlen > 1) ?
                                           <div className="sb-bet-input-block stake-text">
                                             <span>
                                               Stake {betMode === 1 || betMode === 3 ? 'Per Bet' : ''}
@@ -1202,7 +1207,7 @@ export default class Controls extends React.Component {
                                               <input id="betStake" placeholder="0" type="number" onChange={(e) => this.setBetStake(e)} autoComplete='off' />
 
                                             </div>
-                                          </div> : null}
+                                          </div> : null} */}
                                         <div id="ember1599" className="ember-view"></div>
 
                                         <div className="sb-bet-result">
@@ -1311,15 +1316,16 @@ export default class Controls extends React.Component {
                                             }</button>
                                             : !isLoggedIn && betlen && !props.web3 ?
                                               <button style={{ cursor: "pointer" }} onClick={this.betslipToggleView} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
-                                                Sign in to place bet or connect to wallet</button>
+                                                First connect to wallet</button>
                                               :
                                               <button
                                                 style={{ cursor: "pointer" }}
                                                 onClick={
                                                   // profile.Balance >= this.props.sportsbook.betStake ?
-
+                                                  // Bet Amount is less than minimum 2
 
                                                   () => {
+
                                                     this.placeBet()
                                                     this.removeAllBetSelections()
                                                   }
@@ -1327,7 +1333,11 @@ export default class Controls extends React.Component {
                                                   // : makeToast("Your Balance is less then Your bet stake", 6000)
                                                 }
                                                 className={`placebet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}
-                                                disabled={(betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.Balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}> {
+                                              // disabled=
+                                              // {
+                                              //   (betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.Balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}
+                                              >
+                                                {
                                                   // betInprogress ?
                                                   //   <div className="no-results-container sb-spinner">
                                                   //     <span className="btn-preloader sb-preloader"></span>
@@ -1395,7 +1405,7 @@ export default class Controls extends React.Component {
             )
           }
         }
-      </Web3Context.Consumer>
+      </Web3Context.Consumer >
 
     )
 

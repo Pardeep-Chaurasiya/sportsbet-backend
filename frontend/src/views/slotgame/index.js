@@ -42,11 +42,11 @@ export default class SlotGames extends React.Component {
     this.filterGamesByCategory = this.filterGamesByCategory.bind(this);
     this.filterGamesByCategory = this.filterGamesByCategory.bind(this);
     this.filterGamesByProivder = this.filterGamesByProivder.bind(this);
-    $api.getBanners(
-      { bid: 25 },
-      this.bannersResult.bind(this),
-      this.onError.bind(this)
-    );
+    // $api.getBanners(
+    //   { bid: 25 },
+    //   this.bannersResult.bind(this),
+    //   this.onError.bind(this)
+    // );
   }
   componentDidMount() {
     $api.getSlotGames({ reqType: "post" }, this.handleCasinoGames.bind(this));

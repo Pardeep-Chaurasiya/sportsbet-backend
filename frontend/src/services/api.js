@@ -145,7 +145,7 @@ export class NewAPI {
 
     this.http = axios.create({
       // baseURL: "http://159.65.156.19:4000/api",
-        baseURL: "https://mm-w3-bet-api.ai42.zone/api",
+      baseURL: "https://mm-w3-bet-api.ai42.zone/api",
 
       headers: { "Content-Type": "application/json;charset=utf-8" },
       cancelToken: this.cancelToken.token,
