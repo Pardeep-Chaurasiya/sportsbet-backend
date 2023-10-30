@@ -73,38 +73,38 @@ export const SportsComponent = (props) => {
     if (null !== populargamesData[g])
       pg.push(populargamesData[g])
   })
-  useEffect(()=>{
-     setActiveID(props.location.state ? props.location.state.sport : null) 
-  },[])
+  useEffect(() => {
+    setActiveID(props.location.state ? props.location.state.sport : null)
+  }, [])
   return (
     <div className={`sports col-sm-12 sports-list-container`}>
       <div className={`sports-list ${loadSports ? 'loading-view' : ''}`}>
         {
-        !loadSports ?
-        <div className=" scroll-area hidden-horizontal-scroll-container">
-          <div className="sports-list mobile hidden-horizontal-scroll-area">
-            {
-              props.match.params.view === 'prematch' && <React.Fragment>
-                {pc.length>0 &&<div className="sport-item" >
-                  <SportsbookSportItem s={{ id: 'TC', alias: 'topleagues', name: 'Top Leagues' }} i={100} activeID={typeof activeID === 'object' && null !== activeID ? activeID.id : activeID} onClick={(s)=>{setSelectedSport(s)}} />
-                </div>}
-                {pg.length>0 &&<div className="sport-item" >
-                  <SportsbookSportItem s={{ id: 'TG', alias: 'topgames', name: 'Top Games' }} i={101} activeID={typeof activeID === 'object' && null !== activeID ? activeID.id : activeID} onClick={(s)=>{setSelectedSport(s)}} />
-                </div>}
-              </React.Fragment>
-            }
-            {
-              spItems.map((s, i) => {
-                return (
-                  <div className="sport-item" key={s.id}>
-                    <SportsbookSportItem s={s} i={i} activeID={typeof activeID === 'object' && null !== activeID ? activeID.id : activeID} onClick={(s)=>{setSelectedSport(s)}} />
-                  </div>
-                )
-              })
-            }
-          </div>
-        </div>:
-        <SportsbookSportItemLoading />
+          !loadSports ?
+            <div className=" scroll-area hidden-horizontal-scroll-container">
+              <div className="sports-list mobile hidden-horizontal-scroll-area">
+                {
+                  props.match.params.view === 'prematch' && <React.Fragment>
+                    {pc.length > 0 && <div className="sport-item" >
+                      <SportsbookSportItem s={{ id: 'TC', alias: 'topleagues', name: 'Top Leagues' }} i={100} activeID={typeof activeID === 'object' && null !== activeID ? activeID.id : activeID} onClick={(s) => { setSelectedSport(s) }} />
+                    </div>}
+                    {pg.length > 0 && <div className="sport-item" >
+                      <SportsbookSportItem s={{ id: 'TG', alias: 'topgames', name: 'Top Games' }} i={101} activeID={typeof activeID === 'object' && null !== activeID ? activeID.id : activeID} onClick={(s) => { setSelectedSport(s) }} />
+                    </div>}
+                  </React.Fragment>
+                }
+                {
+                  spItems.map((s, i) => {
+                    return (
+                      <div className="sport-item" key={s.id}>
+                        <SportsbookSportItem s={s} i={i} activeID={typeof activeID === 'object' && null !== activeID ? activeID.id : activeID} onClick={(s) => { setSelectedSport(s) }} />
+                      </div>
+                    )
+                  })
+                }
+              </div>
+            </div> :
+            <SportsbookSportItemLoading />
         }
         <div {...{ className: `sport-header ${stringReplacer(initialData.alias ? initialData.alias : '', [/\s/g, /'/g, /\d.+?\d/g, /\(.+?\)/g], ['', '', '', '']).toLowerCase()} select `, style: { height: '40px' } }}>
           <div className="sport-title col-sm-10"><span>{initialData.hasOwnProperty('id') ? initialData.name : activeID === 'TC' ? 'Top Competitions' : activeID === 'TG' ? 'Top Games' : ''}</span></div>
