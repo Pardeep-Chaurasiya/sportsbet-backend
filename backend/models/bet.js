@@ -1,3 +1,4 @@
+
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
@@ -9,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Bet.belongsTo(models.User, {
-        foreignKey: "userId",
+      Bet.belongsTo(models.UserWallet, {
+        foreignKey: "walletAddress",
         onDelete: "CASCADE",
       });
       Bet.belongsTo(models.Tournament, {
@@ -21,8 +22,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Bet.init(
     {
-      userId: DataTypes.INTEGER,
+      walletAddress: DataTypes.STRING,
       tournamentId: DataTypes.INTEGER,
+      SelectionName: { type: DataTypes.STRING },
+      MarketName: { type: DataTypes.STRING },
+      MatchId: { type: DataTypes.STRING },
+      MatchInfo: { type: DataTypes.STRING, defaultValue: "" },
       command: { type: DataTypes.STRING },
       BetType: { type: DataTypes.INTEGER },
       AcceptMode: { type: DataTypes.INTEGER },

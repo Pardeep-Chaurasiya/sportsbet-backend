@@ -16,10 +16,11 @@ const createBet = async (req, res) => {
       rid,
       Selections,
     } = req.body;
-    const user = req.User;
+    // const user = req.id;
+    const user = req.UserWallet;
     const isTournamentCreated = await Tournament.findOne({
       where: {
-        [Op.or]: {
+        [Op.and]: {
           MatchId: Selections[0].MatchId,
           SportId: Selections[0].SportId,
         },
@@ -34,7 +35,11 @@ const createBet = async (req, res) => {
         TotalPrice,
         Amount,
         rid,
-        userId: user.id,
+        SelectionName: Selections[0].SelectionName,
+        MarketName: Selections[0].MarketName,
+        MatchId: Selections[0].MatchId,
+        // userId: user.id,
+        walletAddress: user.address,
         tournamentId: isTournamentCreated.dataValues.id,
       });
     } else {
@@ -47,7 +52,11 @@ const createBet = async (req, res) => {
         TotalPrice,
         Amount,
         rid,
-        userId: user.id,
+        SelectionName: Selections[0].SelectionName,
+        MarketName: Selections[0].MarketName,
+        MatchId: Selections[0].MatchId,
+        // userId: user.id,
+        walletAddress: user.address,
         tournamentId: newTournament[0].dataValues.id,
       });
     }
@@ -62,12 +71,12 @@ const createBet = async (req, res) => {
 const betHistory = async (req, res) => {
   const { startDate, endDate } = req.body;
 
-  const user = req.User.id;
+  const user = req.UserWallet;
 
   try {
     const history = await Bet.findAll({
       where: {
-        userId: user,
+        walletAddress: user,
         createdAt: {
           [Op.gte]: moment(startDate).startOf("day").format(),
           [Op.lte]: moment(endDate).endOf("day").format(),

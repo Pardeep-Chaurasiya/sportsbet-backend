@@ -15,9 +15,7 @@ const registerWithWallet = async (req, res) => {
         },
         { where: { walletAddress: address } }
       );
-      return res
-        .status(409)
-        .json({ message: "User already registered with this WalletAddress" });
+      return res.status(200).json("Token updated");
     } else {
       await UserWallet.create({
         walletAddress: address,

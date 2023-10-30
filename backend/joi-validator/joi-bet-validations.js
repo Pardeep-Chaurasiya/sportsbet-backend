@@ -25,6 +25,10 @@ let selection = Joi.object().keys({
 
 const validateCreateBet = (req, res, next) => {
   const schema = Joi.object({
+    SelectionName: Joi.string(),
+    MarketName: Joi.string(),
+    MatchId: Joi.string(),
+    MarketNameResult: Joi.string(),
     command: Joi.string(),
     BetType: Joi.number(),
     AcceptMode: Joi.number(),
