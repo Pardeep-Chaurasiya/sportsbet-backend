@@ -1314,7 +1314,7 @@ export default class Controls extends React.Component {
                                                 </div>
                                                 : 'Accept Odds changes!'
                                             }</button>
-                                            : !isLoggedIn && betlen && !props.web3 ?
+                                            : betlen && (!JSON.parse(localStorage.getItem("walletToken")) || !props.web3) ?
                                               <button style={{ cursor: "pointer" }} onClick={this.betslipToggleView} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
                                                 First connect to wallet</button>
                                               :
