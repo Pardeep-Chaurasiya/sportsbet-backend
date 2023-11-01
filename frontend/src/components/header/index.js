@@ -240,7 +240,7 @@ class Header extends React.Component {
 
       }
       else {
-        makeToast("metamask connected successfully", 1000)
+        makeToast("metamask connected successfully", 3000)
       }
       const netId = await web3.eth.net.getId();
       console.log(netId, "netid");

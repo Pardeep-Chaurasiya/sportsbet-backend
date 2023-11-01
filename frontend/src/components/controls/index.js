@@ -996,7 +996,7 @@ export default class Controls extends React.Component {
                                 {/* <div className="settings-icon-container icon" onClick={this.openBetslipSettings}>
                           <span className={`icon-icon-settings rotate ${showBetslipSettings && 'down'}`}></span>
                         </div> */}
-                                <div className="settings-icon-container icon" onClick={() => this.removeAllBetSelections()}>
+                                <div className="settings-icon-container icon" onClick={this.betslipToggleView}>
                                   <span className={`${showFirsttime ? 'icon-icon-arrow-down' : 'icon-icon-close-x'} remove-icon-betslip`}></span>
                                 </div>
                               </div>

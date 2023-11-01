@@ -1,18 +1,12 @@
 import React from 'react';
-import HomeBanner from '../../components/homebanner'
 import HomepageEvents from '../../components/homeEvents'
-import { LiveEventLoader, CasinoLoading, SportsbookSportItemLoading } from '../../components/loader'
+import { LiveEventLoader, SportsbookSportItemLoading } from '../../components/loader'
 import Controls from '../../containers/controls'
 import { SPORTSBOOK_ANY, SITE_BANNER, RIDS_PUSH } from '../../actionReducers';
 import { allActionDucer } from '../../actionCreator';
 import FeaturedGames from '../../components/featruedgame';
-import API from '../../services/api'
 import Helmet from 'react-helmet';
-import { arrayBuffer } from '../../common';
 import Swiper from 'swiper'
-import { PreviousSlide, NextSlide } from '../../components/stateless';
-import { Link } from 'react-router-dom';
-const $api = API.getInstance()
 export default class Home extends React.Component {
 
     constructor(props) {
@@ -161,7 +155,7 @@ export default class Home extends React.Component {
             populargamesData, activeView, activeGame, appTheme
         } = this.props.sportsbook, { loadMarkets, loadGames, addEventToSelection, unsubscribe,
             subscribeToSelection,
-            retrieve, validate, sendRequest, getBetslipFreebets, history, handleBetResponse } = this.props, { siteBanner } = this.props.homeData, { featuredbanner, games } = this.state
+            retrieve, validate, sendRequest, getBetslipFreebets, history, handleBetResponse } = this.props
         const sport = data ? data.sport : {}, newdata = [], pg = []
         for (let data in sport) {
             if (null !== sport[data])

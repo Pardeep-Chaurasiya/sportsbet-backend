@@ -2,55 +2,54 @@ import React from 'react'
 import {
     stringReplacer,
     convertSetName,
-  
-  } from '../../common'
-   import moment from 'moment-timezone'
+
+} from '../../common'
 export class StatsBannerSoccer extends React.Component {
 
     render() {
         const {
-            props: { activeGame, activeSport, loadMarket }
+            props: { activeGame, loadMarket }
         } = this
         return (
             activeGame.stats ?
-            <div className={`live-game-teams-stats`}>
-                <div className={`stats-header`}>
-                    <div className="corners icon-icon-corner"></div>
-                    <div className="yellow-card icon-icon-cards-yellowred" style={{ color: '#d9ab1f' }}></div>
-                    <div className="red-card icon-icon-cards-yellowred" style={{ color: '#d1191f' }}></div>
-                    <div className="penalty icon-icon-penalty"></div>
-                    <div className={`first-half-score ${activeGame ? activeGame.stats.score_set1 ? '' : "hidden" : ''}`}>1</div>
-                    <div className={`second-half-score ${activeGame ? activeGame.stats.score_set2 ? '' : "hidden" : ''}`}>2</div>
-                    <div className="score">Score</div>
-                </div>
-                <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt1_color !== '000000' ? '#' + activeGame.info.shirt1_color : 'rgb(59, 189, 189)' : '',borderLeftStyle:'solid',borderLeftWidth:'4px' }}
-                    className={`stats-teams ${loadMarket || !activeGame ? 'element-loading' : ''}`} >
-                    <div className="corners">{activeGame ? activeGame.stats.corner ? activeGame.stats.corner.team1_value : 0 : null}</div>
-                    <div className="yellow-card">{activeGame ? activeGame.stats.yellow_card ? activeGame.stats.yellow_card.team1_value : 0 : null}</div>
-                    <div className="red-card">{activeGame ? activeGame.stats.red_card ? activeGame.stats.red_card.team1_value : 0 : null}</div>
-                    <div className="penalty">{activeGame ? activeGame.stats.penalty ? activeGame.stats.penalty.team1_value : 0 : null}</div>
-                    <div className={`first-half-score ${activeGame ? activeGame.stats.score_set1 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set1 ? activeGame.stats.score_set1.team1_value : 0 : null}</div>
-                    <div className={`second-half-score ${activeGame ? activeGame.stats.score_set2 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set2 ? activeGame.stats.score_set2.team1_value : 0 : null}</div>
-                    <div className="score">{activeGame ? activeGame.info.score1 : null}</div>
-                </div>
-                <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt2_color !== '000000' ? ' #' + activeGame.info.shirt2_color : 'rgb(165, 28, 210)' : '',borderLeftStyle:'solid',borderLeftWidth:'4px' }} className={`stats-teams ${loadMarket || !activeGame ? 'element-loading' : ''}`}>
-                    <div className="corners">{activeGame ? activeGame.stats.corner ? activeGame.stats.corner.team2_value : 0 : null}</div>
-                    <div className="yellow-card">{activeGame ? activeGame.stats.yellow_card ? activeGame.stats.yellow_card.team2_value : 0 : null}</div>
-                    <div className="red-card">{activeGame ? activeGame.stats.red_card ? activeGame.stats.red_card.team2_value : 0 : null}</div>
-                    <div className="penalty">{activeGame ? activeGame.stats.penalty ? activeGame.stats.penalty.team2_value : 0 : null}</div>
-                    <div className={`first-half-score ${activeGame ? activeGame.stats.score_set1 ? '' : 'hidden' : ''}`}>{activeGame ? activeGame.stats.score_set1 ? activeGame.stats.score_set1.team2_value : 0 : null}</div>
-                    <div className={`second-half-score ${activeGame ? activeGame.stats.score_set2 ? '' : 'hidden' : ''}`}>{activeGame ? activeGame.stats.score_set2 ? activeGame.stats.score_set2.team2_value : 0 : null}</div>
-                    <div className="score">{activeGame ? activeGame.info.score2 : null}</div>
-                </div>
-            </div>:
-            <div><span></span></div>
+                <div className={`live-game-teams-stats`}>
+                    <div className={`stats-header`}>
+                        <div className="corners icon-icon-corner"></div>
+                        <div className="yellow-card icon-icon-cards-yellowred" style={{ color: '#d9ab1f' }}></div>
+                        <div className="red-card icon-icon-cards-yellowred" style={{ color: '#d1191f' }}></div>
+                        <div className="penalty icon-icon-penalty"></div>
+                        <div className={`first-half-score ${activeGame ? activeGame.stats.score_set1 ? '' : "hidden" : ''}`}>1</div>
+                        <div className={`second-half-score ${activeGame ? activeGame.stats.score_set2 ? '' : "hidden" : ''}`}>2</div>
+                        <div className="score">Score</div>
+                    </div>
+                    <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt1_color !== '000000' ? '#' + activeGame.info.shirt1_color : 'rgb(59, 189, 189)' : '', borderLeftStyle: 'solid', borderLeftWidth: '4px' }}
+                        className={`stats-teams ${loadMarket || !activeGame ? 'element-loading' : ''}`} >
+                        <div className="corners">{activeGame ? activeGame.stats.corner ? activeGame.stats.corner.team1_value : 0 : null}</div>
+                        <div className="yellow-card">{activeGame ? activeGame.stats.yellow_card ? activeGame.stats.yellow_card.team1_value : 0 : null}</div>
+                        <div className="red-card">{activeGame ? activeGame.stats.red_card ? activeGame.stats.red_card.team1_value : 0 : null}</div>
+                        <div className="penalty">{activeGame ? activeGame.stats.penalty ? activeGame.stats.penalty.team1_value : 0 : null}</div>
+                        <div className={`first-half-score ${activeGame ? activeGame.stats.score_set1 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set1 ? activeGame.stats.score_set1.team1_value : 0 : null}</div>
+                        <div className={`second-half-score ${activeGame ? activeGame.stats.score_set2 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set2 ? activeGame.stats.score_set2.team1_value : 0 : null}</div>
+                        <div className="score">{activeGame ? activeGame.info.score1 : null}</div>
+                    </div>
+                    <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt2_color !== '000000' ? ' #' + activeGame.info.shirt2_color : 'rgb(165, 28, 210)' : '', borderLeftStyle: 'solid', borderLeftWidth: '4px' }} className={`stats-teams ${loadMarket || !activeGame ? 'element-loading' : ''}`}>
+                        <div className="corners">{activeGame ? activeGame.stats.corner ? activeGame.stats.corner.team2_value : 0 : null}</div>
+                        <div className="yellow-card">{activeGame ? activeGame.stats.yellow_card ? activeGame.stats.yellow_card.team2_value : 0 : null}</div>
+                        <div className="red-card">{activeGame ? activeGame.stats.red_card ? activeGame.stats.red_card.team2_value : 0 : null}</div>
+                        <div className="penalty">{activeGame ? activeGame.stats.penalty ? activeGame.stats.penalty.team2_value : 0 : null}</div>
+                        <div className={`first-half-score ${activeGame ? activeGame.stats.score_set1 ? '' : 'hidden' : ''}`}>{activeGame ? activeGame.stats.score_set1 ? activeGame.stats.score_set1.team2_value : 0 : null}</div>
+                        <div className={`second-half-score ${activeGame ? activeGame.stats.score_set2 ? '' : 'hidden' : ''}`}>{activeGame ? activeGame.stats.score_set2 ? activeGame.stats.score_set2.team2_value : 0 : null}</div>
+                        <div className="score">{activeGame ? activeGame.info.score2 : null}</div>
+                    </div>
+                </div> :
+                <div><span></span></div>
         )
     }
 }
 export class StatsBannerTennis extends React.Component {
     render() {
         const {
-            props: { activeGame, activeSport, loadMarket }
+            props: { activeGame, loadMarket }
         } = this
         return (
             <div className={`live-game-teams-stats`}>
@@ -63,8 +62,8 @@ export class StatsBannerTennis extends React.Component {
                     <div className="score">Pts</div>
                     <div className="winner"></div>
                 </div>
-                <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt1_color !== '000000' ? '#' + activeGame.info.shirt1_color : 'rgb(59, 189, 189)' : '',borderLeftStyle:'solid',borderLeftWidth:'4px' }}
-                     className={`stats-teams ${loadMarket || !activeGame ? 'element-loading' : ''}`} >
+                <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt1_color !== '000000' ? '#' + activeGame.info.shirt1_color : 'rgb(59, 189, 189)' : '', borderLeftStyle: 'solid', borderLeftWidth: '4px' }}
+                    className={`stats-teams ${loadMarket || !activeGame ? 'element-loading' : ''}`} >
                     <div className={`first-half-score ${activeGame ? activeGame.stats.score_set1 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set1 ? activeGame.stats.score_set1.team1_value : 0 : null}</div>
                     <div className={`second-half-score ${activeGame ? activeGame.stats.score_set2 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set2 ? activeGame.stats.score_set2.team1_value : 0 : null}</div>
                     <div className={`third-half-score ${activeGame ? activeGame.stats.score_set3 && (activeGame.info.current_game_state === 'set3' || activeGame.info.current_game_state === 'set4') ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set3 ? activeGame.stats.score_set3.team1_value : 0 : null}</div>
@@ -75,10 +74,10 @@ export class StatsBannerTennis extends React.Component {
                         <span style={{ display: 'block', width: '8px', height: '8px', borderRadius: '50%', marginTop: '8px', backgroundColor: activeGame ? activeGame.info.pass_team && activeGame.info.pass_team === 'team1' ? '#333' : '#e7e7e7' : '#e7e7e7' }}></span>
                     </div>
                 </div>
-                <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt2_color !== '000000' ? ' #' + activeGame.info.shirt2_color : 'rgb(165, 28, 210)' : '' ,borderLeftStyle:'solid',borderLeftWidth:'4px'}} className={`stats-teams ${loadMarket || !activeGame ? 'element-loading' : ''}`}>
+                <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt2_color !== '000000' ? ' #' + activeGame.info.shirt2_color : 'rgb(165, 28, 210)' : '', borderLeftStyle: 'solid', borderLeftWidth: '4px' }} className={`stats-teams ${loadMarket || !activeGame ? 'element-loading' : ''}`}>
                     <div className={`first-half-score ${activeGame ? activeGame.stats.score_set1 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set1 ? activeGame.stats.score_set1.team2_value : 0 : null}</div>
                     <div className={`second-half-score ${activeGame ? activeGame.stats.score_set2 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set2 ? activeGame.stats.score_set2.team2_value : 0 : null}</div>
-                    <div className={`third-half-score ${activeGame ? activeGame.stats.score_set3 && (activeGame.info.current_game_state == 'set3' || activeGame.info.current_game_state == 'set4') ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set3 ? activeGame.stats.score_set3.team2_value : 0 : null}</div>
+                    <div className={`third-half-score ${activeGame ? activeGame.stats.score_set3 && (activeGame.info.current_game_state === 'set3' || activeGame.info.current_game_state === 'set4') ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set3 ? activeGame.stats.score_set3.team2_value : 0 : null}</div>
                     <div className={`forth-half-score ${activeGame ? activeGame.stats.score_set4 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set4 ? activeGame.stats.score_set4.team2_value : 0 : null}</div>
                     <div className="score">{activeGame ? activeGame.info.score2 : null}</div>
                     <div className="score">{activeGame ? activeGame.stats.passes ? activeGame.stats.passes.team2_value : 0 : null}</div>
@@ -93,9 +92,8 @@ export class StatsBannerTennis extends React.Component {
 export class StatsBannerBasketBall extends React.Component {
     render() {
         const {
-            props: { activeGame, activeSport, loadMarket }
+            props: { activeGame, loadMarket }
         } = this
-        let currentSet = activeGame && activeGame.info ? convertSetName()(activeGame.info.current_game_state, stringReplacer(activeSport.alias, [/\s/g], [''])) : ''
         return (
             <div className={`live-game-teams-stats`}>
                 <div className={`stats-header`}>
@@ -106,7 +104,7 @@ export class StatsBannerBasketBall extends React.Component {
                     <div className="score">Total</div>
                     <div className="winner"></div>
                 </div>
-                <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt1_color !== '000000' ? '#' + activeGame.info.shirt1_color : 'rgb(59, 189, 189)' : '',borderLeftStyle:'solid',borderLeftWidth:'4px' }}
+                <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt1_color !== '000000' ? '#' + activeGame.info.shirt1_color : 'rgb(59, 189, 189)' : '', borderLeftStyle: 'solid', borderLeftWidth: '4px' }}
                     className={`stats-teams ${loadMarket || !activeGame ? 'element-loading' : ''}`} >
                     <div className={`first-half-score ${activeGame ? activeGame.stats.score_set1 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set1 ? activeGame.stats.score_set1.team1_value : 0 : null}</div>
                     <div className={`second-half-score ${activeGame ? activeGame.stats.score_set2 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set2 ? activeGame.stats.score_set2.team1_value : 0 : null}</div>
@@ -114,26 +112,24 @@ export class StatsBannerBasketBall extends React.Component {
                     <div className={`forth-half-score ${activeGame ? activeGame.stats.score_set4 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set4 ? activeGame.stats.score_set4.team1_value : 0 : null}</div>
                     <div className="score">{activeGame ? activeGame.info.score1 : null}</div>
                     <div className="winner">
-                        <span style={{ display: 'block', width: '8px', height: '8px', borderRadius: '50%', marginTop: '8px', backgroundColor: activeGame ? activeGame.info.pass_team && activeGame.info.pass_team == 'team1' ? '#333' : '#e7e7e7' : '#e7e7e7' }}></span>
+                        <span style={{ display: 'block', width: '8px', height: '8px', borderRadius: '50%', marginTop: '8px', backgroundColor: activeGame ? activeGame.info.pass_team && activeGame.info.pass_team === 'team1' ? '#333' : '#e7e7e7' : '#e7e7e7' }}></span>
                     </div>
                 </div>
-                <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt2_color !== '000000' ? ' #' + activeGame.info.shirt2_color : 'rgb(165, 28, 210)' : '' ,borderLeftStyle:'solid',borderLeftWidth:'4px'}} className={`stats-teams ${loadMarket || !activeGame ? 'element-loading' : ''}`}>
+                <div style={{ borderLeftColor: activeGame ? activeGame.info.shirt2_color !== '000000' ? ' #' + activeGame.info.shirt2_color : 'rgb(165, 28, 210)' : '', borderLeftStyle: 'solid', borderLeftWidth: '4px' }} className={`stats-teams ${loadMarket || !activeGame ? 'element-loading' : ''}`}>
                     <div className={`first-half-score ${activeGame ? activeGame.stats.score_set1 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set1 ? activeGame.stats.score_set1.team2_value : 0 : null}</div>
                     <div className={`second-half-score ${activeGame ? activeGame.stats.score_set2 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set2 ? activeGame.stats.score_set2.team2_value : 0 : null}</div>
                     <div className={`third-half-score ${activeGame ? activeGame.stats.score_set3 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set3 ? activeGame.stats.score_set3.team2_value : 0 : null}</div>
                     <div className={`forth-half-score ${activeGame ? activeGame.stats.score_set4 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set4 ? activeGame.stats.score_set4.team2_value : 0 : null}</div>
                     <div className="score">{activeGame ? activeGame.info.score2 : null}</div>
                     <div className="winner">
-                        <span style={{ display: 'block', width: '8px', height: '8px', borderRadius: '50%', marginTop: '8px', backgroundColor: activeGame ? activeGame.info.pass_team && activeGame.info.pass_team == 'team2' ? '#333' : '#e7e7e7' : '#e7e7e7' }}></span>
+                        <span style={{ display: 'block', width: '8px', height: '8px', borderRadius: '50%', marginTop: '8px', backgroundColor: activeGame ? activeGame.info.pass_team && activeGame.info.pass_team === 'team2' ? '#333' : '#e7e7e7' : '#e7e7e7' }}></span>
                     </div>
                 </div>
             </div>
         )
     }
 }
-const sportSetName={
 
-}
 export class StatsBannerGeneric extends React.Component {
     render() {
         const {
@@ -165,7 +161,7 @@ export class StatsBannerGeneric extends React.Component {
                     <div className="title col-sm-5"><span className="icon-icon-t-shirt" style={{ color: activeGame ? activeGame.info.shirt2_color !== '000000' ? '#' + activeGame.info.shirt2_color : 'rgb(165, 28, 210)' : '' }}></span><span>{activeGame ? activeGame.team2_name : null}</span></div>
                     <div className={`first-half-score ${activeGame ? activeGame.stats.score_set1 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set1 ? activeGame.stats.score_set1.team2_value : 0 : null}</div>
                     <div className={`second-half-score ${activeGame ? activeGame.stats.score_set2 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set2 ? activeGame.stats.score_set2.team2_value : 0 : null}</div>
-                    <div className={`third-half-score ${activeGame ? activeGame.stats.score_set3 && (activeGame.info.current_game_state == 'set3' || activeGame.info.current_game_state == 'set4') ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set3 ? activeGame.stats.score_set3.team2_value : 0 : null}</div>
+                    <div className={`third-half-score ${activeGame ? activeGame.stats.score_set3 && (activeGame.info.current_game_state === 'set3' || activeGame.info.current_game_state === 'set4') ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set3 ? activeGame.stats.score_set3.team2_value : 0 : null}</div>
                     <div className={`forth-half-score ${activeGame ? activeGame.stats.score_set4 ? '' : "hidden" : ''}`}>{activeGame ? activeGame.stats.score_set4 ? activeGame.stats.score_set4.team2_value : 0 : null}</div>
                     <div className="score">{activeGame ? activeGame.info.score2 : null}</div>
                     <div className="winner">
