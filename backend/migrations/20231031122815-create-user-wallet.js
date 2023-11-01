@@ -11,9 +11,9 @@ module.exports = {
       },
       walletToken: { type: Sequelize.TEXT, allowNull: false },
       balance: { type: Sequelize.STRING, defaultValue: "0" },
-      virtualBalance: { type: Sequelize.STRING, defaultValue: "0" },
-      deposits: { type: Sequelize.JSON, defaultValue:null},
-      claims: { type: Sequelize.JSON, defaultValue: null},
+      virtualBalance: { type: Sequelize.STRING, defaultValue: "100" },
+      deposits: { type: Sequelize.JSON, defaultValue: null },
+      claims: { type: Sequelize.JSON, defaultValue: null },
 
       createdAt: {
         allowNull: false,

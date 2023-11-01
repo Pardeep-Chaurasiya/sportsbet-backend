@@ -35,12 +35,11 @@ module.exports = {
       Amount: { type: Sequelize.DECIMAL },
       rid: { type: Sequelize.INTEGER },
       isLive: { type: Sequelize.BOOLEAN },
-      status: { type: Sequelize.STRING, defaultValue: "WIN" },
+      status: { type: Sequelize.STRING, defaultValue: "Pending" },
       currency: { type: Sequelize.STRING, defaultValue: "$" },
       SelectionName: { type: Sequelize.STRING },
       MarketName: { type: Sequelize.STRING },
       MatchId: { type: Sequelize.STRING },
-      MatchInfo: { type: Sequelize.STRING, defaultValue: "" },
 
       createdAt: {
         allowNull: false,

@@ -1,5 +1,3 @@
-
-
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
@@ -23,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       walletToken: { type: DataTypes.STRING, allowNull: false },
       balance: { type: DataTypes.STRING, defaultValue: "0" },
-      virtualBalance: { type: DataTypes.STRING, defaultValue: "0" },
+      virtualBalance: { type: DataTypes.STRING, defaultValue: "100" },
       deposits: { type: DataTypes.JSON, defaultValue: null },
       claims: { type: DataTypes.JSON, defaultValue: null },
     },
