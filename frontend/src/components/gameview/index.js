@@ -236,7 +236,7 @@ export default class GameView extends React.Component {
                         : null
                     }
                     {
-                      activeSport.id === 1 && <div className="gameinfo-container">
+                      activeSport.id === 1 && <div className="gameinfo-container" style={{ zIndex: 1 }}>
                         <div id="ember42936" className="ember-view"><div className="time-line-container show desktop">
                           <div className="time-line normal">
                             <div className="cur-time" style={{ right: activeGame ? activeGame.info ? activeGame.info.current_game_state === 'Half Time' ? '50%' : (100 - (activeGame.info.current_game_time / 90 * 100)) + '%' : 0 : 0 }}></div>

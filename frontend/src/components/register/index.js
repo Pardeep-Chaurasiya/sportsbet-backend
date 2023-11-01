@@ -2,23 +2,22 @@ import React from "react";
 import {
   onFormInputFocus,
   onFormInputFocusLost,
-  onSubmitInvisible,
+
 } from "../../common";
-import ReCAPTCHA from "react-google-recaptcha";
+
 import {
   validateEmail,
   validateFullname,
   validatePhone,
   validatePassword,
-  validateUsername,
+
   validateSMSCode,
 } from "../../utils/index";
 import "animate.css";
 import { Link } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/material.css";
-import API from "../../services/api";
-const $api = API.getInstance();
+
 export default class RegisterFrom extends React.Component {
   constructor(props) {
     super(props);
@@ -380,7 +379,7 @@ export default class RegisterFrom extends React.Component {
       CPassword,
       lastname,
       email,
-      dialing_code,
+
     } = this.state;
     if (
       phoneNumber !== "" &&
@@ -480,7 +479,7 @@ export default class RegisterFrom extends React.Component {
       phoneNumber,
       CPassword,
       password,
-      sms,
+
       lastname,
       firstname,
       email,

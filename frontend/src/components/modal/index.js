@@ -3,10 +3,8 @@ import BetHistory from '../../containers/bethistory'
 import { MODAL } from '../../actionReducers'
 import { allActionDucer } from '../../actionCreator'
 import UserProfile from '../../containers/userprofile'
-import Wallet from '../../containers/wallet'
 import Transactions from '../../containers/transactions'
 import { clearToast, makeToast, onFormInputFocusLost, onFormInputFocus } from '../../common'
-import { Help } from '../help'
 import API from '../../services/api'
 import Swiper from 'swiper'
 import AccountMenuOption from '../accountMenuOption'
@@ -133,7 +131,7 @@ export default class AccModal extends React.Component {
     win.focus();
   }
   render() {
-    const { modalOpen, type, tabType, showDepositDialog, showWithdrawalDialog, showClaimDialog, attempttingBonusClaim, attempttingBonusWithdraw } = this.props.sb_modal, { amount, depositWithdraw, claimData, amountEmpty } = this.state, { sportsbook, profile, sendRequest, dispatchLogout } = this.props, showStyles = { opacity: 1, pointerEvents: 'unset' }
+    const { modalOpen, type, tabType, showDepositDialog, showWithdrawalDialog, showClaimDialog } = this.props.sb_modal, { amount, depositWithdraw, claimData, amountEmpty } = this.state, { profile, sendRequest, dispatchLogout } = this.props, showStyles = { opacity: 1, pointerEvents: 'unset' }
 
     return (
 
@@ -186,8 +184,8 @@ export default class AccModal extends React.Component {
         <div className="sb-modal-backdrop" style={showDepositDialog ? { ...showStyles } : {}}>
           <div className="account-popup-container container-no-background">
             <div className="account-popup-header">
-              <span className={`${depositWithdraw?.status == 200 ? "icon-sb-success" : "icon-sb-error"}`}></span>
-              <span style={{ padding: "0 10px" }}>{depositWithdraw?.status == 200 ? "Success" : "Falied"}</span>
+              <span className={`${depositWithdraw?.status === 200 ? "icon-sb-success" : "icon-sb-error"}`}></span>
+              <span style={{ padding: "0 10px" }}>{depositWithdraw?.status === 200 ? "Success" : "Falied"}</span>
             </div>
 
             <div className="account-popup-body-container">
@@ -210,12 +208,12 @@ export default class AccModal extends React.Component {
         <div className="sb-modal-backdrop" style={showWithdrawalDialog ? { ...showStyles } : {}}>
           <div className="account-popup-container container-no-background">
             <div className="account-popup-header" style={{ backgroundColor: depositWithdraw?.status !== 200 && "krimson" }}>
-              <span className={`${depositWithdraw?.status == 200 ? "icon-sb-success" : "icon-sb-error"}`}></span>
-              <span style={{ marginLeft: '20px' }}>{depositWithdraw?.status == 200 ? "Success" : "Falied"}</span>
+              <span className={`${depositWithdraw?.status === 200 ? "icon-sb-success" : "icon-sb-error"}`}></span>
+              <span style={{ marginLeft: '20px' }}>{depositWithdraw?.status === 200 ? "Success" : "Falied"}</span>
             </div>
 
             <div className="account-popup-body-container">
-              <div className="account-popup-message" style={{ fontWeight: "900", fontSize: "16px" }}>{depositWithdraw?.status == 200 ? 'Thank you for betting with Us' : "Sorry Something is was not right"}
+              <div className="account-popup-message" style={{ fontWeight: "900", fontSize: "16px" }}>{depositWithdraw?.status === 200 ? 'Thank you for betting with Us' : "Sorry Something is was not right"}
               </div>
               <div className="account-popup-message">
                 {depositWithdraw.msg}
@@ -237,7 +235,7 @@ export default class AccModal extends React.Component {
                       <div className="avatar-container col-sm-2" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>{
                         console.log(profile?.userData?.UserProfile?.avatar, "banti")
                       }
-                        <img src={`${profile?.userData?.UserProfile?.avatar}`} style={{ height: "50px", width: "50px", borderRadius: "50%", cursor: "zoom-in" }} />
+                        <img src={`${profile?.userData?.UserProfile?.avatar}`} style={{ height: "50px", width: "50px", borderRadius: "50%", cursor: "zoom-in" }} alt="Avatar" />
                       </div>
                       <div className="number-id col-sm-10">
                         <span className="number">{profile.userData?.firstName} {profile.userdata?.lastName}</span>
@@ -258,8 +256,8 @@ export default class AccModal extends React.Component {
                     </div>
                   </div>
                   <AccountMenuOption type={type} onExpand={this.changeTab} id={1} title={'Profile'} icon={"icon-sb-edit-profile"} tabType={tabType}>
-                    <div className={tabType == 1 ? 'active' : ''} onClick={() => { this.showContent(1) }}> <span> Profile </span></div>
-                    <div className={tabType == 2 ? 'active' : ''} onClick={() => { this.showContent(2) }}><span>Change Password</span></div>
+                    <div className={tabType === 1 ? 'active' : ''} onClick={() => { this.showContent(1) }}> <span> Profile </span></div>
+                    <div className={tabType === 2 ? 'active' : ''} onClick={() => { this.showContent(2) }}><span>Change Password</span></div>
                   </AccountMenuOption>
                   {/* <AccountMenuOption type={type} onExpand={this.changeTab} id={3} title={'Wallet'} icon={"icon-sb-wallet"} tabType={tabType}>
                   <div className={tabType == 1 ? 'active' : ''} onClick={() => { this.showContent(1) }}> <span>Deposit </span>

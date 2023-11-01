@@ -57,7 +57,7 @@ export default class LiveGamePreview extends React.Component {
             sportAlias = stringReplacer(activeSport.alias, [/\s/g, /'/g, /\d.+?\d/g, /\(.+?\)/g], ['', '', '', '']).toLowerCase();
         return (
             activeGame && (activeSport.id === 1 || activeSport.id === 3 || activeSport.id === 4) && activeGame.last_event ?
-                <div className={`sb-accordion-content liquid-container ember-view game-view-container stream-exist`}>
+                <div className={`sb-accordion-content liquid-container ember-view game-view-container stream-exist`} style={{ zIndex: 2 }}>
                     <div className={`liquid-child ember-view`} >
                         <div className="ember-view">
                             <div className={`gameinfo-container ${sportAlias + '-container'}`}>

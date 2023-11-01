@@ -227,7 +227,7 @@ class Header extends React.Component {
           token,
           timestamp: Date.now()
         }
-        localStorage.setItem("walletToken", JSON.stringify(tokenData));
+
         console.log(Date.now(), "Date");
 
         console.log(JSON.parse(localStorage.getItem("walletToken")), "data");
@@ -236,9 +236,11 @@ class Header extends React.Component {
           { walletId: walletId },
           this.onLoginSuccess.bind(this)
         );
+        localStorage.setItem("walletToken", JSON.stringify(tokenData));
+
       }
       else {
-        makeToast("metamask connected successfully", 1000)
+        makeToast("metamask connected successfully", 3000)
       }
       const netId = await web3.eth.net.getId();
       console.log(netId, "netid");
@@ -250,10 +252,25 @@ class Header extends React.Component {
 
 
   onLoginSuccess({ data, status }) {
+    console.log(data, "status");
     if (status === 200) {
       // localStorage.setItem('authToken', data.AuthToken)
-      makeToast("Login with wallet successfully", 6000);
+      makeToast("Token Updated with your wallet", 4000);
+
+
+
+
     }
+    if (status === 201) {
+      // localStorage.setItem('authToken', data.AuthToken)
+      makeToast(" Login with New wallet address ", 4000);
+
+
+    }
+    if (status === 500) {
+      setTimeout(localStorage.removeItem("walletToken"), 1000)
+    }
+
     // else {
     //   console.log(status, "status");
     //   this.onLoginError(data)
@@ -573,12 +590,16 @@ class Header extends React.Component {
                       </div>
                       <div className="header-col right">
                         <div className="nav-controls">
-                          {(!props.netId && !appState.isLoggedIn) ? (
+                          {((!JSON.parse(localStorage.getItem("walletToken")) || !props.netId) && !appState.isLoggedIn) ? (
                             <React.Fragment>
                               <div>
                                 {props.web3
                                   ? props.netId && NETID !== props.netId
-                                    ? makeToast(NetIdMessage, 4000)
+                                    ? (
+                                      makeToast(NetIdMessage),
+
+                                      props.setNetId(null)
+                                    )
                                     : null
                                   : null}
                               </div>
@@ -727,15 +748,15 @@ class Header extends React.Component {
                                       <span>Log out</span>
                                     </li>
                                   )}
-                                  {/* {props.web3 && (
-                                  <li
-                                    onClick={this.walletlogOut}
-                                    className="logout"
-                                  >
-                                    <span className="profile-icon icon-sb-log-out"></span>
-                                    <span>Log out</span>
-                                  </li>
-                                )} */}
+                                  {props.web3 && (
+                                    <li
+                                      onClick={this.walletlogOut}
+                                      className="logout"
+                                    >
+                                      <span className="profile-icon icon-sb-log-out"></span>
+                                      <span>Log out</span>
+                                    </li>
+                                  )}
                                 </ul>
 
                               </div>

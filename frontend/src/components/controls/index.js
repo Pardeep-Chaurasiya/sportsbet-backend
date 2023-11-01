@@ -996,7 +996,7 @@ export default class Controls extends React.Component {
                                 {/* <div className="settings-icon-container icon" onClick={this.openBetslipSettings}>
                           <span className={`icon-icon-settings rotate ${showBetslipSettings && 'down'}`}></span>
                         </div> */}
-                                <div className="settings-icon-container icon" onClick={() => this.removeAllBetSelections()}>
+                                <div className="settings-icon-container icon" onClick={this.betslipToggleView}>
                                   <span className={`${showFirsttime ? 'icon-icon-arrow-down' : 'icon-icon-close-x'} remove-icon-betslip`}></span>
                                 </div>
                               </div>
@@ -1314,7 +1314,7 @@ export default class Controls extends React.Component {
                                                 </div>
                                                 : 'Accept Odds changes!'
                                             }</button>
-                                            : !isLoggedIn && betlen && !props.web3 ?
+                                            : betlen && (!JSON.parse(localStorage.getItem("walletToken")) || !props.web3) ?
                                               <button style={{ cursor: "pointer" }} onClick={this.betslipToggleView} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
                                                 First connect to wallet</button>
                                               :

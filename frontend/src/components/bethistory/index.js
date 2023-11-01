@@ -3,12 +3,11 @@ import * as $ from 'jquery'
 import 'jquery-ui/ui/widgets/datepicker'
 import moment from 'moment-timezone'
 import { BetHistoryLoader } from '../../components/loader'
-import { getCookie, onSelect } from '../../common'
+import { onSelect } from '../../common'
 import { allActionDucer } from '../../actionCreator'
 import { SPORTSBOOK_ANY, RIDS_PUSH } from '../../actionReducers'
 import CashoutDialog from '../../components/cashoutdialog'
 import Swiper from 'swiper'
-import { calcMD5 } from '../../utils/jsmd5'
 // import API from '../../services/api'
 import { NewAPI } from '../../services/api'
 const $api = NewAPI.getInstance();
@@ -53,7 +52,7 @@ export default class BetHistory extends React.Component {
   }
   componentDidMount() {
     this.livePreviewSwiper = new Swiper('.swiper-container-history', { noSwiping: false, allowSlideNext: this.state.allowSlideNext, allowSlidePrev: this.state.allowSlidePrev });
-    const { sessionData } = this.props.sportsbook
+
     if (!this.state.loadingInitialData) {
       this.getBetHistory()
       this.setState({ loadingInitialData: true })
@@ -278,7 +277,7 @@ export default class BetHistory extends React.Component {
 
   }
   render() {
-    const { bets_history, loadingHistory, config } = this.props.sportsbook, { cashable_bet, status, type, bet_id, period, datepickerF, datepickerT, showCashoutDailog, showFilterInputs, activeBets, opened_bet } = this.state, { backToMenuModal, profile } = this.props
+    const { bets_history, loadingHistory, config } = this.props.sportsbook, { cashable_bet, status, datepickerF, datepickerT, showCashoutDailog, showFilterInputs, activeBets, opened_bet } = this.state, { backToMenuModal, profile } = this.props
     let bets = []
 
     if (bets_history.bets) {
@@ -391,7 +390,7 @@ export default class BetHistory extends React.Component {
                     :
                     bets_history.length ?
                       bets_history.map((bet, i) => {
-                        var selections = [], b = { totalAmount: 0 }
+                        var selections = []
                         // b.totalAmount = (bet.bonus_bet_amount ? bet.bonus_bet_amount : "" + bet.Amount ? bet.Amount : "").toString()
                         // Object.keys(bet.events).forEach((evt) => {
                         //   selections.push(bet.events[evt])
@@ -428,7 +427,7 @@ export default class BetHistory extends React.Component {
                                 </div>
                               </div>
                               {(bet.payout > 0) && <div className="bet-info-3">
-                                <div>{bet.status == 0 ? <span style={{ display: 'block', lineHeight: '2' }}>Possible Win: </span> : <span style={{ display: 'block', lineHeight: '2' }}>Win: </span>}</div>
+                                <div>{bet.status === 0 ? <span style={{ display: 'block', lineHeight: '2' }}>Possible Win: </span> : <span style={{ display: 'block', lineHeight: '2' }}>Win: </span>}</div>
                                 <div className="win"><span style={{ display: 'block', lineHeight: '1' }}>{bet.payout > 0 ? bet.payout : bet.possible_win}  {bet.currency}</span></div>
                               </div>}
                               <div className="bet-info-4" >
@@ -468,8 +467,8 @@ export default class BetHistory extends React.Component {
                           <div className="odds">{opened_bet.k}</div>
                         </div>
                       </div>
-                      {(opened_bet.status == 0 || opened_bet.payout > 0) && <div className="bet-info-3">
-                        <div>{opened_bet.status == 0 ? <span style={{ display: 'block', lineHeight: '2' }}>Possible Win: </span> : <span style={{ display: 'block', lineHeight: '2' }}>Win: </span>}</div>
+                      {(opened_bet.status === 0 || opened_bet.payout > 0) && <div className="bet-info-3">
+                        <div>{opened_bet.status === 0 ? <span style={{ display: 'block', lineHeight: '2' }}>Possible Win: </span> : <span style={{ display: 'block', lineHeight: '2' }}>Win: </span>}</div>
                         <div className="win"><span style={{ display: 'block', lineHeight: '1' }}>{opened_bet.payout > 0 ? opened_bet.payout : opened_bet.possible_win}  {profile.currency}</span></div>
                       </div>}
                       {opened_bet.hasOwnProperty('cash_out') && <div className="bet-info-4" >
