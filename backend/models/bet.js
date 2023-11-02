@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       command: { type: DataTypes.STRING },
       BetType: { type: DataTypes.INTEGER },
       AcceptMode: { type: DataTypes.INTEGER },
+      FinalAmount: { type: DataTypes.DECIMAL, default: 0 },
       Source: { type: DataTypes.INTEGER },
       TotalPrice: { type: DataTypes.DECIMAL },
       Amount: { type: DataTypes.DECIMAL },

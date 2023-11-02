@@ -67,48 +67,55 @@ async function saveData(result, betdata) {
     const data = JSON.parse(result.toString())?.data?.lines.line;
     if (data) {
       let matchFinalResult;
+      let resultAmount = betdata.Amount * betdata.TotalPrice;
 
-      const matchDataNewResult = data.find(
-        (selection) =>
-          selection.line_name == betdata.MarketName &&
-          selection.events.event_name[0] == betdata.SelectionName
-      );
-      if (matchDataNewResult) {
-        matchFinalResult = "WIN";
-        await Bet.update(
-          {
-            status: matchFinalResult,
-          },
-          { where: { id: betdata.id } }
+      const idx = data.findIndex((el) => el.line_name === betdata.MarketName);
+      const matchResult =
+        JSON.parse(result).data?.lines?.line[idx]?.events?.event_name;
+      // console.log(matchResult);
+      if (Array.isArray(matchResult) && matchResult.length >= 1) {
+        const matchDataNewResult = data.find(
+          (selection) =>
+            selection.line_name == betdata.MarketName &&
+            selection.events.event_name[0] == betdata.SelectionName
         );
-      } else {
-        matchFinalResult = "LOSE";
-        await Bet.update(
-          {
-            status: matchFinalResult,
-          },
-          { where: { id: betdata.id } }
-        );
-      }
-
-      wallet = await UserWallet.findAll({ raw: true });
-      wallet.map(async (item) => {
-        if (matchFinalResult == "WIN") {
-          await UserWallet.update(
+        if (matchDataNewResult) {
+          matchFinalResult = "WIN";
+          await Bet.update(
             {
-              virtualBalance: parseInt(item.virtualBalance) + 10,
+              status: matchFinalResult,
             },
-            { where: { walletAddress: item.walletAddress } }
+            { where: { id: betdata.id } }
           );
         } else {
-          await UserWallet.update(
+          matchFinalResult = "LOSE";
+          await Bet.update(
             {
-              virtualBalance: parseInt(item.virtualBalance) - 10,
+              status: matchFinalResult,
             },
-            { where: { walletAddress: item.walletAddress } }
+            { where: { id: betdata.id } }
           );
         }
-      });
+
+        wallet = await UserWallet.findAll({ raw: true });
+        wallet.map(async (item) => {
+          if (matchFinalResult == "WIN") {
+            await UserWallet.update(
+              {
+                virtualBalance: parseInt(item.virtualBalance) + resultAmount,
+              },
+              { where: { walletAddress: item.walletAddress } }
+            );
+          } else {
+            await UserWallet.update(
+              {
+                virtualBalance: parseInt(item.virtualBalance) - resultAmount,
+              },
+              { where: { walletAddress: item.walletAddress } }
+            );
+          }
+        });
+      }
     }
   } catch (error) {
     console.error("Error in saveData:", error);
@@ -116,14 +123,9 @@ async function saveData(result, betdata) {
 }
 
 const executeSwarm = () => {
-  // Perform the task you want to execute every 5 minutes
   fetchBetAndTournamentData();
 };
 
-// Set up the cron job to run every 5 minutes
 const job = new cron.CronJob("*/10 * * * * *", executeSwarm);
 
-// Start the cron job
 job.start();
-
-// module.exports = { fetchBetAndTournamentData };

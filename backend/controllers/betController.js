@@ -1,9 +1,10 @@
-const { Bet, Tournament } = require("../models");
+const { Bet, Tournament, UserWallet } = require("../models");
 const { Op } = require("sequelize");
 const Sequelize = require("sequelize");
 const moment = require("moment");
 
 // create bet for torunament for tricky-route api
+
 const createBet = async (req, res) => {
   try {
     const {
@@ -18,6 +19,10 @@ const createBet = async (req, res) => {
     } = req.body;
     // const user = req.id;
     const user = req.UserWallet;
+    const userwallet = await UserWallet.findOne({
+      where: { walletAddress: user.address },
+    });
+    const virtualBalance = userwallet.virtualBalance;
     const isTournamentCreated = await Tournament.findOne({
       where: {
         [Op.and]: {
@@ -42,6 +47,12 @@ const createBet = async (req, res) => {
         walletAddress: user.address,
         tournamentId: isTournamentCreated.dataValues.id,
       });
+      await UserWallet.update(
+        {
+          virtualBalance: virtualBalance - Amount,
+        },
+        { where: { walletAddress: user.address } }
+      );
     } else {
       const newTournament = await Tournament.bulkCreate(Selections);
       const newBet = await Bet.create({
@@ -59,7 +70,19 @@ const createBet = async (req, res) => {
         walletAddress: user.address,
         tournamentId: newTournament[0].dataValues.id,
       });
+      await UserWallet.update(
+        {
+          virtualBalance: virtualBalance - Amount,
+        },
+        { where: { walletAddress: user.address } }
+      );
     }
+    // await UserWallet.update(
+    //   {
+    //     virtualBalance: virtualBalance - Amount,
+    //   },
+    //   { where: { walletAddress: user.address } }
+    // );
     return res.status(200).json({ message: "Bet created successfully !!" });
   } catch (error) {
     console.error(error);
@@ -71,7 +94,8 @@ const createBet = async (req, res) => {
 const betHistory = async (req, res) => {
   const { startDate, endDate } = req.body;
 
-  const user = req.UserWallet;
+  const user = req.UserWallet.address;
+  console.log(user);
 
   try {
     const history = await Bet.findAll({
@@ -84,11 +108,9 @@ const betHistory = async (req, res) => {
       },
       raw: true,
     });
-    console.log(history);
     let possible_win;
     const payout = "123";
     const cash_out = "321";
-
     const updatedHistory = history.map((item) => ({
       ...item,
       possible_win: item.Amount * item.TotalPrice,
