@@ -30,6 +30,7 @@ import {
 import { withRouter } from "react-router-dom";
 import { Transition } from "react-spring/renderprops";
 import getWeb3 from "../../web3/getweb3";
+import BetHistory from "../bethistory";
 
 const $api = NewAPI.getInstance();
 
@@ -42,6 +43,7 @@ class Header extends React.Component {
       showFullInput: false,
       Balance: 0,
       isModalOpen: false,
+      isHistoryModal: false,
       depositAmount: '',
     };
     this.openModal = this.openModal.bind(this);
@@ -283,10 +285,21 @@ class Header extends React.Component {
       isModalOpen: true,
     });
   }
+  openHistoryModal = () => {
+    this.setState({
+      isHistoryModal: true,
+    });
+  }
 
   closeDepositModal = () => {
     this.setState({
       isModalOpen: false,
+    });
+  }
+
+  closeHistoryModal = () => {
+    this.setState({
+      isHistoryModal: false,
     });
   }
 
@@ -359,6 +372,52 @@ class Header extends React.Component {
 
 
 
+  }
+  renderHistoryModal() {
+    if (this.state.isHistoryModal) {
+      return (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: " 100%",
+              background: "rgba(0, 0, 0, 0.5)", /* Transparent background */
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 999 /* High z-index */
+            }}
+          >
+            <div className="sb-login-form-container" >
+              <div style={{ height: "100vh", width: "100vw" }}>
+                <span onClick={this.closeHistoryModal} className="sb-login-form-close icon-icon-close-x"></span>
+                <div className="liquid-container ember-view" ><div className="liquid-child ember-view" style={{ top: "0px", left: "0px", opacity: "1" }}>
+                  <div data-step="sign-in" id="ember129058" className="sb-login-step active ember-view"
+                    style={{
+                      background: "#fff",
+                      padding: "20px",
+                      textAlign: "center",
+                      borderRadius: "8px,",
+                      zIndex: 1000
+                    }}
+                  >
+                    <div className="title">
+                      <span>Bet History</span>
+                    </div>
+
+                  </div>
+                  <BetHistory />
+                </div></div>
+              </div>
+            </div>
+          </div>
+        </>
+      )
+    }
+    return null;
   }
 
   validate() {
@@ -558,6 +617,7 @@ class Header extends React.Component {
           return (
             <>
               {this.renderDepositModal(props.web3, props.accounts, props.netId)}
+              {this.renderHistoryModal()}
               <div
                 className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
                   }`}
@@ -705,7 +765,7 @@ class Header extends React.Component {
                                     </li>
                                   )}
 
-                                  <li onClick={() => this.openModal(2, 1)}>
+                                  <li onClick={this.openHistoryModal}>
                                     <span className="profile-icon icon-sb-my-bets"></span>
                                     <span>Bets History</span>
                                   </li>

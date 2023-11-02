@@ -1,5 +1,6 @@
 
 import moment from 'moment-timezone';
+import { makeToast } from '../common';
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-z]{2,}))$/
     , phoneRegex = /^0(2)(0|3|4|6|7)\d{3}\d{4}|0(5)(0|4|5|6|7)\d{3}\d{4}|(5)(0|4|5|6|7)\d{3}\d{4}|(2)(0|3|4|6|7)\d{3}\d{4}$/
@@ -64,6 +65,9 @@ export const errorHandler = (error) => {
                 localStorage.removeItem("walletToken")
                 // (typeof data == "object" ) ? makeText(data.message) : makeText(data)
                 break;
+            case 400:
+                console.log(response);
+                makeToast(data.error, 4000)
 
             default:
                 //   setTimeout(() => makeText("Ooops Something wrong, try again later"), 3000);
