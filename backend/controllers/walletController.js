@@ -7,8 +7,9 @@ const registerWithWallet = async (req, res) => {
   try {
     const userwalletAddress = await UserWallet.findOne({
       where: { walletAddress: address },
+      raw: true,
     });
-    if (userwalletAddress && userwalletAddress?.walletToken !== Token) {
+    if (userwalletAddress && userwalletAddress.walletToken !== Token) {
       await UserWallet.update(
         {
           walletToken: Token,
@@ -21,7 +22,6 @@ const registerWithWallet = async (req, res) => {
         walletAddress: address,
         walletToken: Token,
       });
-
       return res.status(201).json({
         success: true,
         message: "User Registered Successfully with WalletId",
@@ -33,4 +33,15 @@ const registerWithWallet = async (req, res) => {
   }
 };
 
-module.exports = { registerWithWallet };
+const getWalletBalance = async (req, res) => {
+  const walletAddress = req.UserWallet.address;
+  const virtual_balance = await UserWallet.findOne({
+    where: { walletAddress: walletAddress },
+    raw: true,
+  });
+  return res
+    .status(200)
+    .json({ virtual_balance: virtual_balance.virtualBalance });
+};
+
+module.exports = { registerWithWallet, getWalletBalance };

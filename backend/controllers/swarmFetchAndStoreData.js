@@ -1,10 +1,15 @@
 const WebSocket = require("ws");
-const { Tournament, Bet } = require("../models");
+const cron = require("cron");
+const { UserWallet, Bet } = require("../models");
 
 const fetchBetAndTournamentData = async (req, res) => {
   try {
     let flag = 0;
-    tournamentmentData = await Bet.findAll({ raw: true });
+    betData = await Bet.findAll({
+      where: { status: "Pending" },
+      raw: true,
+    });
+
     const url = "wss://eu-swarm-ws.betconstruct.com/";
     const ws = new WebSocket(url);
     let matchResult;
@@ -18,7 +23,6 @@ const fetchBetAndTournamentData = async (req, res) => {
         rid: 13,
       };
       let sendingDataText_six = JSON.stringify(request_six);
-      // console.log("calling data ", JSON.parse(sendingDataText_six));
       ws.send(sendingDataText_six);
     }
     ws.on("open", async () => {
@@ -36,78 +40,92 @@ const fetchBetAndTournamentData = async (req, res) => {
       matchResult = data;
       if (flag) {
         try {
-          await saveData(matchResult, tournamentmentData[currentIndex - 1]);
+          await saveData(matchResult, betData[currentIndex - 1]);
         } catch (error) {
           console.error("Error while saving data:", error);
         }
       }
       flag = 1;
-      if (
-        tournamentmentData.length &&
-        tournamentmentData.length > currentIndex
-      ) {
+      if (betData.length && betData.length > currentIndex) {
         try {
-          callSocket(tournamentmentData[currentIndex++]);
+          callSocket(betData[currentIndex++]);
         } catch (error) {
           console.log("Error in calling socket:", error);
         }
       }
     });
 
-    return res.json("fetching data");
+    // return res.json("fetching data");
   } catch (error) {
     console.error("Error in fetchBetAndTournamentData:", error);
-    return res.status(500).json({ error: "An error occurred" });
+    // return res.status(500).json({ error: "An error occurred" });
   }
 };
 
-async function saveData(result, tournament) {
+async function saveData(result, betdata) {
   try {
     const data = JSON.parse(result.toString())?.data?.lines.line;
     if (data) {
-      const matchInfo = tournament.MarketName;
-      const idx = data.findIndex((el) => el.line_name === matchInfo);
+      let matchFinalResult;
+      let resultAmount = betdata.Amount * betdata.TotalPrice;
+
+      const idx = data.findIndex((el) => el.line_name === betdata.MarketName);
       const matchResult =
-        JSON.parse(result).data?.lines?.line[idx].events.event_name;
-      let matchResultData = "";
-      if (matchResult.length > 1) {
-        matchResultData = JSON.stringify(matchResult);
-      } else {
-        matchResult.forEach((el) => {
-          matchResultData += el;
+        JSON.parse(result).data?.lines?.line[idx]?.events?.event_name;
+      // console.log(matchResult);
+      if (Array.isArray(matchResult) && matchResult.length >= 1) {
+        const matchDataNewResult = data.find(
+          (selection) =>
+            selection.line_name == betdata.MarketName &&
+            selection.events.event_name[0] == betdata.SelectionName
+        );
+        if (matchDataNewResult) {
+          matchFinalResult = "WIN";
+          await Bet.update(
+            {
+              status: matchFinalResult,
+            },
+            { where: { id: betdata.id } }
+          );
+        } else {
+          matchFinalResult = "LOSE";
+          await Bet.update(
+            {
+              status: matchFinalResult,
+            },
+            { where: { id: betdata.id } }
+          );
+        }
+
+        wallet = await UserWallet.findAll({ raw: true });
+        wallet.map(async (item) => {
+          if (matchFinalResult == "WIN") {
+            await UserWallet.update(
+              {
+                virtualBalance: parseFloat(item.virtualBalance) + resultAmount,
+              },
+              { where: { walletAddress: item.walletAddress } }
+            );
+          } else {
+            await UserWallet.update(
+              {
+                virtualBalance: parseFloat(item.virtualBalance) - resultAmount,
+              },
+              { where: { walletAddress: item.walletAddress } }
+            );
+          }
         });
       }
-      await Bet.update(
-        {
-          MatchInfo: matchResultData,
-        },
-        { where: { MatchId: tournament.MatchId } }
-      );
-
-
-        if(tournament.MatchInfo){
-      if(tournament.SelectionName == tournament.MatchInfo){
-        matchResultData = "WIN" 
-        await Bet.update(
-          {
-            status: matchResultData,
-          },
-          { where: { MatchId: tournament.MatchId } }
-        );
-      }
-      else
-        {matchResultData="Lose" 
-        await Bet.update(
-          {
-            status: matchResultData,
-          },
-          { where: { MatchId: tournament.MatchId } }
-        )}
-        }
     }
   } catch (error) {
     console.error("Error in saveData:", error);
   }
 }
 
-module.exports = { fetchBetAndTournamentData };
+const executeSwarm = () => {
+  fetchBetAndTournamentData();
+};
+
+const job = new cron.CronJob("*/10 * * * * *", executeSwarm);
+
+job.start();

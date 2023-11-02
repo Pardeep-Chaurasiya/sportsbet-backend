@@ -9,8 +9,14 @@ const router = express.Router();
 router.post(
   "/registerWithWallet",
   wallethMiddleware,
-  // joi_validator.validateWalletId,
+  joi_validator.validateWalletId,
   walletController.registerWithWallet
+);
+
+router.get(
+  "/getWalletBalance",
+  wallethMiddleware,
+  walletController.getWalletBalance
 );
 
 module.exports = router;
