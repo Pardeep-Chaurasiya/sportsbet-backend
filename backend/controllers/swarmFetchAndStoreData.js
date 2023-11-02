@@ -102,14 +102,14 @@ async function saveData(result, betdata) {
           if (matchFinalResult == "WIN") {
             await UserWallet.update(
               {
-                virtualBalance: parseInt(item.virtualBalance) + resultAmount,
+                virtualBalance: parseFloat(item.virtualBalance) + resultAmount,
               },
               { where: { walletAddress: item.walletAddress } }
             );
           } else {
             await UserWallet.update(
               {
-                virtualBalance: parseInt(item.virtualBalance) - resultAmount,
+                virtualBalance: parseFloat(item.virtualBalance) - resultAmount,
               },
               { where: { walletAddress: item.walletAddress } }
             );

@@ -49,7 +49,7 @@ const createBet = async (req, res) => {
       });
       await UserWallet.update(
         {
-          virtualBalance: virtualBalance - Amount,
+          virtualBalance: parseFloat(virtualBalance) - Amount,
         },
         { where: { walletAddress: user.address } }
       );
@@ -72,17 +72,11 @@ const createBet = async (req, res) => {
       });
       await UserWallet.update(
         {
-          virtualBalance: virtualBalance - Amount,
+          virtualBalance: parseFloat(virtualBalance) - Amount,
         },
         { where: { walletAddress: user.address } }
       );
     }
-    // await UserWallet.update(
-    //   {
-    //     virtualBalance: virtualBalance - Amount,
-    //   },
-    //   { where: { walletAddress: user.address } }
-    // );
     return res.status(200).json({ message: "Bet created successfully !!" });
   } catch (error) {
     console.error(error);
@@ -95,7 +89,6 @@ const betHistory = async (req, res) => {
   const { startDate, endDate } = req.body;
 
   const user = req.UserWallet.address;
-  console.log(user);
 
   try {
     const history = await Bet.findAll({
