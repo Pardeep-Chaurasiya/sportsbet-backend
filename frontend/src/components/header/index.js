@@ -30,6 +30,7 @@ import {
 import { withRouter } from "react-router-dom";
 import { Transition } from "react-spring/renderprops";
 import getWeb3 from "../../web3/getweb3";
+import BetHistory from "../bethistory";
 
 const $api = NewAPI.getInstance();
 
@@ -42,6 +43,7 @@ class Header extends React.Component {
       showFullInput: false,
       Balance: 0,
       isModalOpen: false,
+      isHistoryModal: false,
       depositAmount: '',
     };
     this.openModal = this.openModal.bind(this);
@@ -59,6 +61,8 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
+
+
     // console.log(moment.tz.names())
     for (var i in this.supportedTZ) {
       this.offsetTmz.push(
@@ -69,7 +73,21 @@ class Header extends React.Component {
       );
     }
     this.setTime();
+    setInterval(() => {
+      if (JSON.parse(localStorage.getItem("netId")) && JSON.parse(localStorage.getItem("walletToken"))) {
+        console.log("hello");
+        $api.getBalance(
+          {
+
+          },
+          this.afterBalance.bind(this)
+        );
+      }
+    }, 5000)
+
+
   }
+
 
   componentWillUnmount() {
     clearInterval(this.timeInterval);
@@ -84,6 +102,17 @@ class Header extends React.Component {
 
     localStorage.removeItem("walletToken")
   }
+
+  // if (JSON.parse(localStorage.getItem("netId")) && JSON.parse(localStorage.getItem("walletToken"))) {
+  //   console.log("hello");
+  //   $api.getBalance(
+  //     {
+
+  //     },
+  //     this.afterBalance.bind(this)
+  //   );
+  // }
+
 
   onFormInputFocus() {
     this.setState({ showFullInput: true });
@@ -123,7 +152,6 @@ class Header extends React.Component {
       })
     );
   }
-
   openFormModal(contentType) {
     this.props.dispatch(
       allActionDucer(MODAL, { accVerifyOpen: true, formType: contentType })
@@ -257,13 +285,24 @@ class Header extends React.Component {
       // localStorage.setItem('authToken', data.AuthToken)
       makeToast("Token Updated with your wallet", 4000);
 
+      $api.getBalance(
+        {
 
+        },
+        this.afterBalance.bind(this)
+      );
 
 
     }
     if (status === 201) {
       // localStorage.setItem('authToken', data.AuthToken)
       makeToast(" Login with New wallet address ", 4000);
+      $api.getBalance(
+        {
+
+        },
+        this.afterBalance.bind(this)
+      );
 
 
     }
@@ -277,16 +316,34 @@ class Header extends React.Component {
 
     // }
   }
+  afterBalance({ data, status }) {
+
+    console.log(data, status, "Balance");
+    if (status) {
+      this.props.dispatch(allActionDucer(PROFILE, { Balance: data?.virtual_balance }))
+    }
+  }
 
   openDepositModal = () => {
     this.setState({
       isModalOpen: true,
     });
   }
+  openHistoryModal = () => {
+    this.setState({
+      isHistoryModal: true,
+    });
+  }
 
   closeDepositModal = () => {
     this.setState({
       isModalOpen: false,
+    });
+  }
+
+  closeHistoryModal = () => {
+    this.setState({
+      isHistoryModal: false,
     });
   }
 
@@ -359,6 +416,52 @@ class Header extends React.Component {
 
 
 
+  }
+  renderHistoryModal() {
+    if (this.state.isHistoryModal) {
+      return (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: " 100%",
+              background: "rgba(0, 0, 0, 0.5)", /* Transparent background */
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 999 /* High z-index */
+            }}
+          >
+            <div className="sb-login-form-container" >
+              <div style={{ height: "100vh", width: "100vw" }}>
+                <span onClick={this.closeHistoryModal} className="sb-login-form-close icon-icon-close-x"></span>
+                <div className="liquid-container ember-view" ><div className="liquid-child ember-view" style={{ top: "0px", left: "0px", opacity: "1" }}>
+                  <div data-step="sign-in" id="ember129058" className="sb-login-step active ember-view"
+                    style={{
+                      background: "#fff",
+                      padding: "20px",
+                      textAlign: "center",
+                      borderRadius: "8px,",
+                      zIndex: 1000
+                    }}
+                  >
+                    <div className="title">
+                      <span>Bet History</span>
+                    </div>
+
+                  </div>
+                  {/* <BetHistory /> */}
+                </div></div>
+              </div>
+            </div>
+          </div>
+        </>
+      )
+    }
+    return null;
   }
 
   validate() {
@@ -555,9 +658,16 @@ class Header extends React.Component {
     return (
       <Web3Context.Consumer>
         {(props) => {
+          if (props.netId) {
+            localStorage.setItem("netId", props.netId)
+          }
+          else {
+            localStorage.removeItem("netId")
+          }
           return (
             <>
               {this.renderDepositModal(props.web3, props.accounts, props.netId)}
+              {this.renderHistoryModal()}
               <div
                 className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
                   }`}
@@ -653,11 +763,10 @@ class Header extends React.Component {
                           ) : (
                             <div tabIndex={0} className="user-account-buttons">
                               <div className="balance">
-                                {(
-                                  parseFloat(profile.Balance) +
-                                  parseFloat(profile.bonus)
-                                ).toFixed(3)}{" "}
-                                {profile.currency}
+                                {
+                                  parseFloat(profile.Balance)
+                                }
+
                               </div>
                               {profile?.userData?.UserProfile?.avatar ? (
                                 <div
@@ -705,7 +814,7 @@ class Header extends React.Component {
                                     </li>
                                   )}
 
-                                  <li onClick={() => this.openModal(2, 1)}>
+                                  <li onClick={this.openHistoryModal}>
                                     <span className="profile-icon icon-sb-my-bets"></span>
                                     <span>Bets History</span>
                                   </li>
