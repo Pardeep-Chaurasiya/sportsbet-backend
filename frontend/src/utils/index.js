@@ -67,14 +67,18 @@ export const errorHandler = (error) => {
                 break;
             case 400:
                 console.log(response);
-                makeToast(data.error, 4000)
 
+                data.error ? makeToast(data.error, 4000) : makeToast(data.message, 4000)
+
+                break;
             default:
+
                 //   setTimeout(() => makeText("Ooops Something wrong, try again later"), 3000);
                 console.log(response)
                 break;
         }
     } else {
+        localStorage.removeItem("walletToken")
         console.log(JSON.stringify(error))
     }
 }

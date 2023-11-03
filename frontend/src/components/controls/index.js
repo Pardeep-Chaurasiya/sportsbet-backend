@@ -433,6 +433,7 @@ export default class Controls extends React.Component {
       this.removeAllBetSelections()
       makeToast("Bet created successfully", 6000)
     }
+
     else { this.betFailed(data && data.data.details ? data.data.details.hasOwnProperty('api_code') ? data.data.details.api_code : data.data.result ? data.data.result : 50000 : 50000) }
   }
   betSuccess(data) {

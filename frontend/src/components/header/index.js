@@ -61,6 +61,8 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
+
+
     // console.log(moment.tz.names())
     for (var i in this.supportedTZ) {
       this.offsetTmz.push(
@@ -71,7 +73,21 @@ class Header extends React.Component {
       );
     }
     this.setTime();
+    setInterval(() => {
+      if (JSON.parse(localStorage.getItem("netId")) && JSON.parse(localStorage.getItem("walletToken"))) {
+        console.log("hello");
+        $api.getBalance(
+          {
+
+          },
+          this.afterBalance.bind(this)
+        );
+      }
+    }, 5000)
+
+
   }
+
 
   componentWillUnmount() {
     clearInterval(this.timeInterval);
@@ -86,6 +102,17 @@ class Header extends React.Component {
 
     localStorage.removeItem("walletToken")
   }
+
+  // if (JSON.parse(localStorage.getItem("netId")) && JSON.parse(localStorage.getItem("walletToken"))) {
+  //   console.log("hello");
+  //   $api.getBalance(
+  //     {
+
+  //     },
+  //     this.afterBalance.bind(this)
+  //   );
+  // }
+
 
   onFormInputFocus() {
     this.setState({ showFullInput: true });
@@ -125,7 +152,6 @@ class Header extends React.Component {
       })
     );
   }
-
   openFormModal(contentType) {
     this.props.dispatch(
       allActionDucer(MODAL, { accVerifyOpen: true, formType: contentType })
@@ -259,13 +285,24 @@ class Header extends React.Component {
       // localStorage.setItem('authToken', data.AuthToken)
       makeToast("Token Updated with your wallet", 4000);
 
+      $api.getBalance(
+        {
 
+        },
+        this.afterBalance.bind(this)
+      );
 
 
     }
     if (status === 201) {
       // localStorage.setItem('authToken', data.AuthToken)
       makeToast(" Login with New wallet address ", 4000);
+      $api.getBalance(
+        {
+
+        },
+        this.afterBalance.bind(this)
+      );
 
 
     }
@@ -278,6 +315,13 @@ class Header extends React.Component {
     //   this.onLoginError(data)
 
     // }
+  }
+  afterBalance({ data, status }) {
+
+    console.log(data, status, "Balance");
+    if (status) {
+      this.props.dispatch(allActionDucer(PROFILE, { Balance: data?.virtual_balance }))
+    }
   }
 
   openDepositModal = () => {
@@ -409,7 +453,7 @@ class Header extends React.Component {
                     </div>
 
                   </div>
-                  <BetHistory />
+                  {/* <BetHistory /> */}
                 </div></div>
               </div>
             </div>
@@ -614,6 +658,12 @@ class Header extends React.Component {
     return (
       <Web3Context.Consumer>
         {(props) => {
+          if (props.netId) {
+            localStorage.setItem("netId", props.netId)
+          }
+          else {
+            localStorage.removeItem("netId")
+          }
           return (
             <>
               {this.renderDepositModal(props.web3, props.accounts, props.netId)}
@@ -713,11 +763,10 @@ class Header extends React.Component {
                           ) : (
                             <div tabIndex={0} className="user-account-buttons">
                               <div className="balance">
-                                {(
-                                  parseFloat(profile.Balance) +
-                                  parseFloat(profile.bonus)
-                                ).toFixed(3)}{" "}
-                                {profile.currency}
+                                {
+                                  parseFloat(profile.Balance)
+                                }
+
                               </div>
                               {profile?.userData?.UserProfile?.avatar ? (
                                 <div

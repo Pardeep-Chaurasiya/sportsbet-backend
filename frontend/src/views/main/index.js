@@ -404,8 +404,8 @@ export default class Main extends React.PureComponent {
   handleConnectionChange = () => {
     const connection = navigator.onLine ? "online" : "offline";
     if (connection === "online") {
-      this.webPing = setInterval(() => {
-        fetch("https://api.corisbet.com/ping", {})
+      this.webPing = setTimeout(() => {
+        fetch("https://api.ghhggsdf.com/ping", {})
           .then(() => {
             this.setState({ isInternetAvail: true }, () => {
               return clearInterval(this.webPing);
