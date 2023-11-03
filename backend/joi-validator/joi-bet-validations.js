@@ -31,7 +31,6 @@ const validateCreateBet = (req, res, next) => {
     MarketNameResult: Joi.string(),
     command: Joi.string(),
     BetType: Joi.number(),
-    FinalAmount: Joi.number(),
     AcceptMode: Joi.number(),
     Source: Joi.number(),
     TotalPrice: Joi.number(),

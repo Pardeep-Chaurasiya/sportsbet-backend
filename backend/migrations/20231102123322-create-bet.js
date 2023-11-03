@@ -40,7 +40,6 @@ module.exports = {
       SelectionName: { type: Sequelize.STRING },
       MarketName: { type: Sequelize.STRING },
       MatchId: { type: Sequelize.STRING },
-      FinalAmount: { type: Sequelize.DECIMAL, default: 0 },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
