@@ -333,7 +333,7 @@ export default class Main extends React.PureComponent {
           localStorage.removeItem("walletToken");
         }
       }
-    }, 3600000); // 1 hour
+    }, 60000); // 1 hour
   }
   componentDidUpdate() {
     const activeView = this.props.sportsbook.activeView,

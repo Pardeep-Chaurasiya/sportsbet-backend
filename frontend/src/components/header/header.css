@@ -29,7 +29,6 @@
   transition: all 1s ease-in-out;
   transform-origin: left top;
   transform: scaleY(1);
-  z-index: 100;
 }
 .header-container .header-body .header-inner .header-row {
   margin: 0;
@@ -73,7 +72,7 @@
   right: 0;
   top: 0;
   text-align: center;
-  z-index: 111;
+
   display: flex;
   justify-content: flex-end;
   /* padding: 0 10px; */
@@ -84,7 +83,6 @@
   .header-row.secondary
   .header-col
   .search.input-active {
-  z-index: 112;
 }
 .header-container
   .header-body
@@ -133,7 +131,7 @@
   width: 100%;
   height: 100%;
   transition: width 0.3s, border 0.3s, left 0.3s;
-  z-index: 111;
+
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);
   transform: translateZ(0);
@@ -633,7 +631,6 @@
   height: 100%;
   overflow-y: auto;
   width: calc(100% - 48px);
-  z-index: 112;
 }
 .header-container
   .header-body

@@ -11,12 +11,25 @@ const walletTokenhMiddleware = async (req, res, next) => {
         .json({ message: "Invalid token or token formet wrong" });
     }
     if (token && token.startsWith("Bearer")) {
-      const Token = token.split(" ")[1];
+      let Token = token.split(" ")[1];
 
-      const { address, body } = await Web3Token.verify(Token);
+      let { address, body } = await Web3Token.verify(Token);
       req.UserWallet = { address, Token, body };
       console.log(req.UserWallet, "user");
       next();
+
+      // let { address, body } = await Web3Token.verify(Token);
+      // console.log(address, "===========");
+      // let newUserWallet = await UserWallet.findByPk(`${address}`);
+      // console.log(newUserWallet, "========");
+      // let newAddress = newUserWallet.dataValues.walletAddress;
+
+      // if (!Token) {
+      //   req.UserWallet = newAddress;
+      // } else {
+      //   req.UserWallet = { address, Token, body };
+      // }
+      // next();
     }
   } catch (error) {
     console.error(error);

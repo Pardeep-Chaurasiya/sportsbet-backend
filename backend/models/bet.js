@@ -1,4 +1,3 @@
-
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
@@ -27,16 +26,16 @@ module.exports = (sequelize, DataTypes) => {
       SelectionName: { type: DataTypes.STRING },
       MarketName: { type: DataTypes.STRING },
       MatchId: { type: DataTypes.STRING },
-      MatchInfo: { type: DataTypes.STRING, defaultValue: "" },
       command: { type: DataTypes.STRING },
       BetType: { type: DataTypes.INTEGER },
       AcceptMode: { type: DataTypes.INTEGER },
+      FinalAmount: { type: DataTypes.DECIMAL, default: 0 },
       Source: { type: DataTypes.INTEGER },
       TotalPrice: { type: DataTypes.DECIMAL },
       Amount: { type: DataTypes.DECIMAL },
       rid: { type: DataTypes.INTEGER },
       isLive: { type: DataTypes.BOOLEAN },
-      status: { type: DataTypes.STRING, defaultValue: "WIN" },
+      status: { type: DataTypes.STRING, defaultValue: "Pending" },
       currency: { type: DataTypes.STRING, defaultValue: "$" },
     },
     {

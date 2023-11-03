@@ -106,8 +106,8 @@ export const SportsComponent = (props) => {
             </div> :
             <SportsbookSportItemLoading />
         }
-        <div {...{ className: `sport-header ${stringReplacer(initialData.alias ? initialData.alias : '', [/\s/g, /'/g, /\d.+?\d/g, /\(.+?\)/g], ['', '', '', '']).toLowerCase()} select `, style: { height: '40px' } }}>
-          <div className="sport-title col-sm-10"><span>{initialData.hasOwnProperty('id') ? initialData.name : activeID === 'TC' ? 'Top Competitions' : activeID === 'TG' ? 'Top Games' : ''}</span></div>
+        <div {...{ className: `sport-header ${stringReplacer(initialData.alias ? initialData.alias : '', [/\s/g, /'/g, /\d.+?\d/g, /\(.+?\)/g], ['', '', '', '']).toLowerCase()} select `, style: { height: '40px', zIndex: 1 } }}>
+          <div className="sport-title col-sm-10"  ><span>{initialData.hasOwnProperty('id') ? initialData.name : activeID === 'TC' ? 'Top Competitions' : activeID === 'TG' ? 'Top Games' : ''}</span></div>
           <div className="sport-accord col-sm-2"><span {...{ className: `text text-show` }}>{getTotalGames(initialData.region)}</span></div>
         </div>
         <Switch>

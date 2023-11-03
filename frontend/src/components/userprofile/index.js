@@ -2,11 +2,10 @@ import React from 'react'
 
 import 'jquery-ui/ui/widgets/datepicker'
 import moment from 'moment-timezone'
-import { onFormInputFocus, onFormInputFocusLost, onSelect, makeToast, getCookie } from '../../common'
+import { onFormInputFocus, onFormInputFocusLost, makeToast, getCookie } from '../../common'
 import { allActionDucer } from '../../actionCreator'
-import { SPORTSBOOK_ANY, RIDS_PUSH, PROFILE, LOGIN, LOGOUT, MODAL } from '../../actionReducers'
-import { validateEmail, validateFullname, validatePhone, validatePassword, validateUsername, validateSMSCode } from '../../utils/index'
-import { calcMD5 } from '../../utils/jsmd5'
+import { PROFILE, MODAL } from '../../actionReducers'
+import { validateEmail, validateFullname, validateUsername } from '../../utils/index'
 import { NewAPI } from '../../services/api'
 const $api = NewAPI.getInstance()
 export default class UserProfile extends React.Component {
@@ -79,7 +78,7 @@ export default class UserProfile extends React.Component {
     }
     updateInfo() {
         this.setState({ updatingInfo: true })
-        const { username, phoneNumber, formEdited, birth_date, document_type, idnumber, uid, email, AuthToken, address, gender, firstname, lastname, image } = this.state, $time = moment().format('YYYY-MM-DD H:mm:ss')
+        const { username, formEdited, birth_date, document_type, idnumber, address, gender, firstname, lastname } = this.state
         let p = { avatar: this.state.image, idnumber: idnumber || '', address: address, gender: gender, nickname: username, firstName: firstname, lastName: lastname, document_type: document_type, dob: birth_date }
         if (birth_date !== '') p['birth_date'] = moment(birth_date).unix(); else p['birth_date'] = 0
         const formData = new FormData()
@@ -94,7 +93,6 @@ export default class UserProfile extends React.Component {
         formData.append('dob', birth_date !== '' ? moment(birth_date).unix() : 0);
         console.log([...formData], "formdata");
 
-        const $hash = calcMD5(`AuthToken${AuthToken}uid${uid}mobilenumber${phoneNumber}email${email}time${$time}${this.props.appState.$publicKey}`)
 
         if (formEdited || this.state.AvatarImage) $api.updateProfile(formData, this.onEditSucess.bind(this))
         else {
@@ -105,9 +103,7 @@ export default class UserProfile extends React.Component {
     //  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjk1NDQ1MzExLCJleHAiOjE2OTU0NTI1MTF9.74n6JCqfpvRi85tcDcm4lLeLiob_PVU8jTfqYY4CYhI
     changePass() {
         this.setState({ changingpass: true })
-        const { uid, AuthToken, password, old_password, phoneNumber, c_password } = this.state, $time = moment().format('YYYY-MM-DD H:mm:ss'),
-            $hash = calcMD5(`uid${uid}password${old_password}AuthToken${AuthToken}time${$time}${this.props.appState.$publicKey}`)
-        const authToken = localStorage.getItem("authToken")
+        const { password, old_password, c_password } = this.state
         $api.changePassword({ c_password: c_password, old_pass: old_password, password: password }, this.onPasswordChanged.bind(this))
     }
     onPasswordChanged({ data, status }) {
@@ -136,10 +132,10 @@ export default class UserProfile extends React.Component {
     }
     render() {
         console.log(this.state.AvatarImage, "avatarr");
-        const { showPass, password, phoneNumber, email, username, c_password, updatingInfo, changingpass, phoneNumberEmpty,
+        const { showPass, password, phoneNumber, email, username, c_password,
             usernameEmpty,
-            termsEmpty, firstnameEmpty, lastnameEmpty,
-            passwordEmpty, idnumber, birth_date, gender, address, document_type, old_password, lastname, firstname, image } = this.state, { backToMenuModal, formType, onClose } = this.props
+            firstnameEmpty, lastnameEmpty,
+            idnumber, birth_date, gender, address, document_type, old_password, lastname, firstname } = this.state, { backToMenuModal, formType } = this.props
         return (
             <div className="section-content col-sm-12">
                 <div className="filter">
@@ -149,9 +145,9 @@ export default class UserProfile extends React.Component {
 
                     </div>
                     <div className="sorter">
-                        <div className={formType == 1 ? 'active' : ''} onClick={() => { this.changeForm(1) }}> <span>Edit Profile </span>
+                        <div className={formType === 1 ? 'active' : ''} onClick={() => { this.changeForm(1) }}> <span>Edit Profile </span>
                         </div>
-                        <div className={formType == 2 ? 'active' : ''} onClick={() => { this.changeForm(2) }}><span>Change Password</span>
+                        <div className={formType === 2 ? 'active' : ''} onClick={() => { this.changeForm(2) }}><span>Change Password</span>
                         </div>
                     </div>
                 </div>
@@ -204,7 +200,7 @@ export default class UserProfile extends React.Component {
                                                                 <label htmlFor="file-input" className="file-input-label">
                                                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                                                                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "24%", border: "0.1px solid grey", borderRadius: "2px", cursor: "pointer" }}>
-                                                                            <img src={this.state.image} alt="Image Icon" className="image-icon" />
+                                                                            <img src={this.state.image} alt="Icon" className="image-icon" />
                                                                             <span className={`file-input-text ${this.state.image === '' && 'placeholder-inactive'}`}>
                                                                                 Change Avatar
                                                                             </span>

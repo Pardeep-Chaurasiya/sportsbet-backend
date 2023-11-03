@@ -30,6 +30,7 @@ import {
 import { withRouter } from "react-router-dom";
 import { Transition } from "react-spring/renderprops";
 import getWeb3 from "../../web3/getweb3";
+import BetHistory from "../bethistory";
 
 const $api = NewAPI.getInstance();
 
@@ -42,6 +43,7 @@ class Header extends React.Component {
       showFullInput: false,
       Balance: 0,
       isModalOpen: false,
+      isHistoryModal: false,
       depositAmount: '',
     };
     this.openModal = this.openModal.bind(this);
@@ -227,7 +229,7 @@ class Header extends React.Component {
           token,
           timestamp: Date.now()
         }
-        localStorage.setItem("walletToken", JSON.stringify(tokenData));
+
         console.log(Date.now(), "Date");
 
         console.log(JSON.parse(localStorage.getItem("walletToken")), "data");
@@ -236,9 +238,11 @@ class Header extends React.Component {
           { walletId: walletId },
           this.onLoginSuccess.bind(this)
         );
+        localStorage.setItem("walletToken", JSON.stringify(tokenData));
+
       }
       else {
-        makeToast("metamask connected successfully", 1000)
+        makeToast("metamask connected successfully", 3000)
       }
       const netId = await web3.eth.net.getId();
       console.log(netId, "netid");
@@ -250,10 +254,25 @@ class Header extends React.Component {
 
 
   onLoginSuccess({ data, status }) {
+    console.log(data, "status");
     if (status === 200) {
       // localStorage.setItem('authToken', data.AuthToken)
-      makeToast("Login with wallet successfully", 6000);
+      makeToast("Token Updated with your wallet", 4000);
+
+
+
+
     }
+    if (status === 201) {
+      // localStorage.setItem('authToken', data.AuthToken)
+      makeToast(" Login with New wallet address ", 4000);
+
+
+    }
+    if (status === 500) {
+      setTimeout(localStorage.removeItem("walletToken"), 1000)
+    }
+
     // else {
     //   console.log(status, "status");
     //   this.onLoginError(data)
@@ -266,10 +285,21 @@ class Header extends React.Component {
       isModalOpen: true,
     });
   }
+  openHistoryModal = () => {
+    this.setState({
+      isHistoryModal: true,
+    });
+  }
 
   closeDepositModal = () => {
     this.setState({
       isModalOpen: false,
+    });
+  }
+
+  closeHistoryModal = () => {
+    this.setState({
+      isHistoryModal: false,
     });
   }
 
@@ -342,6 +372,52 @@ class Header extends React.Component {
 
 
 
+  }
+  renderHistoryModal() {
+    if (this.state.isHistoryModal) {
+      return (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: " 100%",
+              background: "rgba(0, 0, 0, 0.5)", /* Transparent background */
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 999 /* High z-index */
+            }}
+          >
+            <div className="sb-login-form-container" >
+              <div style={{ height: "100vh", width: "100vw" }}>
+                <span onClick={this.closeHistoryModal} className="sb-login-form-close icon-icon-close-x"></span>
+                <div className="liquid-container ember-view" ><div className="liquid-child ember-view" style={{ top: "0px", left: "0px", opacity: "1" }}>
+                  <div data-step="sign-in" id="ember129058" className="sb-login-step active ember-view"
+                    style={{
+                      background: "#fff",
+                      padding: "20px",
+                      textAlign: "center",
+                      borderRadius: "8px,",
+                      zIndex: 1000
+                    }}
+                  >
+                    <div className="title">
+                      <span>Bet History</span>
+                    </div>
+
+                  </div>
+                  <BetHistory />
+                </div></div>
+              </div>
+            </div>
+          </div>
+        </>
+      )
+    }
+    return null;
   }
 
   validate() {
@@ -541,6 +617,7 @@ class Header extends React.Component {
           return (
             <>
               {this.renderDepositModal(props.web3, props.accounts, props.netId)}
+              {this.renderHistoryModal()}
               <div
                 className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
                   }`}
@@ -573,12 +650,16 @@ class Header extends React.Component {
                       </div>
                       <div className="header-col right">
                         <div className="nav-controls">
-                          {(!props.netId && !appState.isLoggedIn) ? (
+                          {((!JSON.parse(localStorage.getItem("walletToken")) || !props.netId) && !appState.isLoggedIn) ? (
                             <React.Fragment>
                               <div>
                                 {props.web3
                                   ? props.netId && NETID !== props.netId
-                                    ? makeToast(NetIdMessage, 4000)
+                                    ? (
+                                      makeToast(NetIdMessage),
+
+                                      props.setNetId(null)
+                                    )
                                     : null
                                   : null}
                               </div>
@@ -684,7 +765,7 @@ class Header extends React.Component {
                                     </li>
                                   )}
 
-                                  <li onClick={() => this.openModal(2, 1)}>
+                                  <li onClick={this.openHistoryModal}>
                                     <span className="profile-icon icon-sb-my-bets"></span>
                                     <span>Bets History</span>
                                   </li>
@@ -727,15 +808,15 @@ class Header extends React.Component {
                                       <span>Log out</span>
                                     </li>
                                   )}
-                                  {/* {props.web3 && (
-                                  <li
-                                    onClick={this.walletlogOut}
-                                    className="logout"
-                                  >
-                                    <span className="profile-icon icon-sb-log-out"></span>
-                                    <span>Log out</span>
-                                  </li>
-                                )} */}
+                                  {props.web3 && (
+                                    <li
+                                      onClick={this.walletlogOut}
+                                      className="logout"
+                                    >
+                                      <span className="profile-icon icon-sb-log-out"></span>
+                                      <span>Log out</span>
+                                    </li>
+                                  )}
                                 </ul>
 
                               </div>

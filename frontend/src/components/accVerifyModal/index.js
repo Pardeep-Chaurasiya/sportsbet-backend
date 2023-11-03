@@ -5,7 +5,6 @@ import RegisterForm from '../../components/register'
 import ForgotPassword from '../../components/forgotpassword'
 import { MODAL, PROFILE, LOGIN, AUTHENTICATED } from '../../actionReducers'
 import { allActionDucer } from '../../actionCreator'
-import API from '../../services/api'
 import { NewAPI } from '../../services/api'
 import { calcMD5 } from '../../utils/jsmd5'
 import moment from 'moment';
@@ -61,11 +60,8 @@ export default class AccVerifyModal extends React.Component {
   // time:$time,hash:$hash
   createAccount(data) {
     this.props.dispatch(allActionDucer(MODAL, { attemptingSignup: true, signupHasError: false, signupErrorMSG: '', resetHasError: false, resetErrorMSG: '', smsHasError: false, smsErrorMSG: '' }))
-    const pass = data.password, email = data.email, $time = moment().format('YYYY-MM-DD H:mm:ss'),
-      $hash = calcMD5(`email${email}password${pass}CPassword${data.CPassword}sms${data.sms}dialing_code${data.dialing_code}time${$time}${this.props.appState.$publicKey}`)
     $api.createAccount({ ...data }, this.onAccountCreated.bind(this))
   }
-  //   ---- time:$time,hash:$hash
   sendSMS(mobile, dialing_code, success) {
     this.props.dispatch(allActionDucer(MODAL, { sendingSMS: true, smsHasError: false, smsErrorMSG: '', signupHasError: false, signupErrorMSG: '', }))
     let $time = moment().format('YYYY-MM-DD H:mm:ss'),
@@ -75,8 +71,7 @@ export default class AccVerifyModal extends React.Component {
   // , time: $time, hash: $hash
   resetPassword(data, success) {
     this.props.dispatch(allActionDucer(MODAL, { attemptingPassReset: true, resetHasError: false, resetErrorMSG: '', smsHasError: false, smsErrorMSG: '' }))
-    const $dialing_code = data.dialing_code, time = moment().format('YYYY-MM-DD H:mm:ss'), mobilenumber = data.mobilenumber, password = data.password, sms = data.sms, CPassword = data.password,
-      $hash = calcMD5(`dialing_code${$dialing_code}mobilenumber${mobilenumber}sms${sms}password${password}CPassword${CPassword}time${time}${this.props.appState.$publicKey}`);
+    const $dialing_code = data.dialing_code, time = moment().format('YYYY-MM-DD H:mm:ss'), mobilenumber = data.mobilenumber, password = data.password, sms = data.sms, CPassword = data.password
     $api.resetPassword({ dialing_code: $dialing_code, mobilenumber: mobilenumber, sms: sms, password: password, CPassword: CPassword }, ({ data }) => this.onResetSuccess(data, success))
   }
   // , time: time, hash: $hash 

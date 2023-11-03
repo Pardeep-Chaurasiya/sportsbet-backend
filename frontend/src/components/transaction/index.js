@@ -71,7 +71,7 @@ export default class Transactions extends React.Component {
     this.setState({ reloadHistory: !0, loadingHistory: !0 })
     const { phoneNumber, uid, AuthToken } = this.state, $time = moment().format('YYYY-MM-DD H:mm:ss'),
       $hash = calcMD5(`AuthToken${AuthToken}uid${uid}mobile${phoneNumber}time${$time}${this.props.appState.$publicKey}`)
-    let p = { mobile: phoneNumber, uid: uid, AuthToken: AuthToken, uid: uid, time: $time, hash: $hash }
+    let p = { mobile: phoneNumber, uid: uid, AuthToken: AuthToken, time: $time, hash: $hash }
     p = { ...p, ...where }
     $api.getUserBalanceHistory(p, (data) => this.onSuccess(data, more))
 
@@ -85,7 +85,7 @@ export default class Transactions extends React.Component {
   }
   onDateChangeF(e) {
     e.persist()
-    let id = e.target.id, val = e.target.value, mDate = moment(val), datepickerT = this.state.datepickerT ? this.state.datepickerT : moment().format('YYYY-MM-DD')
+    let val = e.target.value, mDate = moment(val), datepickerT = this.state.datepickerT ? this.state.datepickerT : moment().format('YYYY-MM-DD')
     if (moment(moment(val).format('YYYY-MM-DD')).isAfter(moment(datepickerT).format('YYYY-MM-DD')) || mDate.diff(moment(datepickerT), 'days') < 0 || mDate.diff(moment(datepickerT), 'days') > 30) {
       var incrDate = moment(val).add(1, 'days')
       if (moment(moment(incrDate).format('YYYY-MM-DD')).isAfter(moment(val).endOf('month').format('YYYY-MM-DD')))
@@ -99,7 +99,7 @@ export default class Transactions extends React.Component {
   onDateChangeT(e) {
     e.persist()
 
-    let id = e.target.id, val = e.target.value, mDate = moment(val), datepickerF = this.state.datepickerF ? this.state.datepickerF : moment().format('YYYY-MM-DD')
+    let val = e.target.value, mDate = moment(val), datepickerF = this.state.datepickerF ? this.state.datepickerF : moment().format('YYYY-MM-DD')
     if (moment(moment(val).format('YYYY-MM-DD')).isAfter(moment(val).format('YYYY-MM-DD')) || mDate.diff(moment(datepickerF), 'days') > 30 || mDate.diff(moment(datepickerF), 'days') < 0) {
       var decrDate = moment(val).subtract(1, 'days')
       if (moment(moment(decrDate).format('YYYY-MM-DD')).isBefore(moment(datepickerF).startOf('month').format('YYYY-MM-DD')))
@@ -154,7 +154,7 @@ export default class Transactions extends React.Component {
     this.setState(prevState => ({ showFilterInputs: !prevState.showFilterInputs }))
   }
   render() {
-    const config = this.props.config, { loadingHistory, bet_type, bet_id, datepickerF, datepickerT, balanceHistory, nomoredata, showFilterInputs } = this.state
+    const { loadingHistory, bet_type, bet_id, datepickerF, datepickerT, balanceHistory, nomoredata, showFilterInputs } = this.state
 
     return (
 

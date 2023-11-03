@@ -2,10 +2,8 @@ import React from "react";
 import API from "../../services/api";
 import { allActionDucer } from "../../actionCreator";
 import { SPORTSBOOK_ANY } from "../../actionReducers";
-import SportsComponent from "../../containers/sportsComponent";
 import NewsBanner from "./newsbanner";
 import { decodeHTMLEntities } from "../../common";
-import moment from "moment";
 import { Switch, Route } from "react-router-dom";
 import { NewsRead } from "./newsview";
 import Helmet from "react-helmet";
@@ -78,13 +76,7 @@ export default class News extends React.Component {
     );
   }
   render() {
-    const {
-      history,
-      loadMarkets,
-      addEventToSelection,
-      sendRequest,
-      unsubscribe,
-    } = this.props;
+
     this.newsItems = this.state.newList
       .slice(0, this.state.newList.length - 5)
       .map((news) => {
@@ -123,7 +115,7 @@ export default class News extends React.Component {
             }
           >
             <div className="thumbnail col-sm-3">
-              <img src={news.thumbnail} />
+              <img src={news.thumbnail} alt={""} />
             </div>
             <div key={news.id} className="details col-sm-9">
               <div className="news-title">

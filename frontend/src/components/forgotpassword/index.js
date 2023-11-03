@@ -71,7 +71,7 @@ export default class ForgotPassword extends React.Component {
     this.setState({ formStep: 1, countdown: 60, canResend: false })
   }
   render() {
-    const { mobilenumber, smscode, countdown, canResend, formStep, c_password, showPass, password } = this.state, { attemptingPassReset, resetHasError, resetErrorMSG, sendingSMS, verifyingSMS, smsHasError, smsErrorMSG } = this.props
+    const { mobilenumber, smscode, countdown, canResend, formStep, c_password, showPass, password } = this.state, { attemptingPassReset, resetHasError, resetErrorMSG, sendingSMS, smsHasError, smsErrorMSG } = this.props
     return (
       <div className="sb-login-form-container forgot-password">
         <div className='ForgotpasswordModal'>

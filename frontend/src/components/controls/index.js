@@ -427,8 +427,10 @@ export default class Controls extends React.Component {
     })
   }
   handleBetResponse({ data, status }) {
+    console.log(data, status, "ggg");
     if (status === 200) {
       this.betSuccess(data)
+      this.removeAllBetSelections()
       makeToast("Bet created successfully", 6000)
     }
     else { this.betFailed(data && data.data.details ? data.data.details.hasOwnProperty('api_code') ? data.data.details.api_code : data.data.result ? data.data.result : 50000 : 50000) }
@@ -996,7 +998,7 @@ export default class Controls extends React.Component {
                                 {/* <div className="settings-icon-container icon" onClick={this.openBetslipSettings}>
                           <span className={`icon-icon-settings rotate ${showBetslipSettings && 'down'}`}></span>
                         </div> */}
-                                <div className="settings-icon-container icon" onClick={() => this.removeAllBetSelections()}>
+                                <div className="settings-icon-container icon" onClick={this.betslipToggleView}>
                                   <span className={`${showFirsttime ? 'icon-icon-arrow-down' : 'icon-icon-close-x'} remove-icon-betslip`}></span>
                                 </div>
                               </div>
@@ -1314,7 +1316,7 @@ export default class Controls extends React.Component {
                                                 </div>
                                                 : 'Accept Odds changes!'
                                             }</button>
-                                            : !isLoggedIn && betlen && !props.web3 ?
+                                            : betlen && (!JSON.parse(localStorage.getItem("walletToken")) || !props.web3) ?
                                               <button style={{ cursor: "pointer" }} onClick={this.betslipToggleView} className={`signintobet ${betSlipMode !== 2 ? 'betslip-hide' : ''} ${betInprogress ? 'progress' : ''}`}>
                                                 First connect to wallet</button>
                                               :
@@ -1327,7 +1329,7 @@ export default class Controls extends React.Component {
                                                   () => {
 
                                                     this.placeBet()
-                                                    this.removeAllBetSelections()
+
                                                   }
 
                                                   // : makeToast("Your Balance is less then Your bet stake", 6000)

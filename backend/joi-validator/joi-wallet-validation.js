@@ -3,12 +3,10 @@ const Joi = require("joi");
 const validateWalletId = (req, res, next) => {
   const schema = Joi.object({
     walletId: Joi.string().required(),
-    walletToken: Joi.string().required(),
-    balance: Joi.string(),
+    walletToken: Joi.string(),
     virtualBlanace: Joi.string(),
-    deposits: Joi.string(),
-
-    claims: Joi.string(),
+    deposit: Joi.object(),
+    claims: Joi.object(),
   });
 
   const { error, value } = schema.validate(req.body);
