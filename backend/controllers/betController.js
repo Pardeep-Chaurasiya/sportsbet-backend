@@ -101,6 +101,7 @@ const betHistory = async (req, res) => {
       },
       raw: true,
     });
+    console.log(history);
     let possible_win;
     const payout = "123";
     const cash_out = "321";
