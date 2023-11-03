@@ -34,14 +34,25 @@ const registerWithWallet = async (req, res) => {
 };
 
 const getWalletBalance = async (req, res) => {
-  const walletAddress = req.UserWallet.address;
-  const virtual_balance = await UserWallet.findOne({
-    where: { walletAddress: walletAddress },
-    raw: true,
-  });
-  return res
-    .status(200)
-    .json({ virtual_balance: virtual_balance.virtualBalance });
+  try {
+    const walletAddress = req.UserWallet.address;
+    const virtual_balance = await UserWallet.findOne({
+      where: { walletAddress: walletAddress },
+      raw: true,
+    });
+
+    if (virtual_balance.virtualBalance) {
+      return res
+        .status(200)
+        .json({ virtual_balance: virtual_balance.virtualBalance });
+    } else {
+      return res.status(404).json({ error: "Virtual balance not found" });
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "An error occurred while fetching the virtual balance" });
+  }
 };
 
 module.exports = { registerWithWallet, getWalletBalance };

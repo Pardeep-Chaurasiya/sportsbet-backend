@@ -23,61 +23,66 @@ const createBet = async (req, res) => {
       where: { walletAddress: user.address },
     });
     const virtualBalance = userwallet.virtualBalance;
-    const isTournamentCreated = await Tournament.findOne({
-      where: {
-        [Op.and]: {
+
+    if (virtualBalance >= 0 && virtualBalance >= Amount) {
+      const isTournamentCreated = await Tournament.findOne({
+        where: {
+          [Op.and]: {
+            MatchId: Selections[0].MatchId,
+            SportId: Selections[0].SportId,
+          },
+        },
+      });
+      if (isTournamentCreated) {
+        const newBet = await Bet.create({
+          command,
+          BetType,
+          AcceptMode,
+          Source,
+          TotalPrice,
+          Amount,
+          rid,
+          SelectionName: Selections[0].SelectionName,
+          MarketName: Selections[0].MarketName,
           MatchId: Selections[0].MatchId,
-          SportId: Selections[0].SportId,
-        },
-      },
-    });
-    if (isTournamentCreated) {
-      const newBet = await Bet.create({
-        command,
-        BetType,
-        AcceptMode,
-        Source,
-        TotalPrice,
-        Amount,
-        rid,
-        SelectionName: Selections[0].SelectionName,
-        MarketName: Selections[0].MarketName,
-        MatchId: Selections[0].MatchId,
-        // userId: user.id,
-        walletAddress: user.address,
-        tournamentId: isTournamentCreated.dataValues.id,
-      });
-      await UserWallet.update(
-        {
-          virtualBalance: parseFloat(virtualBalance) - Amount,
-        },
-        { where: { walletAddress: user.address } }
-      );
+          // userId: user.id,
+          walletAddress: user.address,
+          tournamentId: isTournamentCreated.dataValues.id,
+        });
+        await UserWallet.update(
+          {
+            virtualBalance: parseFloat(virtualBalance) - Amount,
+          },
+          { where: { walletAddress: user.address } }
+        );
+      } else {
+        const newTournament = await Tournament.bulkCreate(Selections);
+        const newBet = await Bet.create({
+          command,
+          BetType,
+          AcceptMode,
+          Source,
+          TotalPrice,
+          Amount,
+          rid,
+          SelectionName: Selections[0].SelectionName,
+          MarketName: Selections[0].MarketName,
+          MatchId: Selections[0].MatchId,
+          // userId: user.id,
+          walletAddress: user.address,
+          tournamentId: newTournament[0].dataValues.id,
+        });
+        await UserWallet.update(
+          {
+            virtualBalance: parseFloat(virtualBalance) - Amount,
+          },
+          { where: { walletAddress: user.address } }
+        );
+      }
+      return res.status(200).json({ message: "Bet created successfully !!" });
     } else {
-      const newTournament = await Tournament.bulkCreate(Selections);
-      const newBet = await Bet.create({
-        command,
-        BetType,
-        AcceptMode,
-        Source,
-        TotalPrice,
-        Amount,
-        rid,
-        SelectionName: Selections[0].SelectionName,
-        MarketName: Selections[0].MarketName,
-        MatchId: Selections[0].MatchId,
-        // userId: user.id,
-        walletAddress: user.address,
-        tournamentId: newTournament[0].dataValues.id,
-      });
-      await UserWallet.update(
-        {
-          virtualBalance: parseFloat(virtualBalance) - Amount,
-        },
-        { where: { walletAddress: user.address } }
-      );
+      return res.status(400).json({ message: "Wallet Balance is low" });
     }
-    return res.status(200).json({ message: "Bet created successfully !!" });
   } catch (error) {
     console.error(error);
     return res.status(400).json({ error: error.message });
@@ -101,7 +106,6 @@ const betHistory = async (req, res) => {
       },
       raw: true,
     });
-    console.log(history);
     let possible_win;
     const payout = "123";
     const cash_out = "321";

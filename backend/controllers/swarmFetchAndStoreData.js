@@ -67,7 +67,7 @@ async function saveData(result, betdata) {
     const data = JSON.parse(result.toString())?.data?.lines.line;
     if (data) {
       let matchFinalResult;
-      let resultAmount = betdata.Amount * betdata.TotalPrice;
+      let resultAmount = betdata?.Amount * betdata?.TotalPrice;
 
       const idx = data.findIndex((el) => el.line_name === betdata.MarketName);
       const matchResult =
@@ -109,7 +109,7 @@ async function saveData(result, betdata) {
           } else {
             await UserWallet.update(
               {
-                virtualBalance: parseFloat(item.virtualBalance) - resultAmount,
+                virtualBalance: parseFloat(item.virtualBalance),
               },
               { where: { walletAddress: item.walletAddress } }
             );
