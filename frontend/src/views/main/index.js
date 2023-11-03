@@ -4757,6 +4757,7 @@ export default class Main extends React.PureComponent {
                           sg.market[sm] &&
                             Object.keys(sg.market[sm].event).forEach((ev) => {
                               let sev = sg.market[sm].event[ev];
+
                               if (sev) {
                                 betSelections[sg.id] = {
                                   order: Object.keys(betSelections).length + 1,
@@ -4853,6 +4854,7 @@ export default class Main extends React.PureComponent {
       newRid[ridStart] = {
         rid: ridStart,
         callback: (d) => {
+
           this.formatRetrivalRs(d, () =>
             data.data.details.amount > 0
               ? setBetStakeInputVal(

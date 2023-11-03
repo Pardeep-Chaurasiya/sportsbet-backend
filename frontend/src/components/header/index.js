@@ -209,16 +209,10 @@ class Header extends React.Component {
 
       setWeb3(web3);
       console.log(web3, "df");
-      const netId = await web3.eth.net.getId();
-      console.log(netId, "netid");
-      setNetId(netId);
 
       const accounts = await web3.eth.getAccounts();
       setAccounts(accounts);
-      if (web3) {
-        makeToast("metamask connected successfully", 4000);
 
-      }
 
       const walletId = accounts[0];
       console.log(web3, accounts[0], "sdfafdasdfasdfdasfasfafafafafaf");
@@ -228,6 +222,7 @@ class Header extends React.Component {
           (msg) => web3.eth.personal.sign(msg, walletId),
           "1d"
         );
+
         const tokenData = {
           token,
           timestamp: Date.now()
@@ -242,6 +237,12 @@ class Header extends React.Component {
           this.onLoginSuccess.bind(this)
         );
       }
+      else {
+        makeToast("metamask connected successfully", 1000)
+      }
+      const netId = await web3.eth.net.getId();
+      console.log(netId, "netid");
+      setNetId(netId);
     } catch (error) {
       console.error("Error connecting to the wallet:", error);
     }
@@ -572,7 +573,7 @@ class Header extends React.Component {
                       </div>
                       <div className="header-col right">
                         <div className="nav-controls">
-                          {!props.web3 && !appState.isLoggedIn ? (
+                          {(!props.netId && !appState.isLoggedIn) ? (
                             <React.Fragment>
                               <div>
                                 {props.web3
@@ -611,6 +612,7 @@ class Header extends React.Component {
                                     props.accounts
                                   )
                                 }
+
                               >
                                 <button
                                   style={{
@@ -787,7 +789,7 @@ class Header extends React.Component {
                         </div>
                       </div>
                     </div>
-                    <div className="header-row secondary">
+                    <div className="header-row secondary"  >
                       <div className="header-col col-sm-12">
                         <div
                           className={`nav-links ${activeView === "Live" || activeView === "Prematch"
@@ -795,7 +797,7 @@ class Header extends React.Component {
                             : "full"
                             }`}
                         >
-                          <div className="link">
+                          <div className="link" >
                             <NavLink exact to="/">
                               <span>Home</span>
                             </NavLink>

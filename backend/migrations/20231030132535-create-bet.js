@@ -9,13 +9,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      userId: {
-        type: Sequelize.INTEGER,
+      walletAddress: {
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
-          model: "Users",
-          key: "id",
-          as: "userId",
+          model: "UserWallets",
+          key: "walletAddress",
+          as: "walletAddress",
         },
       },
       tournamentId: {
@@ -37,6 +37,11 @@ module.exports = {
       isLive: { type: Sequelize.BOOLEAN },
       status: { type: Sequelize.STRING, defaultValue: "WIN" },
       currency: { type: Sequelize.STRING, defaultValue: "$" },
+      SelectionName: { type: Sequelize.STRING },
+      MarketName: { type: Sequelize.STRING },
+      MatchId: { type: Sequelize.STRING },
+      MatchInfo: { type: Sequelize.STRING, defaultValue: "" },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -4,6 +4,7 @@ const { UserWallet } = require("../models");
 const walletTokenhMiddleware = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
+    console.log(token, "token");
     if (!token && !token.startsWith("Bearer")) {
       return res
         .status(400)
@@ -14,6 +15,7 @@ const walletTokenhMiddleware = async (req, res, next) => {
 
       const { address, body } = await Web3Token.verify(Token);
       req.UserWallet = { address, Token, body };
+      console.log(req.UserWallet, "user");
       next();
     }
   } catch (error) {

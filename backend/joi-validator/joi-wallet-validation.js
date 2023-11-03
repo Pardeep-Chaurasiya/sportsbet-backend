@@ -4,6 +4,11 @@ const validateWalletId = (req, res, next) => {
   const schema = Joi.object({
     walletId: Joi.string().required(),
     walletToken: Joi.string().required(),
+    balance: Joi.string(),
+    virtualBlanace: Joi.string(),
+    deposits: Joi.string(),
+
+    claims: Joi.string(),
   });
 
   const { error, value } = schema.validate(req.body);

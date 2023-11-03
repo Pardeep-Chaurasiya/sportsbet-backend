@@ -11,7 +11,7 @@ class App extends React.Component {
       netId: null,
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
   setWeb3 = (web3) => {
     this.setState({ web3 });

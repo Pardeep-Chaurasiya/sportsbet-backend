@@ -3,11 +3,12 @@ const { UserWallet } = require("../models");
 // register user with walletId controller
 const registerWithWallet = async (req, res) => {
   const { address, Token } = req.UserWallet;
-
+  console.log("kuch bhi");
   try {
     const userwalletAddress = await UserWallet.findOne({
       where: { walletAddress: address },
     });
+    console.log(userwalletAddress);
     if (userwalletAddress && userwalletAddress?.walletToken !== Token) {
       await UserWallet.update(
         {
@@ -15,9 +16,7 @@ const registerWithWallet = async (req, res) => {
         },
         { where: { walletAddress: address } }
       );
-      return res
-        .status(200)
-        .json({ message: "User already registered with this WalletAddress and Token updated" });
+      return res.status(200).json("Token updated");
     } else {
       await UserWallet.create({
         walletAddress: address,
