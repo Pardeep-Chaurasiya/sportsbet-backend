@@ -122,6 +122,7 @@ export default class BetHistory extends React.Component {
     // where.time = $time
     // where.AuthToken = authToken
     $api.getUserBetHistory(where, this.betHistoryData.bind(this))
+
     // this.props.sendRequest(this.rids[14].request)
 
   }

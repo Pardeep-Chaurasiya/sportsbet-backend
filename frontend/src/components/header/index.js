@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./header.css";
+import * as $ from 'jquery'
 import logo from "../../images/logo.png";
 import moment from "moment-timezone";
 import favicon from "../../images/favicon.jpg";
@@ -12,6 +13,7 @@ import { Web3Context } from "../../App";
 import { NetIdMessage, NETID } from "../../config";
 import { NewAPI } from "../../services/api";
 import Web3Token from "web3-token";
+
 
 import {
   SEARCHING_GAME,
@@ -31,6 +33,7 @@ import { withRouter } from "react-router-dom";
 import { Transition } from "react-spring/renderprops";
 import getWeb3 from "../../web3/getweb3";
 import BetHistory from "../bethistory";
+import { BetHistoryLoader } from "../loader";
 
 const $api = NewAPI.getInstance();
 
@@ -45,6 +48,10 @@ class Header extends React.Component {
       isModalOpen: false,
       isHistoryModal: false,
       depositAmount: '',
+      betHistoryDatas: [],
+      betHistoryLoader: false,
+      datepickerFrom: '',
+      datepickerTo: '',
     };
     this.openModal = this.openModal.bind(this);
     this.logOut = this.logOut.bind(this);
@@ -58,6 +65,8 @@ class Header extends React.Component {
     this.recaptch_value = null;
     this.supportedTZ = ["Africa/Accra"];
     this.offsetTmz = [];
+    this.searchBetHistoryResult = this.searchBetHistoryResult.bind(this)
+
   }
 
   componentDidMount() {
@@ -75,7 +84,7 @@ class Header extends React.Component {
     this.setTime();
     setInterval(() => {
       if (JSON.parse(localStorage.getItem("netId")) && JSON.parse(localStorage.getItem("walletToken"))) {
-        console.log("hello");
+
         $api.getBalance(
           {
 
@@ -333,6 +342,17 @@ class Header extends React.Component {
     this.setState({
       isHistoryModal: true,
     });
+
+    $api.getUserBetHistory({ startDate: moment().startOf("day").format(), endDate: moment().endOf("day").format() }, this.betHistoryData.bind(this))
+
+  }
+  betHistoryData({ data, status }) {
+    console.log(data, "India--");
+    console.log(status, "status");
+    if (status === 200) {
+      this.setState({ betHistoryDatas: data, betHistoryLoader: false })
+      console.log(this.state.betHistoryDatas, "datas");
+    }
   }
 
   closeDepositModal = () => {
@@ -417,6 +437,20 @@ class Header extends React.Component {
 
 
   }
+
+  handleFromDateChange = (event) => {
+    this.setState({ datepickerFrom: event.target.value });
+  };
+
+  handleToDateChange = (event) => {
+    this.setState({ datepickerTo: event.target.value });
+  };
+  searchBetHistoryResult() {
+    let { datepickerFrom, datepickerTo } = this.state
+    this.setState({ betHistoryLoader: true, datepickerFrom: "", datepickerTo: "" })
+    $api.getUserBetHistory({ startDate: datepickerFrom, endDate: datepickerTo }, this.betHistoryData.bind(this))
+
+  }
   renderHistoryModal() {
     if (this.state.isHistoryModal) {
       return (
@@ -449,8 +483,101 @@ class Header extends React.Component {
                     }}
                   >
                     <div className="title">
-                      <span>Bet History</span>
+                      <span>Bets History</span>
+
                     </div>
+
+                    <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", flexWrap: "wrap" }}>
+                      <div style={{ display: "flex" }}>
+                        <label htmlFor="fromDate">From:</label>
+                        <input
+                          type="date"
+                          id="fromDate"
+                          name="fromDate"
+                          required
+                          value={this.state.datepickerFrom}
+                          onChange={this.handleFromDateChange}
+                        />
+                      </div>
+
+                      <div style={{ display: "flex" }}>
+                        <label htmlFor="toDate">To:</label>
+                        <input
+                          type="date"
+                          id="toDate"
+                          name="toDate"
+                          required
+                          value={this.state.datepickerTo}
+                          onChange={this.handleToDateChange}
+                        />
+                      </div>
+                      <div className="input-group" style={{ margin: '0 0 5px 5px' }}>
+
+                        <button className="search" onClick={() => { this.searchBetHistoryResult() }}><span>Show</span></button>
+                      </div>
+
+                    </div>
+
+
+                    {
+                      this.state.betHistoryLoader ? <BetHistoryLoader />
+                        :
+                        <div style={{ marginTop: "50px" }}>
+                          {
+
+                            this.state.betHistoryDatas.length ?
+                              <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+
+                                {
+                                  this.state.betHistoryDatas.map((item) => {
+
+                                    return (
+
+                                      <div key={item.id} style={{ height: "auto", width: "80%", border: "1px solid grey", borderRadius: "5px", marginBottom: "10px" }}>
+                                        <p style={{ display: "flex", justifyContent: "space-between" }}><span style={{ marginLeft: "20px" }}>Match Id :-</span><span style={{ marginRight: "20px" }}>{item.MatchId}</span></p>
+                                        <p style={{ display: "flex", justifyContent: "space-between" }}><span style={{ marginLeft: "20px" }}>Market Name :-</span><span style={{ marginRight: "20px" }}>{item.MarketName}</span></p>
+                                        <p style={{ display: "flex", justifyContent: "space-between" }}><span style={{ marginLeft: "20px" }}>Contract Money :-</span><span style={{ marginRight: "20px" }}>{item.Amount}</span></p>
+                                        <p style={{ display: "flex", justifyContent: "space-between" }}><span style={{ marginLeft: "20px" }}>Selection Name :-</span><span style={{ marginRight: "20px" }}>{item.SelectionName}</span></p>
+                                        {
+                                          item.status.toLowerCase() === "pending" ?
+                                            <p style={{ display: "flex", justifyContent: "space-between" }}><span style={{ marginLeft: "20px" }}>Possible Win :-</span><span style={{ marginRight: "20px" }}>{item.possible_win}</span></p>
+                                            : null
+                                        }
+                                        <p style={{ display: "flex", justifyContent: "space-between" }}><span style={{ marginLeft: "20px" }}>Status :-</span><span style={{ marginRight: "20px" }}>{item.status}</span></p>
+                                        {
+                                          item.status.toLowerCase() === "win" ?
+                                            <p style={{ display: "flex", justifyContent: "space-between" }}><span style={{ marginLeft: "20px" }}>You Won :-</span><span style={{ marginRight: "20px" }}>{item.possible_win}</span></p>
+                                            : null
+                                        }
+                                        {
+                                          item.status.toLowerCase() === "lose" ?
+                                            <p style={{ display: "flex", justifyContent: "space-between" }}><span style={{ marginLeft: "20px" }}>You Lose :-</span><span style={{ marginRight: "20px" }}>{item.Amount}</span></p>
+                                            : null
+                                        }
+                                        <p style={{ display: "flex", justifyContent: "space-between" }}><span style={{ marginLeft: "20px" }}>Created At :-</span><span style={{ marginRight: "20px" }}>{moment(item.updatedAt).format('YYYY-MM-DD')}</span></p>
+
+
+
+                                      </div>
+                                    )
+
+
+
+                                  })
+                                }
+                              </div>
+                              :
+                              <div>
+                                <h1>
+                                  No Record Found .......
+                                </h1>
+                              </div>
+                          }
+                        </div>
+                    }
+
+
+
 
                   </div>
                   {/* <BetHistory /> */}
