@@ -67,7 +67,7 @@ async function saveData(result, betdata) {
     const data = JSON.parse(result.toString())?.data?.lines.line;
     if (data) {
       let matchFinalResult;
-      let resultAmount = betdata.Amount * betdata.TotalPrice;
+      let resultAmount = betdata?.Amount * betdata?.TotalPrice;
 
       const idx = data.findIndex((el) => el.line_name === betdata.MarketName);
       const matchResult =
@@ -97,24 +97,18 @@ async function saveData(result, betdata) {
           );
         }
 
-        wallet = await UserWallet.findAll({ raw: true });
-        wallet.map(async (item) => {
-          if (matchFinalResult == "WIN") {
-            await UserWallet.update(
-              {
-                virtualBalance: parseFloat(item.virtualBalance) + resultAmount,
-              },
-              { where: { walletAddress: item.walletAddress } }
-            );
-          } else {
-            await UserWallet.update(
-              {
-                virtualBalance: parseFloat(item.virtualBalance) - resultAmount,
-              },
-              { where: { walletAddress: item.walletAddress } }
-            );
-          }
+        wallet = await UserWallet.findOne({
+          where: { walletAddress: betdata.walletAddress },
+          raw: true,
         });
+        if (matchFinalResult == "WIN") {
+          await UserWallet.update(
+            {
+              virtualBalance: parseFloat(wallet.virtualBalance) + resultAmount,
+            },
+            { where: { walletAddress: wallet.walletAddress } }
+          );
+        }
       }
     }
   } catch (error) {

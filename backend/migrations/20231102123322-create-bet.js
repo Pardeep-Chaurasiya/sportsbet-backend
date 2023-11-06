@@ -31,8 +31,8 @@ module.exports = {
       BetType: { type: Sequelize.INTEGER },
       AcceptMode: { type: Sequelize.INTEGER },
       Source: { type: Sequelize.INTEGER },
-      TotalPrice: { type: Sequelize.DECIMAL },
-      Amount: { type: Sequelize.DECIMAL },
+      TotalPrice: { type: Sequelize.DECIMAL(10, 2) },
+      Amount: { type: Sequelize.DECIMAL(10, 2) },
       rid: { type: Sequelize.INTEGER },
       isLive: { type: Sequelize.BOOLEAN },
       status: { type: Sequelize.STRING, defaultValue: "Pending" },
@@ -40,7 +40,6 @@ module.exports = {
       SelectionName: { type: Sequelize.STRING },
       MarketName: { type: Sequelize.STRING },
       MatchId: { type: Sequelize.STRING },
-      FinalAmount: { type: Sequelize.DECIMAL, default: 0 },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
