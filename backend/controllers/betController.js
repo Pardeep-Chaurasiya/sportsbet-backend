@@ -106,14 +106,9 @@ const betHistory = async (req, res) => {
       },
       raw: true,
     });
-    let possible_win;
-    const payout = "123";
-    const cash_out = "321";
     const updatedHistory = history.map((item) => ({
       ...item,
       possible_win: item.Amount * item.TotalPrice,
-      payout,
-      cash_out,
     }));
     return res.json(updatedHistory);
   } catch (error) {

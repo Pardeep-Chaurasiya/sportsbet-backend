@@ -97,24 +97,18 @@ async function saveData(result, betdata) {
           );
         }
 
-        wallet = await UserWallet.findAll({ raw: true });
-        wallet.map(async (item) => {
-          if (matchFinalResult == "WIN") {
-            await UserWallet.update(
-              {
-                virtualBalance: parseFloat(item.virtualBalance) + resultAmount,
-              },
-              { where: { walletAddress: item.walletAddress } }
-            );
-          } else {
-            await UserWallet.update(
-              {
-                virtualBalance: parseFloat(item.virtualBalance),
-              },
-              { where: { walletAddress: item.walletAddress } }
-            );
-          }
+        wallet = await UserWallet.findOne({
+          where: { walletAddress: betdata.walletAddress },
+          raw: true,
         });
+        if (matchFinalResult == "WIN") {
+          await UserWallet.update(
+            {
+              virtualBalance: parseFloat(wallet.virtualBalance) + resultAmount,
+            },
+            { where: { walletAddress: wallet.walletAddress } }
+          );
+        }
       }
     }
   } catch (error) {

@@ -3,7 +3,6 @@ const { UserWallet } = require("../models");
 // register user with walletId controller
 const registerWithWallet = async (req, res) => {
   const { address, Token } = req.UserWallet;
-  console.log("kuch bhi");
   try {
     const userwalletAddress = await UserWallet.findOne({
       where: { walletAddress: address },
