@@ -1,6 +1,7 @@
 const WebSocket = require("ws");
 const cron = require("cron");
 const { UserWallet, Bet } = require("../models");
+const process = require("process");
 
 const fetchBetAndTournamentData = async (req, res) => {
   try {
@@ -50,21 +51,23 @@ const fetchBetAndTournamentData = async (req, res) => {
         try {
           callSocket(betData[currentIndex++]);
         } catch (error) {
-          console.log("Error in calling socket:", error);
+          console.error("Error in calling socket:", error);
         }
       }
     });
 
-    // return res.json("fetching data");
+    ws.on("error", () =>
+      console.error("Network error. Please re-connect to the internet!!")
+    );
   } catch (error) {
     console.error("Error in fetchBetAndTournamentData:", error);
-    // return res.status(500).json({ error: "An error occurred" });
   }
 };
 
 async function saveData(result, betdata) {
   try {
     const data = JSON.parse(result.toString())?.data?.lines.line;
+
     if (data) {
       let matchFinalResult;
       let resultAmount = betdata?.Amount * betdata?.TotalPrice;
@@ -72,13 +75,17 @@ async function saveData(result, betdata) {
       const idx = data.findIndex((el) => el.line_name === betdata.MarketName);
       const matchResult =
         JSON.parse(result).data?.lines?.line[idx]?.events?.event_name;
-      // console.log(matchResult);
       if (Array.isArray(matchResult) && matchResult.length >= 1) {
-        const matchDataNewResult = data.find(
-          (selection) =>
-            selection.line_name == betdata.MarketName &&
-            selection.events.event_name[0] == betdata.SelectionName
-        );
+        const matchDataNewResult = data.find((selection) => {
+          if (selection.line_name == betdata.MarketName) {
+            for (i = 0; i < selection.events.event_name.length; i++) {
+              if (selection.events.event_name[i] == betdata.SelectionName) {
+                return 1;
+              }
+            }
+          }
+          // selection.events.event_name[0] == betdata.SelectionName
+        });
         if (matchDataNewResult) {
           matchFinalResult = "WIN";
           await Bet.update(
@@ -117,7 +124,11 @@ async function saveData(result, betdata) {
 }
 
 const executeSwarm = () => {
-  fetchBetAndTournamentData();
+  try {
+    fetchBetAndTournamentData();
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
 };
 
 const job = new cron.CronJob("*/10 * * * * *", executeSwarm);

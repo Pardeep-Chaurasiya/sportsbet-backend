@@ -44,7 +44,7 @@ class Header extends React.Component {
       Balance: 0,
       isModalOpen: false,
       isHistoryModal: false,
-      depositAmount: '',
+      depositAmount: "",
     };
     this.openModal = this.openModal.bind(this);
     this.logOut = this.logOut.bind(this);
@@ -61,33 +61,26 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-
-
     // console.log(moment.tz.names())
     for (var i in this.supportedTZ) {
       this.offsetTmz.push(
         this.supportedTZ[i] +
-        " (GMT " +
-        moment.tz(this.supportedTZ[i]).format("Z") +
-        ")"
+          " (GMT " +
+          moment.tz(this.supportedTZ[i]).format("Z") +
+          ")"
       );
     }
     this.setTime();
     setInterval(() => {
-      if (JSON.parse(localStorage.getItem("netId")) && JSON.parse(localStorage.getItem("walletToken"))) {
+      if (
+        JSON.parse(localStorage.getItem("netId")) &&
+        JSON.parse(localStorage.getItem("walletToken"))
+      ) {
         console.log("hello");
-        $api.getBalance(
-          {
-
-          },
-          this.afterBalance.bind(this)
-        );
+        $api.getBalance({}, this.afterBalance.bind(this));
       }
-    }, 5000)
-
-
+    }, 5000);
   }
-
 
   componentWillUnmount() {
     clearInterval(this.timeInterval);
@@ -99,8 +92,7 @@ class Header extends React.Component {
   }
 
   walletlogOut() {
-
-    localStorage.removeItem("walletToken")
+    localStorage.removeItem("walletToken");
   }
 
   // if (JSON.parse(localStorage.getItem("netId")) && JSON.parse(localStorage.getItem("walletToken"))) {
@@ -112,7 +104,6 @@ class Header extends React.Component {
   //     this.afterBalance.bind(this)
   //   );
   // }
-
 
   onFormInputFocus() {
     this.setState({ showFullInput: true });
@@ -187,7 +178,8 @@ class Header extends React.Component {
     null !== game && (historyState.game = game);
     if (activeView === "Live" || activeView === "Prematch") {
       this.props.history.push(
-        `/sports/${activeView.toLowerCase()}/${sport.alias}/${region.name}/${competition.id
+        `/sports/${activeView.toLowerCase()}/${sport.alias}/${region.name}/${
+          competition.id
         }${null !== game ? "/" + game.id : ""}`,
         historyState
       );
@@ -241,7 +233,6 @@ class Header extends React.Component {
       const accounts = await web3.eth.getAccounts();
       setAccounts(accounts);
 
-
       const walletId = accounts[0];
       console.log(web3, accounts[0], "sdfafdasdfasdfdasfasfafafafafaf");
       const Token = localStorage.getItem("walletToken");
@@ -253,8 +244,8 @@ class Header extends React.Component {
 
         const tokenData = {
           token,
-          timestamp: Date.now()
-        }
+          timestamp: Date.now(),
+        };
 
         console.log(Date.now(), "Date");
 
@@ -265,10 +256,8 @@ class Header extends React.Component {
           this.onLoginSuccess.bind(this)
         );
         localStorage.setItem("walletToken", JSON.stringify(tokenData));
-
-      }
-      else {
-        makeToast("metamask connected successfully", 3000)
+      } else {
+        makeToast("metamask connected successfully", 3000);
       }
       const netId = await web3.eth.net.getId();
       console.log(netId, "netid");
@@ -278,36 +267,21 @@ class Header extends React.Component {
     }
   };
 
-
   onLoginSuccess({ data, status }) {
     console.log(data, "status");
     if (status === 200) {
       // localStorage.setItem('authToken', data.AuthToken)
       makeToast("Token Updated with your wallet", 4000);
 
-      $api.getBalance(
-        {
-
-        },
-        this.afterBalance.bind(this)
-      );
-
-
+      $api.getBalance({}, this.afterBalance.bind(this));
     }
     if (status === 201) {
       // localStorage.setItem('authToken', data.AuthToken)
       makeToast(" Login with New wallet address ", 4000);
-      $api.getBalance(
-        {
-
-        },
-        this.afterBalance.bind(this)
-      );
-
-
+      $api.getBalance({}, this.afterBalance.bind(this));
     }
     if (status === 500) {
-      setTimeout(localStorage.removeItem("walletToken"), 1000)
+      setTimeout(localStorage.removeItem("walletToken"), 1000);
     }
 
     // else {
@@ -317,10 +291,11 @@ class Header extends React.Component {
     // }
   }
   afterBalance({ data, status }) {
-
     console.log(data, status, "Balance");
     if (status) {
-      this.props.dispatch(allActionDucer(PROFILE, { Balance: data?.virtual_balance }))
+      this.props.dispatch(
+        allActionDucer(PROFILE, { Balance: data?.virtual_balance })
+      );
     }
   }
 
@@ -328,34 +303,33 @@ class Header extends React.Component {
     this.setState({
       isModalOpen: true,
     });
-  }
+  };
   openHistoryModal = () => {
     this.setState({
       isHistoryModal: true,
     });
-  }
+  };
 
   closeDepositModal = () => {
     this.setState({
       isModalOpen: false,
     });
-  }
+  };
 
   closeHistoryModal = () => {
     this.setState({
       isHistoryModal: false,
     });
-  }
+  };
 
   handleDepositInputChange = (event) => {
     this.setState({
       depositAmount: event.target.value,
     });
-  }
+  };
 
   renderDepositModal(web3, accounts, netId) {
     if (this.state.isModalOpen) {
-
       return (
         <div
           style={{
@@ -364,58 +338,72 @@ class Header extends React.Component {
             left: 0,
             width: "100%",
             height: " 100%",
-            background: "rgba(0, 0, 0, 0.5)", /* Transparent background */
+            background: "rgba(0, 0, 0, 0.5)" /* Transparent background */,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            zIndex: 999 /* High z-index */
+            zIndex: 999 /* High z-index */,
           }}
         >
-          <div className="sb-login-form-container sign-up" >
-            <div className='login-Modal'>
-              <span onClick={this.closeDepositModal} className="sb-login-form-close icon-icon-close-x"></span>
-              <div className="liquid-container ember-view" ><div className="liquid-child ember-view" style={{ top: "0px", left: "0px", opacity: "1" }}>
-                <div data-step="sign-in" id="ember129058" className="sb-login-step active ember-view"
-                  style={{
-                    background: "#fff",
-                    padding: "20px",
-                    textAlign: "center",
-                    borderRadius: "8px,",
-                    zIndex: 1000
-                  }}
-                >  <div className="title">
-                    <span>Deposit</span>
-                  </div>
-
-                  <div className="sb-login-form-wrapper">
-
-                    <input
-                      type="number"
-                      placeholder="Enter deposit amount"
-                      value={this.state.depositAmount}
-                      onChange={this.handleDepositInputChange}
-                    />
-                    <div style={{ marginTop: "50px" }}>
-                      <button className="sb-account-btn btn-primary" onClick={this.approveDeposit}>Approve</button>
-                      <button className="sb-account-btn btn-primary" onClick={this.depositFunds} style={{ background: "orange", margin: "20px" }}>Deposit</button>
+          <div className="sb-login-form-container sign-up">
+            <div className="login-Modal">
+              <span
+                onClick={this.closeDepositModal}
+                className="sb-login-form-close icon-icon-close-x"
+              ></span>
+              <div className="liquid-container ember-view">
+                <div
+                  className="liquid-child ember-view"
+                  style={{ top: "0px", left: "0px", opacity: "1" }}
+                >
+                  <div
+                    data-step="sign-in"
+                    id="ember129058"
+                    className="sb-login-step active ember-view"
+                    style={{
+                      background: "#fff",
+                      padding: "20px",
+                      textAlign: "center",
+                      borderRadius: "8px,",
+                      zIndex: 1000,
+                    }}
+                  >
+                    {" "}
+                    <div className="title">
+                      <span>Deposit</span>
                     </div>
-
-
-
+                    <div className="sb-login-form-wrapper">
+                      <input
+                        type="number"
+                        placeholder="Enter deposit amount"
+                        value={this.state.depositAmount}
+                        onChange={this.handleDepositInputChange}
+                      />
+                      <div style={{ marginTop: "50px" }}>
+                        <button
+                          className="sb-account-btn btn-primary"
+                          onClick={this.approveDeposit}
+                        >
+                          Approve
+                        </button>
+                        <button
+                          className="sb-account-btn btn-primary"
+                          onClick={this.depositFunds}
+                          style={{ background: "orange", margin: "20px" }}
+                        >
+                          Deposit
+                        </button>
+                      </div>
+                    </div>
                   </div>
-
                 </div>
-              </div></div>
+              </div>
             </div>
           </div>
         </div>
-
-      )
+      );
     }
     return null;
-
-
-
   }
   renderHistoryModal() {
     if (this.state.isHistoryModal) {
@@ -428,38 +416,48 @@ class Header extends React.Component {
               left: 0,
               width: "100%",
               height: " 100%",
-              background: "rgba(0, 0, 0, 0.5)", /* Transparent background */
+              background: "rgba(0, 0, 0, 0.5)" /* Transparent background */,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              zIndex: 999 /* High z-index */
+              zIndex: 999 /* High z-index */,
             }}
           >
-            <div className="sb-login-form-container" >
+            <div className="sb-login-form-container">
               <div style={{ height: "100vh", width: "100vw" }}>
-                <span onClick={this.closeHistoryModal} className="sb-login-form-close icon-icon-close-x"></span>
-                <div className="liquid-container ember-view" ><div className="liquid-child ember-view" style={{ top: "0px", left: "0px", opacity: "1" }}>
-                  <div data-step="sign-in" id="ember129058" className="sb-login-step active ember-view"
-                    style={{
-                      background: "#fff",
-                      padding: "20px",
-                      textAlign: "center",
-                      borderRadius: "8px,",
-                      zIndex: 1000
-                    }}
+                <span
+                  onClick={this.closeHistoryModal}
+                  className="sb-login-form-close icon-icon-close-x"
+                ></span>
+                <div className="liquid-container ember-view">
+                  <div
+                    className="liquid-child ember-view"
+                    style={{ top: "0px", left: "0px", opacity: "1" }}
                   >
-                    <div className="title">
-                      <span>Bet History</span>
+                    <div
+                      data-step="sign-in"
+                      id="ember129058"
+                      className="sb-login-step active ember-view"
+                      style={{
+                        background: "#fff",
+                        padding: "20px",
+                        textAlign: "center",
+                        borderRadius: "8px,",
+                        zIndex: 1000,
+                      }}
+                    >
+                      <div className="title">
+                        <span>Bet History</span>
+                      </div>
                     </div>
-
+                    {/* <BetHistory /> */}
                   </div>
-                  {/* <BetHistory /> */}
-                </div></div>
+                </div>
               </div>
             </div>
           </div>
         </>
-      )
+      );
     }
     return null;
   }
@@ -541,20 +539,20 @@ class Header extends React.Component {
 
   render() {
     const {
-      appState,
-      profile,
-      searchDataC,
-      searchData,
-      searching,
-      activeView,
-      Prematch,
-      Live,
-      checkResult,
-      searchingTicket,
-      site_recaptch_key,
-      config,
-      oddType,
-    } = this.props,
+        appState,
+        profile,
+        searchDataC,
+        searchData,
+        searching,
+        activeView,
+        Prematch,
+        Live,
+        checkResult,
+        searchingTicket,
+        site_recaptch_key,
+        config,
+        oddType,
+      } = this.props,
       { time, showRecaptcha, showFullInput } = this.state,
       searchGame = (event) => {
         var d = {},
@@ -659,18 +657,18 @@ class Header extends React.Component {
       <Web3Context.Consumer>
         {(props) => {
           if (props.netId) {
-            localStorage.setItem("netId", props.netId)
-          }
-          else {
-            localStorage.removeItem("netId")
+            localStorage.setItem("netId", props.netId);
+          } else {
+            localStorage.removeItem("netId");
           }
           return (
             <>
               {this.renderDepositModal(props.web3, props.accounts, props.netId)}
               {this.renderHistoryModal()}
               <div
-                className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
-                  }`}
+                className={`header-container ${
+                  this.props.casinoMode.playMode && "fullscreen"
+                }`}
               >
                 <div className="header-body bg-primary">
                   <div className="header-inner">
@@ -700,16 +698,15 @@ class Header extends React.Component {
                       </div>
                       <div className="header-col right">
                         <div className="nav-controls">
-                          {((!JSON.parse(localStorage.getItem("walletToken")) || !props.netId) && !appState.isLoggedIn) ? (
+                          {(!JSON.parse(localStorage.getItem("walletToken")) ||
+                            !props.netId) &&
+                          !appState.isLoggedIn ? (
                             <React.Fragment>
                               <div>
                                 {props.web3
                                   ? props.netId && NETID !== props.netId
-                                    ? (
-                                      makeToast(NetIdMessage),
-
-                                      props.setNetId(null)
-                                    )
+                                    ? (makeToast(NetIdMessage),
+                                      props.setNetId(null))
                                     : null
                                   : null}
                               </div>
@@ -743,7 +740,6 @@ class Header extends React.Component {
                                     props.accounts
                                   )
                                 }
-
                               >
                                 <button
                                   style={{
@@ -763,10 +759,7 @@ class Header extends React.Component {
                           ) : (
                             <div tabIndex={0} className="user-account-buttons">
                               <div className="balance">
-                                {
-                                  parseFloat(profile.Balance)
-                                }
-
+                                {parseFloat(profile.Balance).toFixed(2)}
                               </div>
                               {profile?.userData?.UserProfile?.avatar ? (
                                 <div
@@ -819,16 +812,13 @@ class Header extends React.Component {
                                     <span>Bets History</span>
                                   </li>
                                   <div>
-                                    <li
-                                      onClick={this.openDepositModal}
-                                    >
+                                    <li onClick={this.openDepositModal}>
                                       <span className="profile-icon icon-sb-deposit"></span>
                                       <span>Bet(Deposit)</span>
                                     </li>
-
                                   </div>
 
-                                  <li onClick={() => { }}>
+                                  <li onClick={() => {}}>
                                     <span className="profile-icon icon-sb-wallet"></span>
                                     <span>Withdrawal</span>
                                   </li>
@@ -852,7 +842,10 @@ class Header extends React.Component {
                                     </li>
                                   )}
                                   {appState.isLoggedIn && (
-                                    <li onClick={this.logOut} className="logout">
+                                    <li
+                                      onClick={this.logOut}
+                                      className="logout"
+                                    >
                                       <span className="profile-icon icon-sb-log-out"></span>
                                       <span>Log out</span>
                                     </li>
@@ -867,7 +860,6 @@ class Header extends React.Component {
                                     </li>
                                   )}
                                 </ul>
-
                               </div>
                             </div>
                           )}
@@ -919,15 +911,16 @@ class Header extends React.Component {
                         </div>
                       </div>
                     </div>
-                    <div className="header-row secondary"  >
+                    <div className="header-row secondary">
                       <div className="header-col col-sm-12">
                         <div
-                          className={`nav-links ${activeView === "Live" || activeView === "Prematch"
-                            ? "partial"
-                            : "full"
-                            }`}
+                          className={`nav-links ${
+                            activeView === "Live" || activeView === "Prematch"
+                              ? "partial"
+                              : "full"
+                          }`}
                         >
-                          <div className="link" >
+                          <div className="link">
                             <NavLink exact to="/">
                               <span>Home</span>
                             </NavLink>
@@ -950,17 +943,20 @@ class Header extends React.Component {
                           {/* <div className="link"><NavLink to="/sports/result"><span>Match Results</span></NavLink></div> */}
                         </div>
                         <div
-                          className={`search ${showFullInput ? "input-active" : ""
-                            } ${activeView === "Live" || activeView === "Prematch"
+                          className={`search ${
+                            showFullInput ? "input-active" : ""
+                          } ${
+                            activeView === "Live" || activeView === "Prematch"
                               ? "hidden"
                               : "hidden"
-                            }`}
+                          }`}
                         >
                           <div
-                            className={`sportsbook-search ${showFullInput
-                              ? "search-full-width"
-                              : "search-minimal"
-                              }`}
+                            className={`sportsbook-search ${
+                              showFullInput
+                                ? "search-full-width"
+                                : "search-minimal"
+                            }`}
                             style={{
                               padding: "unset",
                               paddingTop: "unset",
@@ -977,8 +973,9 @@ class Header extends React.Component {
                                 </div>
                               )}
                               <input
-                                placeholder={`${showFullInput ? "Search Competition/Game" : ""
-                                  }`}
+                                placeholder={`${
+                                  showFullInput ? "Search Competition/Game" : ""
+                                }`}
                                 className="search-input ember-text-field ember-view"
                                 type="text"
                                 onChange={(e) => searchGame(e)}
@@ -1000,8 +997,9 @@ class Header extends React.Component {
                                 </div>
                               ) : null}
                               <div
-                                className={`search-results open ${emptyResult || searching ? "no-results" : ""
-                                  }`}
+                                className={`search-results open ${
+                                  emptyResult || searching ? "no-results" : ""
+                                }`}
                               >
                                 {(hasGameResult || hasCompetionsResult) && (
                                   <div className="search-results-arrow"></div>
@@ -1028,7 +1026,8 @@ class Header extends React.Component {
                                         }
                                       </Transition>
                                       <div className="search-results-section">
-                                        {hasGameResult || hasCompetionsResult ? (
+                                        {hasGameResult ||
+                                        hasCompetionsResult ? (
                                           <React.Fragment>
                                             {hasGameResult && (
                                               <div className="search-results-section-title">
@@ -1038,13 +1037,13 @@ class Header extends React.Component {
                                             {searchResult.game.map(
                                               (sport, regId) => {
                                                 var region = [];
-                                                Object.keys(sport.region).forEach(
-                                                  (reg) => {
-                                                    region.push(
-                                                      sport.region[reg]
-                                                    );
-                                                  }
-                                                );
+                                                Object.keys(
+                                                  sport.region
+                                                ).forEach((reg) => {
+                                                  region.push(
+                                                    sport.region[reg]
+                                                  );
+                                                });
                                                 return (
                                                   <div
                                                     className="search-results-sport"
@@ -1066,7 +1065,7 @@ class Header extends React.Component {
                                                         ).forEach((compete) => {
                                                           competition.push(
                                                             reg.competition[
-                                                            compete
+                                                              compete
                                                             ]
                                                           );
                                                         });
@@ -1108,7 +1107,7 @@ class Header extends React.Component {
                                                                       }
                                                                       {game.team2_name
                                                                         ? " - " +
-                                                                        game.team2_name
+                                                                          game.team2_name
                                                                         : ""}
                                                                     </div>
                                                                     <div className="search-results-match-details">
@@ -1134,13 +1133,13 @@ class Header extends React.Component {
                                             {searchResult.competition.map(
                                               (sport, regId) => {
                                                 var region = [];
-                                                Object.keys(sport.region).forEach(
-                                                  (reg) => {
-                                                    region.push(
-                                                      sport.region[reg]
-                                                    );
-                                                  }
-                                                );
+                                                Object.keys(
+                                                  sport.region
+                                                ).forEach((reg) => {
+                                                  region.push(
+                                                    sport.region[reg]
+                                                  );
+                                                });
                                                 return (
                                                   <div
                                                     className="search-results-sport"
@@ -1160,7 +1159,7 @@ class Header extends React.Component {
                                                         ).forEach((compete) => {
                                                           competition.push(
                                                             reg.competition[
-                                                            compete
+                                                              compete
                                                             ]
                                                           );
                                                         });
@@ -1213,7 +1212,6 @@ class Header extends React.Component {
                 </div>
               </div>
             </>
-
           );
         }}
       </Web3Context.Consumer>
