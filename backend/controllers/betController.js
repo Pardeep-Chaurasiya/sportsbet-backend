@@ -92,7 +92,6 @@ const createBet = async (req, res) => {
 // getting bet history
 const betHistory = async (req, res) => {
   const { startDate, endDate } = req.body;
-
   const user = req.UserWallet.address;
 
   try {
@@ -104,17 +103,27 @@ const betHistory = async (req, res) => {
           [Op.lte]: moment(endDate).endOf("day").format(),
         },
       },
+      include: [
+        {
+          model: Tournament,
+          attributes: ["MatchName"],
+        },
+      ],
       raw: true,
     });
     const updatedHistory = history.map((item) => ({
       ...item,
       possible_win: item.Amount * item.TotalPrice,
+      // match_name: item.Tournament ? item.Tournament.MatchName : null,
     }));
+    updatedHistory.map((i) => {
+      console.log(i.MatchId, "=============================");
+      console.log(i["Tournament.MatchName"], "\n**************");
+    });
     return res.json(updatedHistory);
   } catch (error) {
     console.error("Error fetching betting history:", error);
     res.status(500).json({ error: error.message });
   }
 };
-
 module.exports = { createBet, betHistory };
