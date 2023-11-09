@@ -369,10 +369,11 @@ class Header extends React.Component {
       return alert("Please input amount")
     
     const token = new web3.eth.Contract(IERC20ABI, DepositToken)
-    const allowance = await token.methods.allowance(DepositorERC20, accounts[0]).call()
+    const allowance = await token.methods.allowance(accounts[0], DepositorERC20).call()
 
-    if(allowance / 10**DepositDecimals > amount)
+    if((allowance / 10**DepositDecimals) > amount)
       return alert("Alredy approved")
+
     // approve max uint 256
     token.methods.approve(
       DepositorERC20,
