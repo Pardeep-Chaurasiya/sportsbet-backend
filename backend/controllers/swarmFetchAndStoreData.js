@@ -131,6 +131,6 @@ const executeSwarm = () => {
   }
 };
 
-const job = new cron.CronJob("*/10 * * * * *", executeSwarm);
+const job = new cron.CronJob("*/30 * * * *", executeSwarm);
 
 job.start();

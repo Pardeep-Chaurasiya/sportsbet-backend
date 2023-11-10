@@ -241,13 +241,13 @@ class Header extends React.Component {
       const web3 = await getWeb3();
 
       setWeb3(web3);
-      console.log(web3, "df");
+      console.log(web3, "web3");
 
       const accounts = await web3.eth.getAccounts();
       setAccounts(accounts);
 
       const walletId = accounts[0];
-      console.log(web3, accounts[0], "sdfafdasdfasdfdasfasfafafafafaf");
+      console.log(web3, accounts[0], "account");
       const Token = localStorage.getItem("walletToken");
       if (!Token) {
         const token = await Web3Token.sign(
@@ -260,9 +260,9 @@ class Header extends React.Component {
           timestamp: Date.now(),
         };
 
-        console.log(Date.now(), "Date");
 
-        console.log(JSON.parse(localStorage.getItem("walletToken")), "data");
+
+
 
         $api.registerWithWallet(
           { walletId: walletId },
@@ -304,7 +304,7 @@ class Header extends React.Component {
     // }
   }
   afterBalance({ data, status }) {
-    console.log(data, status, "Balance");
+
     if (status) {
       this.props.dispatch(
         allActionDucer(PROFILE, { Balance: data?.virtual_balance })
@@ -368,10 +368,11 @@ class Header extends React.Component {
       return alert("Please input amount")
 
     const token = new web3.eth.Contract(IERC20ABI, DepositToken)
-    const allowance = await token.methods.allowance(DepositorERC20, accounts[0]).call()
+    const allowance = await token.methods.allowance(accounts[0], DepositorERC20).call()
 
-    if (allowance / 10 ** DepositDecimals > amount)
+    if ((allowance / 10 ** DepositDecimals) > amount)
       return alert("Alredy approved")
+
     // approve max uint 256
     token.methods.approve(
       DepositorERC20,

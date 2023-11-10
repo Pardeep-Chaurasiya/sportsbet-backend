@@ -120,7 +120,7 @@ export default class UserProfile extends React.Component {
 
     }
     onEditSucess({ data, status }) {
-        console.log(data, 'gopi');
+
         if (status === 200) {
 
             const { username, phoneNumber, birth_date, document_type, idnumber, uid, email, address, gender } = this.state
@@ -131,7 +131,7 @@ export default class UserProfile extends React.Component {
         makeToast(data.message, 5000)
     }
     render() {
-        console.log(this.state.AvatarImage, "avatarr");
+
         const { showPass, password, phoneNumber, email, username, c_password,
             usernameEmpty,
             firstnameEmpty, lastnameEmpty,
