@@ -114,16 +114,11 @@ const betHistory = async (req, res) => {
     const updatedHistory = history.map((item) => ({
       ...item,
       possible_win: item.Amount * item.TotalPrice,
-      // match_name: item.Tournament ? item.Tournament.MatchName : null,
     }));
-    updatedHistory.map((i) => {
-      console.log(i.MatchId, "=============================");
-      console.log(i["Tournament.MatchName"], "\n**************");
-    });
+   
     return res.json(updatedHistory);
   } catch (error) {
     console.error("Error fetching betting history:", error);
     res.status(500).json({ error: error.message });
   }
-};
-module.exports = { createBet, betHistory };
+};module.exports = { createBet, betHistory };
