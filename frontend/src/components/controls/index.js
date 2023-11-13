@@ -276,8 +276,8 @@ export default class Controls extends React.Component {
   }
   showMatchDetails(e, d) {
     let viewportOffset = document
-        .getElementById(e.target.id)
-        .getBoundingClientRect(),
+      .getElementById(e.target.id)
+      .getBoundingClientRect(),
       top = viewportOffset.top,
       left = viewportOffset.left - viewportOffset.right + 75;
     this.setState({
@@ -362,14 +362,14 @@ export default class Controls extends React.Component {
     this.retrieveBookingInput.value = "";
     data.details
       ? this.props.dispatch(
-          allActionDucer(SPORTSBOOK_ANY, {
-            retrieveBooking: data.details,
-            retrieveBookingLoading: false,
-          })
-        )
+        allActionDucer(SPORTSBOOK_ANY, {
+          retrieveBooking: data.details,
+          retrieveBookingLoading: false,
+        })
+      )
       : this.props.dispatch(
-          allActionDucer(SPORTSBOOK_ANY, { retrieveBookingLoading: false })
-        );
+        allActionDucer(SPORTSBOOK_ANY, { retrieveBookingLoading: false })
+      );
   }
   changeBetMode(event, manual = false) {
     let betSelections = { ...this.props.sportsbook.betSelections },
@@ -466,10 +466,10 @@ export default class Controls extends React.Component {
       let isLowBalance =
         (profile.Balance === "0.00" &&
           parseFloat(profile.Balance).toFixed(2) < stake) ||
-        (parseFloat(profile.bonus) > 0 &&
-          parseFloat(
-            profile.games.split(",").includes("1") ? profile.bonus : "0"
-          ).toFixed(2) < stake)
+          (parseFloat(profile.bonus) > 0 &&
+            parseFloat(
+              profile.games.split(",").includes("1") ? profile.bonus : "0"
+            ).toFixed(2) < stake)
           ? true
           : false;
       if (isLowBalance && !lowBalance && this.props.appState.isLoggedIn) {
@@ -534,10 +534,10 @@ export default class Controls extends React.Component {
         let isLowBalance =
           (profile.bonus === "0.00" &&
             parseFloat(profile.Balance).toFixed(2) < stake) ||
-          (parseFloat(profile.bonus) > 0 &&
-            parseFloat(
-              profile.games.split(",").includes("1") ? profile.bonus : "0"
-            ).toFixed(2) < stake)
+            (parseFloat(profile.bonus) > 0 &&
+              parseFloat(
+                profile.games.split(",").includes("1") ? profile.bonus : "0"
+              ).toFixed(2) < stake)
             ? true
             : false;
         if (isLowBalance && !lowBalance) {
@@ -593,7 +593,7 @@ export default class Controls extends React.Component {
     });
   }
   handleBetResponse({ data, status }) {
-    console.log(data, status, "ggg");
+
     if (status === 200) {
       this.betSuccess(data);
       this.removeAllBetSelections();
@@ -604,8 +604,8 @@ export default class Controls extends React.Component {
           ? data.data.details.hasOwnProperty("api_code")
             ? data.data.details.api_code
             : data.data.result
-            ? data.data.result
-            : 50000
+              ? data.data.result
+              : 50000
           : 50000
       );
     }
@@ -650,11 +650,11 @@ export default class Controls extends React.Component {
   }
   betFailed(code, extra = null) {
     let stateData = {
-        showBetSlipNoty: true,
-        betFailed: true,
-        betSlipNotyMsg: this.swarmErrors[code],
-        betInprogress: false,
-      },
+      showBetSlipNoty: true,
+      betFailed: true,
+      betSlipNotyMsg: this.swarmErrors[code],
+      betInprogress: false,
+    },
       dispatch = this.props.dispatch;
     switch (code) {
       case 1800:
@@ -698,7 +698,7 @@ export default class Controls extends React.Component {
       } = this.props.sportsbook,
       totalOdd = this.calculateTotalOdds(betSelections),
       dispatch = this.props.dispatch;
-    console.log(betSelections, "beti");
+
     if (Object.keys(betSelections).length > 0) {
       dispatch(
         allActionDucer(SPORTSBOOK_ANY, {
@@ -1038,21 +1038,21 @@ export default class Controls extends React.Component {
         profile.bonus === "0.00"
           ? profile.Balance
           : profile.games.split(",").includes("1")
-          ? profile.bonus
-          : profile.Balance;
+            ? profile.bonus
+            : profile.Balance;
       stateData.lowBalance =
         betMode === 3
           ? parseFloat(
-              parseFloat(parseFloat(stake).toPrecision()) *
-                parseFloat(parseFloat(sys_bet_variant.bets).toPrecision(12)) ||
-                0
-            ) > parseFloat(parseFloat(moni).toPrecision())
+            parseFloat(parseFloat(stake).toPrecision()) *
+            parseFloat(parseFloat(sys_bet_variant.bets).toPrecision(12)) ||
+            0
+          ) > parseFloat(parseFloat(moni).toPrecision())
             ? true
             : false
           : parseFloat(parseFloat(moni).toPrecision(12)) <
             parseFloat(parseFloat(stake).toPrecision())
-          ? true
-          : false;
+            ? true
+            : false;
       if (
         stateData.lowBalance &&
         !lowBalance &&
@@ -1089,14 +1089,14 @@ export default class Controls extends React.Component {
   }
   onClear() {
     const {
-        isQuickBet,
-        betMode,
-        betSlipMode,
-        betSelections,
-        sys_bet_variant,
-        lowBalance,
-        betStake,
-      } = this.props.sportsbook,
+      isQuickBet,
+      betMode,
+      betSlipMode,
+      betSelections,
+      sys_bet_variant,
+      lowBalance,
+      betStake,
+    } = this.props.sportsbook,
       profile = this.props.profile;
     let stateData = {},
       oldStake = betStake,
@@ -1138,21 +1138,21 @@ export default class Controls extends React.Component {
         profile.bonus === "0.00"
           ? profile.Balance
           : profile.games.split(",").includes("1")
-          ? profile.bonus
-          : profile.Balance;
+            ? profile.bonus
+            : profile.Balance;
       stateData.lowBalance =
         betMode === 3
           ? parseFloat(
-              parseFloat(parseFloat(stake).toPrecision()) *
-                parseFloat(parseFloat(sys_bet_variant.bets).toPrecision(12)) ||
-                0
-            ) > parseFloat(parseFloat(moni).toPrecision())
+            parseFloat(parseFloat(stake).toPrecision()) *
+            parseFloat(parseFloat(sys_bet_variant.bets).toPrecision(12)) ||
+            0
+          ) > parseFloat(parseFloat(moni).toPrecision())
             ? true
             : false
           : parseFloat(parseFloat(moni).toPrecision(12)) <
             parseFloat(parseFloat(stake).toPrecision())
-          ? true
-          : false;
+            ? true
+            : false;
       if (stateData.lowBalance && !lowBalance) {
         stateData.showBetSlipNoty = true;
         stateData.betSlipNotyMsg =
@@ -1228,7 +1228,7 @@ export default class Controls extends React.Component {
     }
     h = h.reverse();
     e = c - 1;
-    for (let l; d[0] <= h[0]; )
+    for (let l; d[0] <= h[0];)
       if (d[e] < h[e])
         if (e !== c - 1) e = c - 1;
         else {
@@ -1396,14 +1396,15 @@ export default class Controls extends React.Component {
     });
     return totalOdds;
   }
+
   getTotalWinAmount(selectionBonusPercentage) {
     let { betSelections, freeBetStake, enableFreebet } = this.props.sportsbook,
       totalOdds = this.calculateTotalOdds(betSelections);
     return Number.parseFloat(
       totalOdds * (enableFreebet ? freeBetStake.amount : this.getTotalStake()) +
-        totalOdds *
-          (enableFreebet ? freeBetStake.amount : this.getTotalStake()) *
-          (selectionBonusPercentage / 100),
+      totalOdds *
+      (enableFreebet ? freeBetStake.amount : this.getTotalStake()) *
+      (selectionBonusPercentage / 100),
       10
     )
       .toFixed(2)
@@ -1423,32 +1424,32 @@ export default class Controls extends React.Component {
   }
   render() {
     const {
-        betMode,
-        betSlipMode,
-        betSelections,
-        betStake,
-        lowBalance,
-        sys_bet_variant,
-        showBetSlipNoty,
-        betInprogress,
-        showBetslipSettings,
-        betSlipNotyMsg,
-        betSlipNotyType,
-        oddType,
-        acceptMode,
-        enableEventSeletionBonus,
-        bookingNumber,
-        betFailed,
-        showFirsttime,
-        isQuickBet,
-        isOddChange,
-        sportsbettingRules,
-        config,
-        authUser,
-        freeBetStake,
-        freeBets,
-        enableFreebet,
-      } = this.props.sportsbook,
+      betMode,
+      betSlipMode,
+      betSelections,
+      betStake,
+      lowBalance,
+      sys_bet_variant,
+      showBetSlipNoty,
+      betInprogress,
+      showBetslipSettings,
+      betSlipNotyMsg,
+      betSlipNotyType,
+      oddType,
+      acceptMode,
+      enableEventSeletionBonus,
+      bookingNumber,
+      betFailed,
+      showFirsttime,
+      isQuickBet,
+      isOddChange,
+      sportsbettingRules,
+      config,
+      authUser,
+      freeBetStake,
+      freeBets,
+      enableFreebet,
+    } = this.props.sportsbook,
       { isLoggedIn } = this.props.appState,
       profile = this.props.profile,
       { isBetSlipOpen, showMatchDetails, details } = this.state;
@@ -1500,9 +1501,9 @@ export default class Controls extends React.Component {
       for (const rule in sportsbettingRules) {
         if (
           qualifiedSelectionCount >=
-            sportsbettingRules[rule].MinimumSelections &&
+          sportsbettingRules[rule].MinimumSelections &&
           qualifiedSelectionCount <=
-            sportsbettingRules[rule].MaximumSelections &&
+          sportsbettingRules[rule].MaximumSelections &&
           betMode === sportsbettingRules[rule].BetType
         ) {
           if (
@@ -1534,19 +1535,16 @@ export default class Controls extends React.Component {
           {(props) => {
             return (
               <div
-                className={`controls betslip-floating-mode-container bottom-right ${
-                  !isLoggedIn ? "guest" : ""
-                } ${showFirsttime ? "first-add-show" : ""} ${
-                  isBetSlipOpen || showFirsttime ? "open" : ""
-                } betslip-icon`}
+                className={`controls betslip-floating-mode-container bottom-right ${!isLoggedIn ? "guest" : ""
+                  } ${showFirsttime ? "first-add-show" : ""} ${isBetSlipOpen || showFirsttime ? "open" : ""
+                  } betslip-icon`}
                 ref={(el) => {
                   this.betslipbody = el;
                 }}
               >
                 <div
-                  className={`floating-mode-inner ${
-                    showFirsttime ? "quick" : ""
-                  }`}
+                  className={`floating-mode-inner ${showFirsttime ? "quick" : ""
+                    }`}
                 >
                   {!isBetSlipOpen && (
                     <div
@@ -1591,11 +1589,10 @@ export default class Controls extends React.Component {
                                   onClick={this.betslipToggleView}
                                 >
                                   <span
-                                    className={`${
-                                      showFirsttime
-                                        ? "icon-icon-arrow-down"
-                                        : "icon-icon-close-x"
-                                    } remove-icon-betslip`}
+                                    className={`${showFirsttime
+                                      ? "icon-icon-arrow-down"
+                                      : "icon-icon-close-x"
+                                      } remove-icon-betslip`}
                                   ></span>
                                 </div>
                               </div>
@@ -1719,17 +1716,16 @@ export default class Controls extends React.Component {
                                                 <div className="betslip-match-teams">
                                                   {selection.conflicts.length >
                                                     0 && (
-                                                    <div className="betslip-match-details-block col-sm-1">
-                                                      <i className="icon-sb-error"></i>
-                                                    </div>
-                                                  )}
+                                                      <div className="betslip-match-details-block col-sm-1">
+                                                        <i className="icon-sb-error"></i>
+                                                      </div>
+                                                    )}
                                                   <span
-                                                    className={`teams col-sm-${
-                                                      selection.conflicts
-                                                        .length > 0
-                                                        ? "11"
-                                                        : "12"
-                                                    }`}
+                                                    className={`teams col-sm-${selection.conflicts
+                                                      .length > 0
+                                                      ? "11"
+                                                      : "12"
+                                                      }`}
                                                   >
                                                     {selection.title}
                                                   </span>
@@ -1791,7 +1787,7 @@ export default class Controls extends React.Component {
                                                 <span className="betslip-match-old-coeficiente">
                                                   <span className="betslip-match-old-coeficiente">
                                                     {selection.initialPrice !==
-                                                    selection.price ? (
+                                                      selection.price ? (
                                                       <span>
                                                         {oddConvert(
                                                           {
@@ -1812,7 +1808,7 @@ export default class Controls extends React.Component {
                                                           },
                                                           {
                                                             mathCuttingFunction:
-                                                              () => {},
+                                                              () => { },
                                                           }
                                                         )(
                                                           selection.initialPrice,
@@ -1828,25 +1824,25 @@ export default class Controls extends React.Component {
                                                 <span className="betslip-match-event">
                                                   {selection.pick}{" "}
                                                   {selection.pick === "W1" ||
-                                                  selection.pick === "W2"
+                                                    selection.pick === "W2"
                                                     ? " - " +
-                                                      selection.pick
-                                                        .replace(
-                                                          /Team 1/gi,
-                                                          selection.team1Name
-                                                        )
-                                                        .replace(
-                                                          /Team 2/gi,
-                                                          selection.team2Name
-                                                        )
-                                                        .replace(
-                                                          /w1/gi,
-                                                          selection.team1Name
-                                                        )
-                                                        .replace(
-                                                          /w2/gi,
-                                                          selection.team2Name
-                                                        )
+                                                    selection.pick
+                                                      .replace(
+                                                        /Team 1/gi,
+                                                        selection.team1Name
+                                                      )
+                                                      .replace(
+                                                        /Team 2/gi,
+                                                        selection.team2Name
+                                                      )
+                                                      .replace(
+                                                        /w1/gi,
+                                                        selection.team1Name
+                                                      )
+                                                      .replace(
+                                                        /w2/gi,
+                                                        selection.team2Name
+                                                      )
                                                     : ""}
                                                 </span>
                                                 <span className="betslip-match-coeficiente">
@@ -1870,7 +1866,7 @@ export default class Controls extends React.Component {
                                                       },
                                                       {
                                                         mathCuttingFunction:
-                                                          () => {},
+                                                          () => { },
                                                       }
                                                     )(selection.price, oddType)}
                                                   </span>
@@ -1924,25 +1920,68 @@ export default class Controls extends React.Component {
                                                     </div>
                                                   </div>
                                                 )}
+
+                                              {/* // change */}
+
                                               {betMode === 1 && betlen === 1 ? (
+                                                <div className="sb-bet-result">
+                                                  <div className="sb-bet-return top-border">
+                                                    <span>Fee :</span>
+                                                    <span className="deducted-amount">
+                                                      {selection.singleStake !== "" ? (
+                                                        // Calculate the 2% deducted amount
+                                                        ((selection.singleStake * selection.price) * 0.02).toFixed(2)
+                                                      ) : enableFreebet ? (
+                                                        // If using free bet, deduct 2% from the total
+                                                        ((selection.price * freeBetStake.amount) * 0.02).toFixed(2)
+                                                      ) : 0}
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                              ) : null}
+
+
+                                              {/* change A/c me */}
+
+                                              {betMode === 1 && betlen === 1 ? (
+                                                <div className="sb-bet-result">
+                                                  <div className="sb-bet-return top-border">
+                                                    <span>Possible Win :</span>
+                                                    <span className="possible-win">
+                                                      {selection.singleStake !== "" ? (
+                                                        // Calculate the win after deducting 2%
+                                                        (selection.singleStake * selection.price * 0.98).toFixed(2)
+                                                      ) : enableFreebet ? (
+                                                        // If using free bet, deduct 2% from the total
+                                                        (selection.price * freeBetStake.amount * 0.98).toFixed(2)
+                                                      ) : 0}
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                              ) : null}
+
+
+
+                                              {/* {betMode === 1 && betlen === 1 ? (
+
                                                 <div className="sb-bet-result  ">
                                                   <div className="sb-bet-return top-border ">
                                                     <span>Possible Win:</span>
                                                     <span className="possible-win">
                                                       {selection.singleStake !==
-                                                      ""
+                                                        ""
                                                         ? (
-                                                            selection.singleStake *
-                                                            selection.price
-                                                          ).toFixed(2)
+                                                          selection.singleStake *
+                                                          selection.price
+                                                        ).toFixed(2)
                                                         : enableFreebet
-                                                        ? selection.price *
+                                                          ? selection.price *
                                                           freeBetStake.amount
-                                                        : 0}
+                                                          : 0}
                                                     </span>
                                                   </div>
                                                 </div>
-                                              ) : null}
+                                              ) : null} */}
                                             </div>
                                           </div>
                                         </div>
@@ -1973,15 +2012,15 @@ export default class Controls extends React.Component {
                                             <React.Fragment>
                                               {(betMode === 1 ||
                                                 betMode === 3) && (
-                                                <div className="sb-bet-return">
-                                                  <span className="number-of-bets">
-                                                    Number of Bets:
-                                                  </span>
-                                                  <span className="count-of-bets">
-                                                    {this.getTotalBets()}
-                                                  </span>
-                                                </div>
-                                              )}
+                                                  <div className="sb-bet-return">
+                                                    <span className="number-of-bets">
+                                                      Number of Bets:
+                                                    </span>
+                                                    <span className="count-of-bets">
+                                                      {this.getTotalBets()}
+                                                    </span>
+                                                  </div>
+                                                )}
                                               {betMode === 2 && (
                                                 <div className="sb-bet-return total">
                                                   <span>Total Odds: </span>
@@ -2005,7 +2044,7 @@ export default class Controls extends React.Component {
                                                       },
                                                       {
                                                         mathCuttingFunction:
-                                                          () => {},
+                                                          () => { },
                                                       }
                                                     )(totalOdds, oddType)}
                                                   </span>
@@ -2039,15 +2078,35 @@ export default class Controls extends React.Component {
                                                   Win:
                                                 </span>
                                                 <span className="possible-win">
+                                                  {/* // change  */}
+
                                                   {betMode === 3
-                                                    ? this.sys_bet_result.win
-                                                        .toString()
-                                                        .replace(
-                                                          /\d(?=(\d{3})+\.)/g,
-                                                          "$&,"
-                                                        )
+                                                    ? (this.sys_bet_result.win * 0.98) // Deducting 2% from the win
+                                                      .toString()
+                                                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")
                                                     : betMode === 4
-                                                    ? Number.parseFloat(
+                                                      ? Number.parseFloat(chainWinning * 0.98) // Deducting 2% from the chainWinning
+                                                        .toFixed(2)
+                                                        .toString()
+                                                        .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                                                      : (this.getPossibleWinAmount() * 0.98) // Deducting 2% from the possible win amount
+                                                        .toString()
+                                                        .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                                                  }
+
+                                                  {/* //change */}
+
+
+
+                                                  {/* {betMode === 3
+                                                    ? this.sys_bet_result.win
+                                                      .toString()
+                                                      .replace(
+                                                        /\d(?=(\d{3})+\.)/g,
+                                                        "$&,"
+                                                      )
+                                                    : betMode === 4
+                                                      ? Number.parseFloat(
                                                         chainWinning
                                                       )
                                                         .toFixed(2)
@@ -2056,7 +2115,7 @@ export default class Controls extends React.Component {
                                                           /\d(?=(\d{3})+\.)/g,
                                                           "$&,"
                                                         )
-                                                    : this.getPossibleWinAmount()}
+                                                      : this.getPossibleWinAmount()} */}
                                                 </span>
                                               </div>
                                             </React.Fragment>
@@ -2089,9 +2148,9 @@ export default class Controls extends React.Component {
                                                 <span className="possible-win">
                                                   {parseFloat(
                                                     totalOdds *
-                                                      this.getTotalStake() *
-                                                      (selectionBonusPercentage /
-                                                        100),
+                                                    this.getTotalStake() *
+                                                    (selectionBonusPercentage /
+                                                      100),
                                                     10
                                                   )
                                                     .toFixed(2)
@@ -2107,9 +2166,9 @@ export default class Controls extends React.Component {
                                         {(selectionBonusPercentage > 0 &&
                                           enableEventSeletionBonus &&
                                           betSlipMode === 2) ||
-                                        enableFreebet ? (
+                                          enableFreebet ? (
                                           <div className="sb-bet-return bonus">
-                                            <span>Total Win:</span>
+                                            <span>Total Wins:</span>
                                             <span className="possible-win">
                                               {this.getTotalWinAmount(
                                                 selectionBonusPercentage
@@ -2121,8 +2180,8 @@ export default class Controls extends React.Component {
                                     </div>
                                   </div>
                                   {bookingNumber !== null &&
-                                  betSlipMode === 1 &&
-                                  betMode !== 1 ? (
+                                    betSlipMode === 1 &&
+                                    betMode !== 1 ? (
                                     <div className="booking-id-block">
                                       <div className="text">
                                         <span>
@@ -2155,11 +2214,10 @@ export default class Controls extends React.Component {
                                           });
                                           this.placeBet();
                                         }}
-                                        className={`placebet ${
-                                          betSlipMode !== 2
-                                            ? "betslip-hide"
-                                            : ""
-                                        } ${betInprogress ? "progress" : ""}`}
+                                        className={`placebet ${betSlipMode !== 2
+                                          ? "betslip-hide"
+                                          : ""
+                                          } ${betInprogress ? "progress" : ""}`}
                                         disabled={
                                           (betSlipMode === 2 &&
                                             isLoggedIn &&
@@ -2191,11 +2249,10 @@ export default class Controls extends React.Component {
                                             })
                                           );
                                         }}
-                                        className={`placebet ${
-                                          betSlipMode !== 2
-                                            ? "betslip-hide"
-                                            : ""
-                                        } ${betInprogress ? "progress" : ""}`}
+                                        className={`placebet ${betSlipMode !== 2
+                                          ? "betslip-hide"
+                                          : ""
+                                          } ${betInprogress ? "progress" : ""}`}
                                         disabled={
                                           (betSlipMode === 2 &&
                                             isLoggedIn &&
@@ -2222,11 +2279,10 @@ export default class Controls extends React.Component {
                                       <button
                                         style={{ cursor: "pointer" }}
                                         onClick={this.betslipToggleView}
-                                        className={`signintobet ${
-                                          betSlipMode !== 2
-                                            ? "betslip-hide"
-                                            : ""
-                                        } ${betInprogress ? "progress" : ""}`}
+                                        className={`signintobet ${betSlipMode !== 2
+                                          ? "betslip-hide"
+                                          : ""
+                                          } ${betInprogress ? "progress" : ""}`}
                                       >
                                         First connect to wallet
                                       </button>
@@ -2243,14 +2299,13 @@ export default class Controls extends React.Component {
 
                                           // : makeToast("Your Balance is less then Your bet stake", 6000)
                                         }
-                                        className={`placebet ${
-                                          betSlipMode !== 2
-                                            ? "betslip-hide"
-                                            : ""
-                                        } ${betInprogress ? "progress" : ""}`}
-                                        // disabled=
-                                        // {
-                                        //   (betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.Balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}
+                                        className={`placebet ${betSlipMode !== 2
+                                          ? "betslip-hide"
+                                          : ""
+                                          } ${betInprogress ? "progress" : ""}`}
+                                      // disabled=
+                                      // {
+                                      //   (betSlipMode === 2 && isLoggedIn && profile.bonus === '0.00' && (parseFloat(parseFloat(betStake).toPrecision(12)) > (parseFloat(profile.Balance).toPrecision(12)) && !enableFreebet)) || (betSlipMode === 2 && isLoggedIn && parseFloat(parseFloat(profile.bonus).toPrecision(12)) > 0 && (parseFloat(parseFloat(betStake).toPrecision(12)) > parseFloat(parseFloat(profile.games.split(',').includes('1') ? profile.bonus : '0').toPrecision(12))) && !enableFreebet) || ((betStake === 0 || betStake === '') && !enableFreebet) || betInprogress}
                                       >
                                         {
                                           // betInprogress ?

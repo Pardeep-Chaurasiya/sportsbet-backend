@@ -9,15 +9,15 @@ import { allActionDucer } from "../../actionCreator";
 import { PROFILE } from "../../actionReducers";
 import ReCAPTCHA from "react-google-recaptcha";
 
-import DepositorERC20ABI from '../../abi/DepositorERC20ABI'
-import IERC20ABI from '../../abi/IERC20ABI'
+import DepositorERC20ABI from '../../abi/DepositorERC20ABI';
+import IERC20ABI from '../../abi/IERC20ABI';
 import { Web3Context } from "../../App";
-import { 
-  NetIdMessage, 
-  NETID, 
-  DepositorERC20, 
+import {
+  NetIdMessage,
+  NETID,
+  DepositorERC20,
   DepositDecimals,
-  DepositToken 
+  DepositToken
 } from "../../config";
 import { NewAPI } from "../../services/api";
 import Web3Token from "web3-token";
@@ -80,9 +80,9 @@ class Header extends React.Component {
     for (var i in this.supportedTZ) {
       this.offsetTmz.push(
         this.supportedTZ[i] +
-          " (GMT " +
-          moment.tz(this.supportedTZ[i]).format("Z") +
-          ")"
+        " (GMT " +
+        moment.tz(this.supportedTZ[i]).format("Z") +
+        ")"
       );
     }
     this.setTime();
@@ -192,8 +192,7 @@ class Header extends React.Component {
     null !== game && (historyState.game = game);
     if (activeView === "Live" || activeView === "Prematch") {
       this.props.history.push(
-        `/sports/${activeView.toLowerCase()}/${sport.alias}/${region.name}/${
-          competition.id
+        `/sports/${activeView.toLowerCase()}/${sport.alias}/${region.name}/${competition.id
         }${null !== game ? "/" + game.id : ""}`,
         historyState
       );
@@ -242,13 +241,13 @@ class Header extends React.Component {
       const web3 = await getWeb3();
 
       setWeb3(web3);
-      console.log(web3, "df");
+      console.log(web3, "web3");
 
       const accounts = await web3.eth.getAccounts();
       setAccounts(accounts);
 
       const walletId = accounts[0];
-      console.log(web3, accounts[0], "sdfafdasdfasdfdasfasfafafafafaf");
+      console.log(web3, accounts[0], "account");
       const Token = localStorage.getItem("walletToken");
       if (!Token) {
         const token = await Web3Token.sign(
@@ -261,9 +260,9 @@ class Header extends React.Component {
           timestamp: Date.now(),
         };
 
-        console.log(Date.now(), "Date");
 
-        console.log(JSON.parse(localStorage.getItem("walletToken")), "data");
+
+
 
         $api.registerWithWallet(
           { walletId: walletId },
@@ -305,7 +304,7 @@ class Header extends React.Component {
     // }
   }
   afterBalance({ data, status }) {
-    console.log(data, status, "Balance");
+
     if (status) {
       this.props.dispatch(
         allActionDucer(PROFILE, { Balance: data?.virtual_balance })
@@ -359,52 +358,53 @@ class Header extends React.Component {
   };
 
   approveDeposit = async (amount, web3, accounts, netId) => {
-    if(!web3)
+    if (!web3)
       return alert("Please connect wallet")
 
-    if(NETID !== Number(netId))
+    if (NETID !== Number(netId))
       return alert(NetIdMessage)
 
-    if(amount <= 0)
+    if (amount <= 0)
       return alert("Please input amount")
-    
-    const token = new web3.eth.Contract(IERC20ABI, DepositToken)
-    const allowance = await token.methods.allowance(DepositorERC20, accounts[0]).call()
 
-    if(allowance / 10**DepositDecimals > amount)
+    const token = new web3.eth.Contract(IERC20ABI, DepositToken)
+    const allowance = await token.methods.allowance(accounts[0], DepositorERC20).call()
+
+    if ((allowance / 10 ** DepositDecimals) > amount)
       return alert("Alredy approved")
+
     // approve max uint 256
     token.methods.approve(
       DepositorERC20,
       "115792089237316195423570985008687907853269984665640564039457584007913129639935"
-    ).send({ from:accounts[0] })
+    ).send({ from: accounts[0] })
   }
 
   depositFunds = async (amount, web3, accounts, netId) => {
-    if(!web3)
+    if (!web3)
       return alert("Please connect wallet")
 
-    if(NETID !== Number(netId))
+    if (NETID !== Number(netId))
       return alert(NetIdMessage)
 
-    if(amount <= 0)
+    if (amount <= 0)
       return alert("Please input amount")
-    
+
     const token = new web3.eth.Contract(IERC20ABI, DepositToken)
     const balance = await token.methods.balanceOf(accounts[0]).call()
-    
-    if(amount > balance / 10**DepositDecimals)
+
+    if (amount > balance / 10 ** DepositDecimals)
       return alert("You dont have enough balance")
 
     const allowance = await token.methods.allowance(accounts[0], DepositorERC20).call()
-    
-    if(allowance / 10**DepositDecimals < amount)
+
+    if (allowance / 10 ** DepositDecimals < amount)
       return alert("Please approve")
 
     const depositor = new web3.eth.Contract(DepositorERC20ABI, DepositorERC20)
-    
-    depositor.methods.deposit(String(amount * 10**DepositDecimals))
-    .send({ from:accounts[0] })
+
+    depositor.methods.deposit(String(amount * 10 ** DepositDecimals))
+      .send({ from: accounts[0] })
   }
 
   renderDepositModal(web3, accounts, netId) {
@@ -462,11 +462,11 @@ class Header extends React.Component {
                         <button
                           className="sb-account-btn btn-primary"
                           onClick={() => this.approveDeposit(
-                            this.state.depositAmount, 
-                            web3, 
-                            accounts, 
+                            this.state.depositAmount,
+                            web3,
+                            accounts,
                             netId
-                            )
+                          )
                           }
                         >
                           Approve
@@ -474,11 +474,11 @@ class Header extends React.Component {
                         <button
                           className="sb-account-btn btn-primary"
                           onClick={() => this.depositFunds(
-                            this.state.depositAmount, 
-                            web3, 
-                            accounts, 
+                            this.state.depositAmount,
+                            web3,
+                            accounts,
                             netId
-                            )
+                          )
                           }
                           style={{ background: "orange", margin: "20px" }}
                         >
@@ -643,6 +643,19 @@ class Header extends React.Component {
                                       </span>
                                       <span style={{ marginRight: "20px" }}>
                                         {item.MatchId}
+                                      </span>
+                                    </p>
+                                    <p
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                      }}
+                                    >
+                                      <span style={{ marginLeft: "20px" }}>
+                                        Match Name :-
+                                      </span>
+                                      <span style={{ marginRight: "20px" }}>
+                                        {item["Tournament.MatchName"]}
                                       </span>
                                     </p>
                                     <p
@@ -858,20 +871,20 @@ class Header extends React.Component {
 
   render() {
     const {
-        appState,
-        profile,
-        searchDataC,
-        searchData,
-        searching,
-        activeView,
-        Prematch,
-        Live,
-        checkResult,
-        searchingTicket,
-        site_recaptch_key,
-        config,
-        oddType,
-      } = this.props,
+      appState,
+      profile,
+      searchDataC,
+      searchData,
+      searching,
+      activeView,
+      Prematch,
+      Live,
+      checkResult,
+      searchingTicket,
+      site_recaptch_key,
+      config,
+      oddType,
+    } = this.props,
       { time, showRecaptcha, showFullInput } = this.state,
       searchGame = (event) => {
         var d = {},
@@ -985,9 +998,8 @@ class Header extends React.Component {
               {this.renderDepositModal(props.web3, props.accounts, props.netId)}
               {this.renderHistoryModal()}
               <div
-                className={`header-container ${
-                  this.props.casinoMode.playMode && "fullscreen"
-                }`}
+                className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
+                  }`}
               >
                 <div className="header-body bg-primary">
                   <div className="header-inner">
@@ -1019,7 +1031,7 @@ class Header extends React.Component {
                         <div className="nav-controls">
                           {(!JSON.parse(localStorage.getItem("walletToken")) ||
                             !props.netId) &&
-                          !appState.isLoggedIn ? (
+                            !appState.isLoggedIn ? (
                             <React.Fragment>
                               <div>
                                 {props.web3
@@ -1137,7 +1149,7 @@ class Header extends React.Component {
                                     </li>
                                   </div>
 
-                                  <li onClick={() => {}}>
+                                  <li onClick={() => { }}>
                                     <span className="profile-icon icon-sb-wallet"></span>
                                     <span>Withdrawal</span>
                                   </li>
@@ -1233,11 +1245,10 @@ class Header extends React.Component {
                     <div className="header-row secondary">
                       <div className="header-col col-sm-12">
                         <div
-                          className={`nav-links ${
-                            activeView === "Live" || activeView === "Prematch"
-                              ? "partial"
-                              : "full"
-                          }`}
+                          className={`nav-links ${activeView === "Live" || activeView === "Prematch"
+                            ? "partial"
+                            : "full"
+                            }`}
                         >
                           <div className="link">
                             <NavLink exact to="/">
@@ -1262,20 +1273,17 @@ class Header extends React.Component {
                           {/* <div className="link"><NavLink to="/sports/result"><span>Match Results</span></NavLink></div> */}
                         </div>
                         <div
-                          className={`search ${
-                            showFullInput ? "input-active" : ""
-                          } ${
-                            activeView === "Live" || activeView === "Prematch"
+                          className={`search ${showFullInput ? "input-active" : ""
+                            } ${activeView === "Live" || activeView === "Prematch"
                               ? "hidden"
                               : "hidden"
-                          }`}
+                            }`}
                         >
                           <div
-                            className={`sportsbook-search ${
-                              showFullInput
-                                ? "search-full-width"
-                                : "search-minimal"
-                            }`}
+                            className={`sportsbook-search ${showFullInput
+                              ? "search-full-width"
+                              : "search-minimal"
+                              }`}
                             style={{
                               padding: "unset",
                               paddingTop: "unset",
@@ -1292,9 +1300,8 @@ class Header extends React.Component {
                                 </div>
                               )}
                               <input
-                                placeholder={`${
-                                  showFullInput ? "Search Competition/Game" : ""
-                                }`}
+                                placeholder={`${showFullInput ? "Search Competition/Game" : ""
+                                  }`}
                                 className="search-input ember-text-field ember-view"
                                 type="text"
                                 onChange={(e) => searchGame(e)}
@@ -1316,9 +1323,8 @@ class Header extends React.Component {
                                 </div>
                               ) : null}
                               <div
-                                className={`search-results open ${
-                                  emptyResult || searching ? "no-results" : ""
-                                }`}
+                                className={`search-results open ${emptyResult || searching ? "no-results" : ""
+                                  }`}
                               >
                                 {(hasGameResult || hasCompetionsResult) && (
                                   <div className="search-results-arrow"></div>
@@ -1346,7 +1352,7 @@ class Header extends React.Component {
                                       </Transition>
                                       <div className="search-results-section">
                                         {hasGameResult ||
-                                        hasCompetionsResult ? (
+                                          hasCompetionsResult ? (
                                           <React.Fragment>
                                             {hasGameResult && (
                                               <div className="search-results-section-title">
@@ -1384,7 +1390,7 @@ class Header extends React.Component {
                                                         ).forEach((compete) => {
                                                           competition.push(
                                                             reg.competition[
-                                                              compete
+                                                            compete
                                                             ]
                                                           );
                                                         });
@@ -1426,7 +1432,7 @@ class Header extends React.Component {
                                                                       }
                                                                       {game.team2_name
                                                                         ? " - " +
-                                                                          game.team2_name
+                                                                        game.team2_name
                                                                         : ""}
                                                                     </div>
                                                                     <div className="search-results-match-details">
@@ -1478,7 +1484,7 @@ class Header extends React.Component {
                                                         ).forEach((compete) => {
                                                           competition.push(
                                                             reg.competition[
-                                                              compete
+                                                            compete
                                                             ]
                                                           );
                                                         });
