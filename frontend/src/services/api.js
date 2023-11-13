@@ -71,8 +71,6 @@ class API {
     return this.http.post("franchise", data);
   }
 
-
-
   getUserBalanceHistory(data, success, error = this.logError) {
     this.http.post("getUserBalanceHistory", data).then(success, error);
   }
@@ -142,8 +140,8 @@ export class NewAPI {
     this.cancelToken = axios.CancelToken.source();
 
     this.http = axios.create({
-      // baseURL: "http://192.168.29.179:5000/api",
-      baseURL: "https://mm-w3-bet-api.ai42.zone/api",
+      baseURL: "http://localhost:5000/api",
+      // baseURL: "https://mm-w3-bet-api.ai42.zone/api",
 
       headers: { "Content-Type": "application/json;charset=utf-8" },
       cancelToken: this.cancelToken.token,

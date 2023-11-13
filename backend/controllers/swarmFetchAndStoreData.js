@@ -66,11 +66,11 @@ const fetchBetAndTournamentData = async (req, res) => {
 
 async function saveData(result, betdata) {
   try {
-    const data = JSON.parse(result.toString())?.data?.lines.line;
+    const data = JSON.parse(result.toString())?.data?.lines?.line;
 
     if (data) {
       let matchFinalResult;
-      let resultAmount = betdata?.Amount * betdata?.TotalPrice;
+      const resultAmount = betdata?.Amount * betdata?.TotalPrice;
 
       const idx = data.findIndex((el) => el.line_name === betdata.MarketName);
       const matchResult =
@@ -84,7 +84,6 @@ async function saveData(result, betdata) {
               }
             }
           }
-          // selection.events.event_name[0] == betdata.SelectionName
         });
         if (matchDataNewResult) {
           matchFinalResult = "WIN";
@@ -108,10 +107,25 @@ async function saveData(result, betdata) {
           where: { walletAddress: betdata.walletAddress },
           raw: true,
         });
+        adminWallet = await UserWallet.findOne({
+          where: { walletAddress: process.env.ADMIN_METAMASK_WALLET },
+          raw: true,
+        });
+
         if (matchFinalResult == "WIN") {
+          let calc = (resultAmount * process.env.COMMISION_PERCENTAGE) / 100;
+
           await UserWallet.update(
             {
-              virtualBalance: parseFloat(wallet.virtualBalance) + resultAmount,
+              virtualBalance:
+                parseFloat(adminWallet.virtualBalance) - resultAmount + calc,
+            },
+            { where: { walletAddress: process.env.ADMIN_METAMASK_WALLET } }
+          );
+          await UserWallet.update(
+            {
+              virtualBalance:
+                parseFloat(wallet.virtualBalance) + resultAmount - calc,
             },
             { where: { walletAddress: wallet.walletAddress } }
           );
@@ -131,6 +145,6 @@ const executeSwarm = () => {
   }
 };
 
-const job = new cron.CronJob("*/10 * * * * *", executeSwarm);
+const job = new cron.CronJob("*/59 * * * *", executeSwarm);
 
 job.start();

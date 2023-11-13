@@ -22,9 +22,13 @@ const createBet = async (req, res) => {
     const userwallet = await UserWallet.findOne({
       where: { walletAddress: user.address },
     });
-    const virtualBalance = userwallet.virtualBalance;
+    const adminVirtualBalance = await UserWallet.findOne({
+      where: { walletAddress: process.env.ADMIN_METAMASK_WALLET },
+    });
+    const userVirtualBalance = userwallet.virtualBalance;
+    const adminWalletBalance = adminVirtualBalance.virtualBalance;
 
-    if (virtualBalance >= 0 && virtualBalance >= Amount) {
+    if (userVirtualBalance >= 0 && userVirtualBalance >= Amount) {
       const isTournamentCreated = await Tournament.findOne({
         where: {
           [Op.and]: {
@@ -51,7 +55,13 @@ const createBet = async (req, res) => {
         });
         await UserWallet.update(
           {
-            virtualBalance: parseFloat(virtualBalance) - Amount,
+            virtualBalance: parseFloat(adminWalletBalance) + Amount,
+          },
+          { where: { walletAddress: process.env.ADMIN_METAMASK_WALLET } }
+        );
+        await UserWallet.update(
+          {
+            virtualBalance: parseFloat(userVirtualBalance) - Amount,
           },
           { where: { walletAddress: user.address } }
         );
@@ -74,7 +84,13 @@ const createBet = async (req, res) => {
         });
         await UserWallet.update(
           {
-            virtualBalance: parseFloat(virtualBalance) - Amount,
+            virtualBalance: parseFloat(adminWalletBalance) + Amount,
+          },
+          { where: { walletAddress: process.env.ADMIN_METAMASK_WALLET } }
+        );
+        await UserWallet.update(
+          {
+            virtualBalance: parseFloat(userVirtualBalance) - Amount,
           },
           { where: { walletAddress: user.address } }
         );
@@ -114,12 +130,7 @@ const betHistory = async (req, res) => {
     const updatedHistory = history.map((item) => ({
       ...item,
       possible_win: item.Amount * item.TotalPrice,
-      // match_name: item.Tournament ? item.Tournament.MatchName : null,
     }));
-    updatedHistory.map((i) => {
-      console.log(i.MatchId, "=============================");
-      console.log(i["Tournament.MatchName"], "\n**************");
-    });
     return res.json(updatedHistory);
   } catch (error) {
     console.error("Error fetching betting history:", error);
