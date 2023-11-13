@@ -140,8 +140,8 @@ export class NewAPI {
     this.cancelToken = axios.CancelToken.source();
 
     this.http = axios.create({
-      baseURL: "http://localhost:5000/api",
-      // baseURL: "https://mm-w3-bet-api.ai42.zone/api",
+      // baseURL: "http://localhost:5000/api",
+      baseURL: "https://mm-w3-bet-api.ai42.zone/api",
 
       headers: { "Content-Type": "application/json;charset=utf-8" },
       cancelToken: this.cancelToken.token,
