@@ -1396,6 +1396,7 @@ export default class Controls extends React.Component {
     });
     return totalOdds;
   }
+
   getTotalWinAmount(selectionBonusPercentage) {
     let { betSelections, freeBetStake, enableFreebet } = this.props.sportsbook,
       totalOdds = this.calculateTotalOdds(betSelections);
@@ -1919,7 +1920,50 @@ export default class Controls extends React.Component {
                                                     </div>
                                                   </div>
                                                 )}
+
+                                              {/* // change */}
+
                                               {betMode === 1 && betlen === 1 ? (
+                                                <div className="sb-bet-result">
+                                                  <div className="sb-bet-return top-border">
+                                                    <span>Fee :</span>
+                                                    <span className="deducted-amount">
+                                                      {selection.singleStake !== "" ? (
+                                                        // Calculate the 2% deducted amount
+                                                        ((selection.singleStake * selection.price) * 0.02).toFixed(2)
+                                                      ) : enableFreebet ? (
+                                                        // If using free bet, deduct 2% from the total
+                                                        ((selection.price * freeBetStake.amount) * 0.02).toFixed(2)
+                                                      ) : 0}
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                              ) : null}
+
+
+                                              {/* change A/c me */}
+
+                                              {betMode === 1 && betlen === 1 ? (
+                                                <div className="sb-bet-result">
+                                                  <div className="sb-bet-return top-border">
+                                                    <span>Possible Win :</span>
+                                                    <span className="possible-win">
+                                                      {selection.singleStake !== "" ? (
+                                                        // Calculate the win after deducting 2%
+                                                        (selection.singleStake * selection.price * 0.98).toFixed(2)
+                                                      ) : enableFreebet ? (
+                                                        // If using free bet, deduct 2% from the total
+                                                        (selection.price * freeBetStake.amount * 0.98).toFixed(2)
+                                                      ) : 0}
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                              ) : null}
+
+
+
+                                              {/* {betMode === 1 && betlen === 1 ? (
+
                                                 <div className="sb-bet-result  ">
                                                   <div className="sb-bet-return top-border ">
                                                     <span>Possible Win:</span>
@@ -1937,7 +1981,7 @@ export default class Controls extends React.Component {
                                                     </span>
                                                   </div>
                                                 </div>
-                                              ) : null}
+                                              ) : null} */}
                                             </div>
                                           </div>
                                         </div>
@@ -2034,7 +2078,27 @@ export default class Controls extends React.Component {
                                                   Win:
                                                 </span>
                                                 <span className="possible-win">
+                                                  {/* // change  */}
+
                                                   {betMode === 3
+                                                    ? (this.sys_bet_result.win * 0.98) // Deducting 2% from the win
+                                                      .toString()
+                                                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                                                    : betMode === 4
+                                                      ? Number.parseFloat(chainWinning * 0.98) // Deducting 2% from the chainWinning
+                                                        .toFixed(2)
+                                                        .toString()
+                                                        .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                                                      : (this.getPossibleWinAmount() * 0.98) // Deducting 2% from the possible win amount
+                                                        .toString()
+                                                        .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                                                  }
+
+                                                  {/* //change */}
+
+
+
+                                                  {/* {betMode === 3
                                                     ? this.sys_bet_result.win
                                                       .toString()
                                                       .replace(
@@ -2051,7 +2115,7 @@ export default class Controls extends React.Component {
                                                           /\d(?=(\d{3})+\.)/g,
                                                           "$&,"
                                                         )
-                                                      : this.getPossibleWinAmount()}
+                                                      : this.getPossibleWinAmount()} */}
                                                 </span>
                                               </div>
                                             </React.Fragment>
@@ -2104,7 +2168,7 @@ export default class Controls extends React.Component {
                                           betSlipMode === 2) ||
                                           enableFreebet ? (
                                           <div className="sb-bet-return bonus">
-                                            <span>Total Win:</span>
+                                            <span>Total Wins:</span>
                                             <span className="possible-win">
                                               {this.getTotalWinAmount(
                                                 selectionBonusPercentage
