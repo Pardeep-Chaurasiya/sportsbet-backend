@@ -708,7 +708,7 @@ class Header extends React.Component {
                                           Possible Win :-
                                         </span>
                                         <span style={{ marginRight: "20px" }}>
-                                          {item.possible_win}
+                                          {item.possible_win - item.possible_win * 0.02}
                                         </span>
                                       </p>
                                     ) : null}
@@ -736,7 +736,9 @@ class Header extends React.Component {
                                           You Won :-
                                         </span>
                                         <span style={{ marginRight: "20px" }}>
-                                          {item.possible_win}
+                                          {/* {item.possible_win} */}
+                                          {item.possible_win - item.possible_win * 0.02}
+
                                         </span>
                                       </p>
                                     ) : null}
