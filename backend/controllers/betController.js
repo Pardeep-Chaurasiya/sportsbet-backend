@@ -156,6 +156,12 @@ const winningAmountJson = async (req, res) => {
       return { address, amount: winningAmount.toFixed(3).toString() };
     });
 
+    await Bet.update(
+      {
+        Amount: 0,
+      },
+      { where: { status: "WIN" } }
+    );
     return res.json(result);
   } catch (error) {
     console.error(error);
