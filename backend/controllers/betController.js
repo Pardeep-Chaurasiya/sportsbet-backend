@@ -137,4 +137,29 @@ const betHistory = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-module.exports = { createBet, betHistory };
+
+const winningAmountJson = async (req, res) => {
+  try {
+    const betJSON = await Bet.findAll({
+      where: {
+        status: "WIN",
+      },
+      raw: true,
+    });
+
+    const result = betJSON.map((item) => {
+      const address = item.walletAddress;
+      const winningAmount =
+        item.Amount * item.TotalPrice -
+        (item.Amount * item.TotalPrice * process.env.COMMISION_PERCENTAGE) /
+          100;
+      return { address, amount: winningAmount.toFixed(3).toString() };
+    });
+
+    return res.json(result);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+module.exports = { createBet, betHistory, winningAmountJson };

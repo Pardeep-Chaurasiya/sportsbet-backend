@@ -24,4 +24,7 @@ router.post(
   betController.betHistory
 );
 
+// return json array for winning amount
+router.get("/reward", betController.winningAmountJson);
+
 module.exports = router;
