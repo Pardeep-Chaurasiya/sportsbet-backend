@@ -737,7 +737,7 @@ class Header extends React.Component {
                                         </span>
                                         <span style={{ marginRight: "20px" }}>
                                           {/* {item.possible_win} */}
-                                          {item.possible_win - item.possible_win * 0.02}
+                                          {(item.possible_win - item.possible_win * 0.02).toFixed(2)}
 
                                         </span>
                                       </p>

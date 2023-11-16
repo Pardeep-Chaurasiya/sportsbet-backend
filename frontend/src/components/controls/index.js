@@ -2081,15 +2081,15 @@ export default class Controls extends React.Component {
                                                   {/* // change  */}
 
                                                   {betMode === 3
-                                                    ? (this.sys_bet_result.win * 0.98) // Deducting 2% from the win
+                                                    ? (this.sys_bet_result.win * 0.98).toFixed(2) // Deducting 2% from the win
                                                       .toString()
                                                       .replace(/\d(?=(\d{3})+\.)/g, "$&,")
                                                     : betMode === 4
-                                                      ? Number.parseFloat(chainWinning * 0.98) // Deducting 2% from the chainWinning
+                                                      ? Number.parseFloat(chainWinning * 0.98).toFixed(2) // Deducting 2% from the chainWinning
                                                         .toFixed(2)
                                                         .toString()
                                                         .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-                                                      : (this.getPossibleWinAmount() * 0.98) // Deducting 2% from the possible win amount
+                                                      : (this.getPossibleWinAmount() * 0.98).toFixed(2)// Deducting 2% from the possible win amount
                                                         .toString()
                                                         .replace(/\d(?=(\d{3})+\.)/g, "$&,")
                                                   }
