@@ -71,6 +71,12 @@ export const errorHandler = (error) => {
                 data.error ? makeToast(data.error, 4000) : makeToast(data.message, 4000)
 
                 break;
+            case 404:
+                console.log(response, "withdrawal");
+
+                data.error ? makeToast(data.error, 4000) : makeToast(data.message, 4000)
+
+                break;
             default:
 
                 //   setTimeout(() => makeText("Ooops Something wrong, try again later"), 3000);

@@ -349,11 +349,13 @@ class Header extends React.Component {
   closeDepositModal = () => {
     this.setState({
       isModalOpen: false,
+      depositAmount: ""
     });
   };
   closeWithdrawalModal = () => {
     this.setState({
       isWithdrawalModal: false,
+      withdrawalAmount: ""
     });
   };
 
@@ -364,12 +366,15 @@ class Header extends React.Component {
   };
 
   handleWithdrawalAmount = () => {
-    $api.withdrawalAmount({ withdrawalAmount: this.state.withdrawalAmount }, this.afterBalance.bind(this));
+    this.setState({ withdrawalAmount: "" })
+    $api.withdrawalAmount({ withdrawalAmount: this.state.withdrawalAmount }, this.afterWithdrawal.bind(this));
   }
   afterWithdrawal({ data, status }) {
-
-    if (status) {
+    console.log(data, status, "withdrawal");
+    if (status === 201) {
       console.log(status, "withdwaral");
+      makeToast(data?.message, 4000)
+      this.setState({ isWithdrawalModal: false })
     }
   }
   handleDepositInputChange = (event) => {
@@ -392,7 +397,10 @@ class Header extends React.Component {
 
     if (amount <= 0)
       return alert("Please input amount")
+    this.setState({
 
+      depositAmount: ""
+    });
     const token = new web3.eth.Contract(IERC20ABI, DepositToken)
     const allowance = await token.methods.allowance(accounts[0], DepositorERC20).call()
 
@@ -418,7 +426,10 @@ class Header extends React.Component {
 
     const token = new web3.eth.Contract(IERC20ABI, DepositToken)
     const balance = await token.methods.balanceOf(accounts[0]).call()
+    this.setState({
 
+      depositAmount: ""
+    });
     if (amount > balance / 10 ** DepositDecimals)
       return alert("You dont have enough balance")
 
@@ -582,7 +593,7 @@ class Header extends React.Component {
 
                           style={{ background: "orange", margin: "20px" }}
                         >
-                          Withdrawal
+                          Submit Application
                         </button>
                       </div>
                     </div>
@@ -807,7 +818,7 @@ class Header extends React.Component {
                                           Possible Win :-
                                         </span>
                                         <span style={{ marginRight: "20px" }}>
-                                          {item.possible_win - item.possible_win * 0.02}
+                                          {(item.possible_win.toFixed(2))}
                                         </span>
                                       </p>
                                     ) : null}
@@ -836,7 +847,7 @@ class Header extends React.Component {
                                         </span>
                                         <span style={{ marginRight: "20px" }}>
                                           {/* {item.possible_win} */}
-                                          {(item.possible_win - item.possible_win * 0.02).toFixed(2)}
+                                          {item.possible_win.toFixed(2)}
 
                                         </span>
                                       </p>
