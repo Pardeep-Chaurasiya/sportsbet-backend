@@ -36,15 +36,13 @@ const withdrawalAmount = async (req, res) => {
       });
     } else {
       return res.status(400).json({
-        error: "Bad Request",
-        message: "Withdrawal amount is higher than Virtual balance",
+        error: "Withdrawal amount is higher than Virtual balance",
       });
     }
   } catch (error) {
     console.error(error);
     return res.status(500).json({
-      error: "Internal Server Error",
-      message: "An error occurred while processing the withdrawal request",
+      error: "An error occurred while processing the withdrawal request",
     });
   }
 };
