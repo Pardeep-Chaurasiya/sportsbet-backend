@@ -1,10 +1,10 @@
 const Joi = require("joi");
 
-const validateWithdrawlAmount = (req, res, next) => {
+const validateWithdrawalAmount = (req, res, next) => {
   const schema = Joi.object({
     walletId: Joi.string(),
     walletToken: Joi.string(),
-    withdrawlAmount: Joi.number(),
+    withdrawalAmount: Joi.number(),
   });
 
   const { error, value } = schema.validate(req.body);
@@ -18,5 +18,5 @@ const validateWithdrawlAmount = (req, res, next) => {
 };
 
 module.exports = {
-  validateWithdrawlAmount,
+  validateWithdrawalAmount,
 };

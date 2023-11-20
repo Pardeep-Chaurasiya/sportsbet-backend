@@ -6,11 +6,11 @@ const wallethMiddleware = require("../middleware/walletTokenMiddleware");
 const router = express.Router();
 
 // register user using wallet id
-router.patch(
-  "/withdrawlAmount",
+router.post(
+  "/withdrawalAmount",
   wallethMiddleware,
-  joi_validator.validateWithdrawlAmount,
-  walletController.withdrawlAmount
+  joi_validator.validateWithdrawalAmount,
+  walletController.withdrawalAmount
 );
 
 module.exports = router;

@@ -5,7 +5,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const betRoutes = require("./routes/betRoute");
 const walletRoute = require("./routes/walletRoute");
-const withdrawlRoute = require("./routes/withdrawlRoute");
+const withdrawalRoute = require("./routes/withdrawlRoute");
 // const swarmRoutes = require("./routes/swarmRoutes");
 require("./controllers/swarmFetchAndStoreData");
 
@@ -23,7 +23,7 @@ app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", betRoutes);
 app.use("/api", walletRoute);
-app.use("/api", withdrawlRoute);
+app.use("/api", withdrawalRoute);
 // app.use("/api", swarmRoutes);
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));

@@ -1,17 +1,15 @@
 const { UserWallet, Application } = require("../models");
 
-const withdrawlAmount = async (req, res) => {
+const withdrawalAmount = async (req, res) => {
   try {
     const walletAddress = req.UserWallet.address;
-    // const { withdrawlAmount, walletAddress } = req.body;
-    const { withdrawlAmount } = req.body;
+    const { withdrawalAmount } = req.body;
     const virtual_balance = await UserWallet.findOne({
       where: { walletAddress: walletAddress },
       raw: true,
     });
-    // console.log(req.body);
 
-    if (virtual_balance.virtualBalance >= withdrawlAmount) {
+    if (virtual_balance.virtualBalance >= withdrawalAmount) {
       // await UserWallet.update(
       //   {
       //     virtualBalance:
@@ -22,7 +20,7 @@ const withdrawlAmount = async (req, res) => {
       // return res.status(200).json({ message: "Amount withdrawl successfully" });
       await Application.create({
         walletAddress: walletAddress,
-        amount: withdrawlAmount,
+        amount: withdrawalAmount,
       });
       return res
         .status(201)
@@ -39,4 +37,4 @@ const withdrawlAmount = async (req, res) => {
   }
 };
 
-module.exports = { withdrawlAmount };
+module.exports = { withdrawalAmount };
