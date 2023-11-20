@@ -18,12 +18,18 @@ module.exports = (sequelize, DataTypes) => {
   }
   Application.init(
     {
-      walletAddress: DataTypes.STRING,
+      walletAddress: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+        allowNull: false,
+      },
       amount: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0 },
+      timestamp: { type: DataTypes.BIGINT },
     },
     {
       sequelize,
       modelName: "Application",
+      timestamps: false,
     }
   );
   return Application;
