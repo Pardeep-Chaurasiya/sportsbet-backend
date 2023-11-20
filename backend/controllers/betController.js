@@ -129,7 +129,10 @@ const betHistory = async (req, res) => {
     });
     const updatedHistory = history.map((item) => ({
       ...item,
-      possible_win: item.Amount * item.TotalPrice,
+      possible_win:
+        item.Amount * item.TotalPrice -
+        (item.Amount * item.TotalPrice * process.env.COMMISION_PERCENTAGE) /
+          100,
     }));
     return res.json(updatedHistory);
   } catch (error) {

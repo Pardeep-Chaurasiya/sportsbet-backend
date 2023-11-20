@@ -10,30 +10,42 @@ const withdrawalAmount = async (req, res) => {
     });
 
     if (virtual_balance.virtualBalance >= withdrawalAmount) {
-      // await UserWallet.update(
-      //   {
-      //     virtualBalance:
-      //       parseFloat(virtual_balance.virtualBalance) - withdrawlAmount,
-      //   },
-      //   { where: { walletAddress } }
-      // );
-      // return res.status(200).json({ message: "Amount withdrawl successfully" });
-      await Application.create({
-        walletAddress: walletAddress,
-        amount: withdrawalAmount,
+      // Check if there's an existing application for the user
+      let existingApplication = await Application.findOne({
+        where: { walletAddress: walletAddress },
       });
-      return res
-        .status(201)
-        .json({ message: "Withdrawal request created successfully" });
+
+      if (existingApplication) {
+        // If an existing application is found, update the amount
+        await existingApplication.update({
+          amount: withdrawalAmount,
+          timestamp: Math.floor(Date.now() / 1000),
+        });
+      } else {
+        // If no existing application, create a new one
+        let application = new Application({
+          walletAddress: walletAddress,
+          amount: withdrawalAmount,
+          timestamp: Math.floor(Date.now() / 1000),
+        });
+        await application.save();
+      }
+
+      return res.status(201).json({
+        message: "Withdrawal request created or updated successfully",
+      });
     } else {
-      return res
-        .status(404)
-        .json({ error: "Withdrawal amount is higher then Virtual balance" });
+      return res.status(400).json({
+        error: "Bad Request",
+        message: "Withdrawal amount is higher than Virtual balance",
+      });
     }
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "An error occurred while fetching the virtual balance" });
+    console.error(error);
+    return res.status(500).json({
+      error: "Internal Server Error",
+      message: "An error occurred while processing the withdrawal request",
+    });
   }
 };
 
