@@ -1,21 +1,46 @@
-DB Configurations and .env File:-
+# SportsBet API
 
-PORT = 4000
-DB_NAME = sportsbet
-DB_USERNAME = root
-DB_PASSWORD = password
-DB_PORT = 3306
-JWT_SECRET_KEY = 123ajsbdj123
-ACCOUNT_SID = ACc4b0baa05d1bea127ca08bf29a062d45
-AUTH_TOKEN = 07c6cbd7e0ff24713d0c7ee7bd3100af
-TWILIO_NUMBER = +17745045538
-Avatar_Base_URL="http://159.65.156.19:4000"
-ADMIN_METAMASK_WALLET = 0xa206051882eff86621f4344f68f8180c94d611a0
-COMMISION_PERCENTAGE = 2
+Welcome to the SportsBet API repository! This API provides functionality for handling sports betting operations.
 
-Commands for DATABASE :-
+### Installation
 
-CREATE DATABASE sportsbet;
+# 1: Clone the repository
 
-Command for creating the migration :-
+git clone https://github.com/your-username/sportsbet-api.git
+
+# 2: Install dependencies:
+
+npm install
+
+# 3: Start the server (Frontend):
+
+npm start
+
+# 4: Start the server (Backend):
+
+npm run dev
+
+### Database Configurations and .env File
+
+Make sure to create a `.env` file in the backend directory of your project with the following configurations:
+
+PORT=
+DB_NAME=
+DB_USERNAME=
+DB_PASSWORD=
+DB_PORT=
+JWT_SECRET_KEY=
+ACCOUNT_SID=
+AUTH_TOKEN=
+TWILIO_NUMBER=
+Avatar_Base_URL=
+ADMIN_METAMASK_WALLET=
+COMMISION_PERCENTAGE=
+
+### Commands for Database
+
+CREATE DATABASE DB-NAME;
+
+### Run the migration to set up the database tables
+
 npx sequelize-cli db:migrate
