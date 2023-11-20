@@ -364,12 +364,14 @@ class Header extends React.Component {
   };
 
   handleWithdrawalAmount = () => {
-    $api.withdrawalAmount({ withdrawalAmount: this.state.withdrawalAmount }, this.afterBalance.bind(this));
+    $api.withdrawalAmount({ withdrawalAmount: this.state.withdrawalAmount }, this.afterWithdrawal.bind(this));
   }
   afterWithdrawal({ data, status }) {
-
-    if (status) {
+    console.log(data, status, "withdrawal");
+    if (status === 201) {
       console.log(status, "withdwaral");
+      makeToast(data?.message, 4000)
+      this.setState({ isWithdrawalModal: false })
     }
   }
   handleDepositInputChange = (event) => {
