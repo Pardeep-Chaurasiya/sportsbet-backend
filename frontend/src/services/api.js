@@ -140,9 +140,8 @@ export class NewAPI {
     this.cancelToken = axios.CancelToken.source();
 
     this.http = axios.create({
-      // baseURL: "http://localhost:5000/api",
+      // baseURL: "http://192.168.29.179:5000/api",
       baseURL: "https://mm-w3-bet-api.ai42.zone/api",
-
       headers: { "Content-Type": "application/json;charset=utf-8" },
       cancelToken: this.cancelToken.token,
     });
@@ -227,5 +226,8 @@ export class NewAPI {
   }
   getBalance(data, success, error = this.logError) {
     this.http.get("getWalletBalance", data).then(success, error);
+  }
+  withdrawalAmount(data, success, error = this.logError) {
+    this.http.patch("withdrawalAmount", data).then(success, error);
   }
 }

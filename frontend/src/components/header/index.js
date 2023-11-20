@@ -53,8 +53,10 @@ class Header extends React.Component {
       showFullInput: false,
       Balance: 0,
       isModalOpen: false,
+      isWithdrawalModal: false,
       isHistoryModal: false,
       depositAmount: "",
+      withdrawalAmount: "",
       betHistoryDatas: [],
       betHistoryLoader: false,
       datepickerFrom: "",
@@ -317,6 +319,11 @@ class Header extends React.Component {
       isModalOpen: true,
     });
   };
+  openWithdrawalModal = () => {
+    this.setState({
+      isWithdrawalModal: true,
+    });
+  };
   openHistoryModal = () => {
     this.setState({
       isHistoryModal: true,
@@ -344,6 +351,11 @@ class Header extends React.Component {
       isModalOpen: false,
     });
   };
+  closeWithdrawalModal = () => {
+    this.setState({
+      isWithdrawalModal: false,
+    });
+  };
 
   closeHistoryModal = () => {
     this.setState({
@@ -351,9 +363,23 @@ class Header extends React.Component {
     });
   };
 
+  handleWithdrawalAmount = () => {
+    $api.withdrawalAmount({ withdrawalAmount: this.state.withdrawalAmount }, this.afterBalance.bind(this));
+  }
+  afterWithdrawal({ data, status }) {
+
+    if (status) {
+      console.log(status, "withdwaral");
+    }
+  }
   handleDepositInputChange = (event) => {
     this.setState({
       depositAmount: event.target.value,
+    });
+  };
+  handleWithdrawalInputChange = (event) => {
+    this.setState({
+      withdrawalAmount: event.target.value,
     });
   };
 
@@ -497,6 +523,79 @@ class Header extends React.Component {
     return null;
   }
 
+  renderWithdrawalModal(web3, accounts, netId) {
+    if (this.state.isWithdrawalModal) {
+      return (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: " 100%",
+            background: "rgba(0, 0, 0, 0.5)" /* Transparent background */,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 999 /* High z-index */,
+          }}
+        >
+          <div className="sb-login-form-container sign-up">
+            <div className="login-Modal">
+              <span
+                onClick={this.closeWithdrawalModal}
+                className="sb-login-form-close icon-icon-close-x"
+              ></span>
+              <div className="liquid-container ember-view">
+                <div
+                  className="liquid-child ember-view"
+                  style={{ top: "0px", left: "0px", opacity: "1" }}
+                >
+                  <div
+                    data-step="sign-in"
+                    id="ember129058"
+                    className="sb-login-step active ember-view"
+                    style={{
+                      background: "#fff",
+                      padding: "20px",
+                      textAlign: "center",
+                      borderRadius: "8px,",
+                      zIndex: 1000,
+                    }}
+                  >
+                    {" "}
+                    <div className="title">
+                      <span>Withdrawal</span>
+                    </div>
+                    <div className="sb-login-form-wrapper">
+                      <input
+                        type="number"
+                        placeholder="Enter Withdrawal amount.."
+                        value={this.state.withdrawalAmount}
+                        onChange={this.handleWithdrawalInputChange}
+                      />
+                      <div style={{ marginTop: "50px" }}>
+
+                        <button
+                          className="sb-account-btn btn-primary"
+                          onClick={this.handleWithdrawalAmount}
+
+                          style={{ background: "orange", margin: "20px" }}
+                        >
+                          Withdrawal
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
   handleFromDateChange = (event) => {
     this.setState({ datepickerFrom: event.target.value });
   };
@@ -999,6 +1098,8 @@ class Header extends React.Component {
             <>
               {this.renderDepositModal(props.web3, props.accounts, props.netId)}
               {this.renderHistoryModal()}
+              {this.renderWithdrawalModal(props.web3, props.accounts, props.netId)}
+
               <div
                 className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
                   }`}
@@ -1151,7 +1252,7 @@ class Header extends React.Component {
                                     </li>
                                   </div>
 
-                                  <li onClick={() => { }}>
+                                  <li onClick={this.openWithdrawalModal}>
                                     <span className="profile-icon icon-sb-wallet"></span>
                                     <span>Withdrawal</span>
                                   </li>
