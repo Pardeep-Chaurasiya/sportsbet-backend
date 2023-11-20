@@ -228,6 +228,6 @@ export class NewAPI {
     this.http.get("getWalletBalance", data).then(success, error);
   }
   withdrawalAmount(data, success, error = this.logError) {
-    this.http.patch("withdrawalAmount", data).then(success, error);
+    this.http.post("withdrawalAmount", data).then(success, error);
   }
 }
