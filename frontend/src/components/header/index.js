@@ -884,7 +884,7 @@ class Header extends React.Component {
                                     </p>
                                   </div>
                                 );
-                              })}
+                              }).reverse()}
                             </div>
                           ) : (
                             <div>
