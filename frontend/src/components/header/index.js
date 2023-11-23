@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./header.css";
+import axios from "axios";
 import * as $ from "jquery";
 import logo from "../../images/logo.png";
 import moment from "moment-timezone";
@@ -12,12 +13,16 @@ import ReCAPTCHA from "react-google-recaptcha";
 import DepositorERC20ABI from '../../abi/DepositorERC20ABI';
 import IERC20ABI from '../../abi/IERC20ABI';
 import { Web3Context } from "../../App";
+import MerkleABI from "../../abi/MerkleABI";
 import {
   NetIdMessage,
   NETID,
   DepositorERC20,
   DepositDecimals,
-  DepositToken
+  DepositToken,
+  API_ENDPOINT,
+  Merkle,
+  USDTDecimals
 } from "../../config";
 import { NewAPI } from "../../services/api";
 import Web3Token from "web3-token";
@@ -53,6 +58,7 @@ class Header extends React.Component {
       showFullInput: false,
       Balance: 0,
       isModalOpen: false,
+      isSubmitApplicationModal: false,
       isWithdrawalModal: false,
       isHistoryModal: false,
       depositAmount: "",
@@ -61,6 +67,11 @@ class Header extends React.Component {
       betHistoryLoader: false,
       datepickerFrom: "",
       datepickerTo: "",
+      showLoad: false,
+      withdraws: [],
+      checked: false,
+      web3: null,
+      accounts: null,
     };
     this.openModal = this.openModal.bind(this);
     this.logOut = this.logOut.bind(this);
@@ -238,7 +249,7 @@ class Header extends React.Component {
   //   }
   // }
 
-  connectWallet = async (setWeb3, setNetId, setAccounts, web3, accounts) => {
+  connectWallet = async (setWeb3, setNetId, setAccounts) => {
     try {
       const web3 = await getWeb3();
 
@@ -247,7 +258,10 @@ class Header extends React.Component {
 
       const accounts = await web3.eth.getAccounts();
       setAccounts(accounts);
-
+      // this.setState({
+      //   web3: web3,
+      //   accounts: accounts
+      // })
       const walletId = accounts[0];
       console.log(web3, accounts[0], "account");
       const Token = localStorage.getItem("walletToken");
@@ -274,9 +288,33 @@ class Header extends React.Component {
       } else {
         makeToast("metamask connected successfully", 3000);
       }
+      // componentDidUpdate(prevProps, prevState) {
+      //   const { web3, accounts } = this.state;
+      //   if (web3 && accounts && (web3 !== prevProps.web3 || accounts !== prevProps.accounts)) {
+      //     const netId = Number(web3.eth.net.getId());
+      //     if (netId === Number(NETID)) {
+      //       this.setState({ showLoad: true });
+      //       this.loadData(accounts);
+      //     } else {
+      //       alert(NetIdMessage);
+      //     }
+      //   }
+      // }
+
       const netId = await web3.eth.net.getId();
       console.log(netId, "netid");
       setNetId(netId);
+      if (web3 && accounts) {
+        const netId = Number(await web3.eth.net.getId());
+        if (netId === Number(NETID)) {
+          this.setState({ showLoad: true })
+          this.loadData(accounts);
+        }
+        else {
+          alert(NetIdMessage)
+        }
+
+      }
     } catch (error) {
       console.error("Error connecting to the wallet:", error);
     }
@@ -319,6 +357,11 @@ class Header extends React.Component {
       isModalOpen: true,
     });
   };
+  openSubmitAppliationModal = () => {
+    this.setState({
+      isSubmitApplicationModal: true,
+    });
+  };
   openWithdrawalModal = () => {
     this.setState({
       isWithdrawalModal: true,
@@ -352,10 +395,16 @@ class Header extends React.Component {
       depositAmount: ""
     });
   };
+  closeSubmitApplicationModal = () => {
+    this.setState({
+      isSubmitApplicationModal: false,
+      withdrawalAmount: ""
+    });
+  };
   closeWithdrawalModal = () => {
     this.setState({
       isWithdrawalModal: false,
-      withdrawalAmount: ""
+
     });
   };
 
@@ -365,16 +414,16 @@ class Header extends React.Component {
     });
   };
 
-  handleWithdrawalAmount = () => {
+  handleSubmitApplicationAmount = () => {
     this.setState({ withdrawalAmount: "" })
-    $api.withdrawalAmount({ withdrawalAmount: this.state.withdrawalAmount }, this.afterWithdrawal.bind(this));
+    $api.withdrawalAmount({ withdrawalAmount: this.state.withdrawalAmount }, this.afterSubmitApplication.bind(this));
   }
-  afterWithdrawal({ data, status }) {
+  afterSubmitApplication({ data, status }) {
     console.log(data, status, "withdrawal");
     if (status === 201) {
       console.log(status, "withdwaral");
       makeToast(data?.message, 4000)
-      this.setState({ isWithdrawalModal: false })
+      this.setState({ isSubmitApplicationModal: false })
     }
   }
   handleDepositInputChange = (event) => {
@@ -413,6 +462,73 @@ class Header extends React.Component {
       "115792089237316195423570985008687907853269984665640564039457584007913129639935"
     ).send({ from: accounts[0] })
   }
+
+
+
+  withdraw = async (e, web3, accounts, root, amount) => {
+    e.preventDefault();
+    const tokenData = JSON.parse(localStorage.getItem("walletToken"));
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${tokenData.token}`
+      }
+    };
+    if (!web3) return alert("Please connect wallet");
+
+    const proofData = await axios.get(API_ENDPOINT + "get-prof/" + root + "/" + accounts[0] + "/" + amount, {}, config);
+    const merkle = new web3.eth.Contract(MerkleABI, Merkle);
+    const isClaimed = await merkle.methods.claimed(root, accounts[0]).call();
+
+    if (isClaimed) {
+      return alert("Already withdrawn");
+    }
+
+    const proof = proofData.data.result;
+    merkle.methods.claim(
+      proof,
+      accounts[0],
+      amount,
+      root
+    ).send({ from: accounts[0] });
+  }
+
+  loadData = async (accounts) => {
+    try {
+
+      const tokenData = JSON.parse(localStorage.getItem("walletToken"));
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${tokenData.token}`
+        }
+      };
+      const rootsData = await axios.get(API_ENDPOINT + 'roots', {}, config);
+      const roots = rootsData.data.result;
+      const withdraws = [];
+
+      for (let i = 0; i < roots.length; i++) {
+        const detailsData = await axios.get(API_ENDPOINT + 'get-data-by-root/' + roots[i], {}, config);
+        const detailsArr = detailsData.data.result.data;
+
+        const result = detailsArr.find(item => item.address === accounts[0]);
+
+        if (result) {
+          result.root = roots[i];
+          withdraws.push(result);
+        }
+      }
+
+      this.setState({
+        withdraws: withdraws,
+        showLoad: false,
+        checked: true
+      });
+
+    } catch (e) {
+      alert("Can't load data");
+      console.log('error', e);
+    }
+  }
+
 
   depositFunds = async (amount, web3, accounts, netId) => {
     if (!web3)
@@ -534,6 +650,79 @@ class Header extends React.Component {
     return null;
   }
 
+  renderSubmitApplicationModal(web3, accounts, netId) {
+    if (this.state.isSubmitApplicationModal) {
+      return (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: " 100%",
+            background: "rgba(0, 0, 0, 0.5)" /* Transparent background */,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 999 /* High z-index */,
+          }}
+        >
+          <div className="sb-login-form-container sign-up">
+            <div className="login-Modal">
+              <span
+                onClick={this.closeSubmitApplicationModal}
+                className="sb-login-form-close icon-icon-close-x"
+              ></span>
+              <div className="liquid-container ember-view">
+                <div
+                  className="liquid-child ember-view"
+                  style={{ top: "0px", left: "0px", opacity: "1" }}
+                >
+                  <div
+                    data-step="sign-in"
+                    id="ember129058"
+                    className="sb-login-step active ember-view"
+                    style={{
+                      background: "#fff",
+                      padding: "20px",
+                      textAlign: "center",
+                      borderRadius: "8px,",
+                      zIndex: 1000,
+                    }}
+                  >
+                    {" "}
+                    <div className="title">
+                      <span>Submit Application</span>
+                    </div>
+                    <div className="sb-login-form-wrapper">
+                      <input
+                        type="number"
+                        placeholder="Enter Withdrawal amount.."
+                        value={this.state.withdrawalAmount}
+                        onChange={this.handleWithdrawalInputChange}
+                      />
+                      <div style={{ marginTop: "50px" }}>
+
+                        <button
+                          className="sb-account-btn btn-primary"
+                          onClick={this.handleSubmitApplicationAmount}
+
+                          style={{ background: "orange", margin: "20px" }}
+                        >
+                          Submit Application
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
   renderWithdrawalModal(web3, accounts, netId) {
     if (this.state.isWithdrawalModal) {
       return (
@@ -579,22 +768,61 @@ class Header extends React.Component {
                       <span>Withdrawal</span>
                     </div>
                     <div className="sb-login-form-wrapper">
-                      <input
-                        type="number"
-                        placeholder="Enter Withdrawal amount.."
-                        value={this.state.withdrawalAmount}
-                        onChange={this.handleWithdrawalInputChange}
-                      />
-                      <div style={{ marginTop: "50px" }}>
-
-                        <button
-                          className="sb-account-btn btn-primary"
-                          onClick={this.handleWithdrawalAmount}
-
-                          style={{ background: "orange", margin: "20px" }}
-                        >
-                          Submit Application
-                        </button>
+                      <div className='create section__padding'>
+                        <div className="create-container">
+                          <form className='writeForm' autoComplete='off'>
+                            {
+                              !web3
+                                ? (
+                                  <div className="formGroup">
+                                    <label>Please connect wallet</label>
+                                  </div>
+                                )
+                                : (
+                                  <>
+                                    {
+                                      this.state.showLoad
+                                        ? (
+                                          <div className="formGroup">
+                                            <label>Load data ...</label>
+                                          </div>
+                                        )
+                                        :
+                                        (
+                                          this.state.withdraws.length > 0
+                                            ? (
+                                              this.state.withdraws.map(i => {
+                                                return (
+                                                  <div key={i.root}>
+                                                    <p> Amount: {i.amount / 10 ** USDTDecimals}</p>
+                                                    <button
+                                                      onClick={(e) => this.withdraw(e, web3, accounts, i.root, i.amount)}
+                                                      className='writeButton'
+                                                    >
+                                                      Withdraw
+                                                    </button>
+                                                  </div>
+                                                );
+                                              })
+                                            )
+                                            : (
+                                              <>
+                                                {
+                                                  this.state.checked
+                                                    ? (
+                                                      <p style={{ color: "red" }}>Nothing to withdraw yet</p>
+                                                    )
+                                                    : null
+                                                }
+                                              </>
+                                            )
+                                        )
+                                    }
+                                  </>
+                                )
+                            }
+                          </form>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1109,7 +1337,9 @@ class Header extends React.Component {
             <>
               {this.renderDepositModal(props.web3, props.accounts, props.netId)}
               {this.renderHistoryModal()}
+              {this.renderSubmitApplicationModal(props.web3, props.accounts, props.netId)}
               {this.renderWithdrawalModal(props.web3, props.accounts, props.netId)}
+
 
               <div
                 className={`header-container ${this.props.casinoMode.playMode && "fullscreen"
@@ -1256,30 +1486,23 @@ class Header extends React.Component {
                                     <span className="profile-icon icon-sb-my-bets"></span>
                                     <span>Bets History</span>
                                   </li>
-                                  <div>
-                                    <li onClick={this.openDepositModal}>
-                                      <span className="profile-icon icon-sb-deposit"></span>
-                                      <span>Bet(Deposit)</span>
-                                    </li>
-                                  </div>
 
-                                  <li onClick={this.openWithdrawalModal}>
-                                    <span className="profile-icon icon-sb-wallet"></span>
-                                    <span>Withdrawal</span>
+                                  <li onClick={this.openDepositModal}>
+                                    <span className="profile-icon icon-sb-deposit"></span>
+                                    <span>Deposit</span>
                                   </li>
 
-                                  {/* <li onClick={() => this.openModal(3, 3)}>
-                                  <span className="profile-icon icon-sb-my-bets"></span>
-                                  <span>Transactions</span>
-                                </li> */}
-                                  {/* <li onClick={()=>this.openModal(5,1)}>
-                                                              <span className="profile-icon icon-sb-bonuses" style={{position:'relative'}}><i className="notice show-notice"></i></span>
-                                                              <span>Bonuses</span>
-                                                          </li> */}
-                                  {/* <li onClick={()=>this.openModal(6)}>
-                                                              <span className="profile-icon icon-sb-messages"></span>
-                                                              <span>Messages</span>
-                                                          </li> */}
+
+                                  <li onClick={this.openSubmitAppliationModal}>
+                                    <span className="profile-icon icon-sb-wallet"></span>
+                                    <span>Submit Application</span>
+                                  </li>
+                                  <li onClick={this.openWithdrawalModal}>
+                                    <span className="profile-icon icon-sb-wallet"></span>
+                                    <span>withdrawal </span>
+                                  </li>
+
+
                                   {appState.isLoggedIn && (
                                     <li onClick={() => this.openModal(1, 2)}>
                                       <span className="profile-icon icon-sb-edit-profile"></span>
@@ -1386,265 +1609,7 @@ class Header extends React.Component {
                                           <div className="link"><NavLink to="/news"><span>News</span></NavLink></div> */}
                           {/* <div className="link"><NavLink to="/sports/result"><span>Match Results</span></NavLink></div> */}
                         </div>
-                        <div
-                          className={`search ${showFullInput ? "input-active" : ""
-                            } ${activeView === "Live" || activeView === "Prematch"
-                              ? "hidden"
-                              : "hidden"
-                            }`}
-                        >
-                          <div
-                            className={`sportsbook-search ${showFullInput
-                              ? "search-full-width"
-                              : "search-minimal"
-                              }`}
-                            style={{
-                              padding: "unset",
-                              paddingTop: "unset",
-                              alignSelf: "center",
-                              backgroundColor: "unset",
-                            }}
-                          >
-                            <div className="sportsbook-search-input static">
-                              <i className="sport-icon icon-icon-search "></i>
 
-                              {!showFullInput && (
-                                <div className={`search`}>
-                                  <span className="icon-icon-search"></span>
-                                </div>
-                              )}
-                              <input
-                                placeholder={`${showFullInput ? "Search Competition/Game" : ""
-                                  }`}
-                                className="search-input ember-text-field ember-view"
-                                type="text"
-                                onChange={(e) => searchGame(e)}
-                                ref={(el) => {
-                                  this.searchInput = el;
-                                }}
-                                onFocus={this.onFormInputFocus}
-                                onBlur={this.onFormInputFocusLost}
-                              />
-                              {this.searchInput && showFullInput > 0 ? (
-                                <div
-                                  className="clear"
-                                  onClick={() => {
-                                    this.clearSearch();
-                                  }}
-                                  style={{ top: 0 }}
-                                >
-                                  <span className="uci-close"></span>
-                                </div>
-                              ) : null}
-                              <div
-                                className={`search-results open ${emptyResult || searching ? "no-results" : ""
-                                  }`}
-                              >
-                                {(hasGameResult || hasCompetionsResult) && (
-                                  <div className="search-results-arrow"></div>
-                                )}
-                                <div className="search-results-inner">
-                                  <div className="search-results-inner-background">
-                                    <div className="search-results-container">
-                                      <Transition
-                                        items={searching}
-                                        from={{ opacity: 0 }}
-                                        enter={{ opacity: 1 }}
-                                        leave={{ opacity: 0 }}
-                                      >
-                                        {(searching) =>
-                                          searching &&
-                                          ((props) => (
-                                            <div
-                                              className="searching-container sb-spinner"
-                                              style={{ ...props }}
-                                            >
-                                              <span className="btn-preloader sb-preloader"></span>
-                                            </div>
-                                          ))
-                                        }
-                                      </Transition>
-                                      <div className="search-results-section">
-                                        {hasGameResult ||
-                                          hasCompetionsResult ? (
-                                          <React.Fragment>
-                                            {hasGameResult && (
-                                              <div className="search-results-section-title">
-                                                <span>Games</span>
-                                              </div>
-                                            )}
-                                            {searchResult.game.map(
-                                              (sport, regId) => {
-                                                var region = [];
-                                                Object.keys(
-                                                  sport.region
-                                                ).forEach((reg) => {
-                                                  region.push(
-                                                    sport.region[reg]
-                                                  );
-                                                });
-                                                return (
-                                                  <div
-                                                    className="search-results-sport"
-                                                    key={
-                                                      regId + "games" + sport.id
-                                                    }
-                                                  >
-                                                    <div className="search-results-sport-title">
-                                                      <div className="search-results-sport-title-text">
-                                                        {sport.name}
-                                                      </div>
-                                                    </div>
-                                                    <ul>
-                                                      {region.map((reg) => {
-                                                        var competition = [],
-                                                          games = [];
-                                                        Object.keys(
-                                                          reg.competition
-                                                        ).forEach((compete) => {
-                                                          competition.push(
-                                                            reg.competition[
-                                                            compete
-                                                            ]
-                                                          );
-                                                        });
-                                                        return competition.map(
-                                                          (c) => {
-                                                            var games = [];
-                                                            Object.keys(
-                                                              c.game
-                                                            ).forEach((g) => {
-                                                              games.push(
-                                                                c.game[g]
-                                                              );
-                                                            });
-                                                            return games.map(
-                                                              (game) => {
-                                                                return (
-                                                                  <li
-                                                                    className="search-results-match"
-                                                                    key={
-                                                                      game.id +
-                                                                      "" +
-                                                                      c.id +
-                                                                      "" +
-                                                                      reg.id
-                                                                    }
-                                                                    onClick={() => {
-                                                                      this.openSearchedGame(
-                                                                        c,
-                                                                        reg,
-                                                                        sport,
-                                                                        game
-                                                                      );
-                                                                      this.clearSearch();
-                                                                    }}
-                                                                  >
-                                                                    <div className="search-results-match-title">
-                                                                      {
-                                                                        game.team1_name
-                                                                      }
-                                                                      {game.team2_name
-                                                                        ? " - " +
-                                                                        game.team2_name
-                                                                        : ""}
-                                                                    </div>
-                                                                    <div className="search-results-match-details">
-                                                                      {c.name}
-                                                                    </div>
-                                                                  </li>
-                                                                );
-                                                              }
-                                                            );
-                                                          }
-                                                        );
-                                                      })}
-                                                    </ul>
-                                                  </div>
-                                                );
-                                              }
-                                            )}
-                                            {hasCompetionsResult && (
-                                              <div className="search-results-section-title">
-                                                <span>Competitions</span>
-                                              </div>
-                                            )}
-                                            {searchResult.competition.map(
-                                              (sport, regId) => {
-                                                var region = [];
-                                                Object.keys(
-                                                  sport.region
-                                                ).forEach((reg) => {
-                                                  region.push(
-                                                    sport.region[reg]
-                                                  );
-                                                });
-                                                return (
-                                                  <div
-                                                    className="search-results-sport"
-                                                    key={regId + "compettiions"}
-                                                  >
-                                                    <div className="search-results-sport-title">
-                                                      <div className="search-results-sport-title-text">
-                                                        {sport.name}
-                                                      </div>
-                                                    </div>
-                                                    <ul>
-                                                      {region.map((reg) => {
-                                                        var competition = [],
-                                                          games = [];
-                                                        Object.keys(
-                                                          reg.competition
-                                                        ).forEach((compete) => {
-                                                          competition.push(
-                                                            reg.competition[
-                                                            compete
-                                                            ]
-                                                          );
-                                                        });
-                                                        return competition.map(
-                                                          (c) => {
-                                                            return (
-                                                              <li
-                                                                className="search-results-match"
-                                                                key={c.id}
-                                                                onClick={() => {
-                                                                  this.openSearchedGame(
-                                                                    c,
-                                                                    reg,
-                                                                    sport
-                                                                  );
-                                                                  this.clearSearch();
-                                                                }}
-                                                              >
-                                                                <div className="search-results-match-title">
-                                                                  {reg.alias} -{" "}
-                                                                  {c.name}
-                                                                </div>
-                                                              </li>
-                                                            );
-                                                          }
-                                                        );
-                                                      })}
-                                                    </ul>
-                                                  </div>
-                                                );
-                                              }
-                                            )}
-                                          </React.Fragment>
-                                        ) : (
-                                          <div className="no-results-container">
-                                            No search results
-                                          </div>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
