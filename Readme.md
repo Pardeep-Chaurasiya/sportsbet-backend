@@ -20,7 +20,7 @@ npm start
 
 npm run dev
 
-### Database Configurations and .env File
+### Database Configurations 
 
 Make sure to create a `.env` file in the backend directory of your project with the following configurations:
 
