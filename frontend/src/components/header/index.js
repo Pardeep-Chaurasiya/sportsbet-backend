@@ -462,74 +462,6 @@ class Header extends React.Component {
       "115792089237316195423570985008687907853269984665640564039457584007913129639935"
     ).send({ from: accounts[0] })
   }
-
-
-
-  withdraw = async (e, web3, accounts, root, amount) => {
-    e.preventDefault();
-    const tokenData = JSON.parse(localStorage.getItem("walletToken"));
-    const config = {
-      headers: {
-        'Authorization': `Bearer ${tokenData.token}`
-      }
-    };
-    if (!web3) return alert("Please connect wallet");
-
-    const proofData = await axios.get(API_ENDPOINT + "get-prof/" + root + "/" + accounts[0] + "/" + amount, {}, config);
-    const merkle = new web3.eth.Contract(MerkleABI, Merkle);
-    const isClaimed = await merkle.methods.claimed(root, accounts[0]).call();
-
-    if (isClaimed) {
-      return alert("Already withdrawn");
-    }
-
-    const proof = proofData.data.result;
-    merkle.methods.claim(
-      proof,
-      accounts[0],
-      amount,
-      root
-    ).send({ from: accounts[0] });
-  }
-
-  loadData = async (accounts) => {
-    try {
-
-      const tokenData = JSON.parse(localStorage.getItem("walletToken"));
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${tokenData.token}`
-        }
-      };
-      const rootsData = await axios.get(API_ENDPOINT + 'roots', {}, config);
-      const roots = rootsData.data.result;
-      const withdraws = [];
-
-      for (let i = 0; i < roots.length; i++) {
-        const detailsData = await axios.get(API_ENDPOINT + 'get-data-by-root/' + roots[i], {}, config);
-        const detailsArr = detailsData.data.result.data;
-
-        const result = detailsArr.find(item => item.address === accounts[0]);
-
-        if (result) {
-          result.root = roots[i];
-          withdraws.push(result);
-        }
-      }
-
-      this.setState({
-        withdraws: withdraws,
-        showLoad: false,
-        checked: true
-      });
-
-    } catch (e) {
-      alert("Can't load data");
-      console.log('error', e);
-    }
-  }
-
-
   depositFunds = async (amount, web3, accounts, netId) => {
     if (!web3)
       return alert("Please connect wallet")
@@ -559,6 +491,75 @@ class Header extends React.Component {
     depositor.methods.deposit(String(amount * 10 ** DepositDecimals))
       .send({ from: accounts[0] })
   }
+
+
+  withdraw = async (e, web3, accounts, root, amount) => {
+    e.preventDefault();
+    const tokenData = JSON.parse(localStorage.getItem("walletToken"));
+    // const config = {
+    //   headers: {
+    //     'Authorization': `Bearer ${tokenData.token}`
+    //   }
+    // };
+    if (!web3) return alert("Please connect wallet");
+
+    const proofData = await axios.get(API_ENDPOINT + "get-prof/" + root + "/" + accounts[0] + "/" + amount);
+    const merkle = new web3.eth.Contract(MerkleABI, Merkle);
+    const isClaimed = await merkle.methods.claimed(root, accounts[0]).call();
+
+    if (isClaimed) {
+      return alert("Already withdrawn");
+    }
+
+    const proof = proofData.data.result;
+    merkle.methods.claim(
+      proof,
+      accounts[0],
+      amount,
+      root
+    ).send({ from: accounts[0] });
+  }
+
+  loadData = async (accounts) => {
+    try {
+
+      const tokenData = JSON.parse(localStorage.getItem("walletToken"));
+      // const config = {
+      //   headers: {
+      //     'Authorization': `Bearer ${tokenData.token}`
+      //   }
+      // };
+      const rootsData = await axios.get(API_ENDPOINT + 'roots');
+      const roots = rootsData.data.result;
+      console.log(roots, "rootsdata");
+      const withdraws = [];
+
+      for (let i = 0; i < roots.length; i++) {
+        const detailsData = await axios.get(API_ENDPOINT + 'get-data-by-root/' + roots[i]);
+        const detailsArr = detailsData.data.result.data;
+
+        const result = detailsArr.find(item => item.address === accounts[0]);
+
+        if (result) {
+          result.root = roots[i];
+          withdraws.push(result);
+        }
+      }
+
+      this.setState({
+        withdraws: withdraws,
+        showLoad: false,
+        checked: true
+      });
+
+    } catch (e) {
+      alert("Can't load data");
+      console.log('error', e);
+    }
+  }
+
+
+
 
   renderDepositModal(web3, accounts, netId) {
     if (this.state.isModalOpen) {
