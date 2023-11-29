@@ -10,14 +10,12 @@ import { allActionDucer } from "../../actionCreator";
 import { PROFILE } from "../../actionReducers";
 import ReCAPTCHA from "react-google-recaptcha";
 
-import DepositorERC20ABI from '../../abi/DepositorERC20ABI';
 import IERC20ABI from '../../abi/IERC20ABI';
 import { Web3Context } from "../../App";
 import MerkleABI from "../../abi/MerkleABI";
 import {
   NetIdMessage,
   NETID,
-  DepositorERC20,
   DepositDecimals,
   DepositToken,
   API_ENDPOINT,
@@ -446,22 +444,20 @@ class Header extends React.Component {
 
     if (amount <= 0)
       return alert("Please input amount")
-    this.setState({
 
-      depositAmount: ""
-    });
     const token = new web3.eth.Contract(IERC20ABI, DepositToken)
-    const allowance = await token.methods.allowance(accounts[0], DepositorERC20).call()
+    const allowance = await token.methods.allowance(accounts[0], Merkle).call()
 
     if ((allowance / 10 ** DepositDecimals) > amount)
       return alert("Alredy approved")
 
     // approve max uint 256
     token.methods.approve(
-      DepositorERC20,
+      Merkle,
       "115792089237316195423570985008687907853269984665640564039457584007913129639935"
     ).send({ from: accounts[0] })
   }
+
   depositFunds = async (amount, web3, accounts, netId) => {
     if (!web3)
       return alert("Please connect wallet")
@@ -474,19 +470,16 @@ class Header extends React.Component {
 
     const token = new web3.eth.Contract(IERC20ABI, DepositToken)
     const balance = await token.methods.balanceOf(accounts[0]).call()
-    this.setState({
 
-      depositAmount: ""
-    });
     if (amount > balance / 10 ** DepositDecimals)
       return alert("You dont have enough balance")
 
-    const allowance = await token.methods.allowance(accounts[0], DepositorERC20).call()
+    const allowance = await token.methods.allowance(accounts[0], Merkle).call()
 
     if (allowance / 10 ** DepositDecimals < amount)
       return alert("Please approve")
 
-    const depositor = new web3.eth.Contract(DepositorERC20ABI, DepositorERC20)
+    const depositor = new web3.eth.Contract(MerkleABI, Merkle)
 
     depositor.methods.deposit(String(amount * 10 ** DepositDecimals))
       .send({ from: accounts[0] })
