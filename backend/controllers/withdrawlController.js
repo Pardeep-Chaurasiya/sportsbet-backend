@@ -12,7 +12,7 @@ const withdrawalAmount = async (req, res) => {
     if (virtual_balance.virtualBalance >= withdrawalAmount) {
       // Check if there's an existing application for the user
       let existingApplication = await Application.findOne({
-        where: { walletAddress: walletAddress },
+        where: { address: walletAddress },
       });
 
       if (existingApplication) {
@@ -24,7 +24,7 @@ const withdrawalAmount = async (req, res) => {
       } else {
         // If no existing application, create a new one
         let application = new Application({
-          walletAddress: walletAddress,
+          address: walletAddress,
           amount: withdrawalAmount,
           timestamp: Math.floor(Date.now() / 1000),
         });

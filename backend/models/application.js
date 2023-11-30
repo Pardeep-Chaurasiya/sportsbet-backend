@@ -11,14 +11,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
 
       Application.belongsTo(models.UserWallet, {
-        foreignKey: "walletAddress",
+        foreignKey: "address",
         onDelete: "CASCADE",
       });
     }
   }
   Application.init(
     {
-      walletAddress: {
+      address: {
         type: DataTypes.STRING,
         primaryKey: true,
         allowNull: false,

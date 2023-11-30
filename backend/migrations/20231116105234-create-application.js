@@ -3,14 +3,14 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Applications", {
-      walletAddress: {
+      address: {
         type: Sequelize.STRING,
         primaryKey: true,
         allowNull: false,
         references: {
           model: "UserWallets",
           key: "walletAddress",
-          as: "walletAddress",
+          as: "address",
         },
       },
       amount: {

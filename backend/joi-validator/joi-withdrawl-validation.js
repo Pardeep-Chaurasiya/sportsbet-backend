@@ -2,8 +2,8 @@ const Joi = require("joi");
 
 const validateWithdrawalAmount = (req, res, next) => {
   const schema = Joi.object({
-    walletId: Joi.string(),
-    walletToken: Joi.string(),
+    address: Joi.string(),
+    timestamp: Joi.date(),
     withdrawalAmount: Joi.number(),
   });
 
